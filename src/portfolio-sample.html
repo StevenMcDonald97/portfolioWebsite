@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f1f1;
+  padding: 20px;
+  font-family: Arial;
+}
+
+/* Center website */
+.main {
+  max-width: 1000px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 50px;
+  word-break: break-all;
+}
+
+.row {
+  margin: 8px -16px;
+}
+
+/* Add padding BETWEEN each column */
+.row,
+.row > .column {
+  padding: 8px;
+}
+
+/* Create four equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 25%;
+}
+
+/* Clear floats after rows */ 
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.inline { float:left; }
+.clearBoth { clear:both; }
+
+
+/* Content */
+.content {
+  background-color: white;
+  padding: 10px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 10px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  line-height:100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,.9); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  /*background-color: #fefefe;*/
+    margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  /*border: 1px solid #888;*/
+  max-width: 70%;
+  max-height: 100%;
+  color:white;
+  overflow: hidden
+}
+
+.inner-modal{
+  width:100%;
+  height:100%;
+  display:flex;
+
+}
+
+.zoomed-image {
+  width:100%;
+}
+
+.arrow {
+  color:#777;
+  font-size:2.5em;
+  cursor: pointer;
+  margin-left: 1em;
+  margin-right: 1em;
+  height:0;
+/*  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);*/
+}
+.arrow:hover {
+  color:ghostwhite;
+}
+
+.arrow-container{
+  line-height: 100vh;
+  height: 100vh;
+}
+
+.hand-pointer {
+  cursor: pointer;
+}
+/* Modal Header */
+.modal-header {
+
+  background-color: rgba(0,0,0);
+  color: white;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 2.2em;
+  font-weight: bold;
+  margin-right:5vw;
+  margin-top:0.5em;
+  /*position: fixed;*/ /* Stay in place */
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 900px) {
+  .column {
+    width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- MAIN (Center website) -->
+<div class="main">
+
+<h1>MYLOGO.COM</h1>
+<hr>
+
+<h2>PORTFOLIO</h2>
+<p>Resize the browser window to see the responsive effect.</p>
+
+<!-- Portfolio Gallery Grid -->
+
+<div class="row">
+  <div class="column">
+    <div id="image-1" class="content">
+      <img class="portfolio-image" src="./testimages/1.jpg" alt="painting1" style="width:100%">
+      <h3>My Work</h3>
+      <p>Lorem ipsum dolor sit amet, tempor prodesset eos no. Temporibus necessitatibus sea ei, at tantas oporteat nam. Lorem ipsum dolor sit amet, tempor prodesset eos no.</p>
+    </div>
+    <!-- The Modal -->
+    <div id="modal1" class="modal">
+          <div class="modal-header">
+            <span class="close">&times;</span>
+          </div>
+        <div class="inner-modal">
+          <div class="arrow-container inline">
+            <div class="arrow">&larr;</div>
+          </div>
+          <!-- Modal content -->
+          <div class="modal-content inline">
+            <div class="inline">
+              <img class="zoomed-image" src="./testimages/1.jpg" alt="painting1" style="height:85vh">
+              <h3 style="text-align:center">Title</h3>
+            </div>
+          </div>
+          <div class="arrow-container inline">
+            <div class="inline arrow">&rarr;</div>
+          </div>
+      </div>
+      <!-- <hr class="clearboth"> -->
+
+    </div>
+  </div>
+
+<!-- END GRID -->
+</div>
+
+<div class="content">
+  <img src="./testimages/profile-pic.jpg" alt="me" style="width:100%">
+  <h3>Some Other Work</h3>
+  <p>Lorem ipsum dolor sit amet, tempor prodesset eos no. Temporibus necessitatibus sea ei, at tantas oporteat nam. Lorem ipsum dolor sit amet, tempor prodesset eos no.</p>
+  <p>Lorem ipsum dolor sit amet, tempor prodesset eos no. Temporibus necessitatibus sea ei, at tantas oporteat nam. Lorem ipsum dolor sit amet, tempor prodesset eos no.</p>
+</div>
+
+<!-- END MAIN -->
+</div>
+
+</body>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+// Get the modal
+$(document).ready(function(){
+
+  // Get the button that opens the modal
+  // var btn = document.getElementById("image-1");
+  var modal = document.getElementById("modal1");
+  // Get the <span> element that closes the modal
+  // var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal 
+  $("#image-1").on('click', function(event){
+      $("#modal1").show();
+  });
+
+  // When the user clicks the button, close the modal 
+  $(".close").on('click', function(event){
+      $("#modal1").hide();
+      console.log("here");
+  });
+
+  // btn.onclick = function() {
+  //   modal.style.display = "none";
+  // }
+
+  // // When the user clicks on <span> (x), close the modal
+  // span.onclick = function() {
+  //   modal.style.display = "none";
+  // }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target.id == modal.id) {
+      $("#modal1").hide();
+
+    }
+  }
+
+});
+
+</script>
+</html>
