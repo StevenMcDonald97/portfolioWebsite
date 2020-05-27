@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
-
 var listOfImages =[];
 
 export default class Portfolio extends Component {
@@ -14,16 +13,18 @@ export default class Portfolio extends Component {
 
 	state = {
 		showMod: false,
-		modImage:"",
-		modTitle:""
-
+		modalImage:"",
+		modalTitle:"",
+		imageKey:-1,
 	  };
 
-	changeModalStateInfo(modImage, modTitle) {
+	changeModalStateInfo(modalImage, modalTitle, modalKey) {
 		this.setState({
-			modImage: modImage,
-			modTitle:modTitle
+			modalImage: modalImage,
+			modalTitle:modalTitle,
+			imageKey:modalKey
 		})
+		console.log(this.state.imageKey);
 	}
 
 	showModal = () => {
@@ -36,6 +37,8 @@ export default class Portfolio extends Component {
         return r.keys().map(r);
     }
     componentWillMount = ()=> {
+		var dir=''+this.props.imgDirectory;
+
         listOfImages = this.importAllImages(require.context('../testimages/', false, /\.(png|jpe?g|svg)$/));
 	}
 	
@@ -45,11 +48,10 @@ export default class Portfolio extends Component {
               {
 				listOfImages.map(
 					(image, index) =>   
-						<Image key={index} url={image} description="painting" title="title" changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}></Image>
-
+						<Image key={index} imgIndex={index} url={image} description="painting" title="title" changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}></Image>
 				)
 			  }
-			<Modal onClose={this.showModal} show={this.state.showMod} img={this.state.modImage} imgTitle={this.state.modTitle}/>
+			<Modal onClose={this.showModal} show={this.state.showMod} img={this.state.modalImage} imgTitle={this.state.modalTitle} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
 
           </div>
         )
@@ -57,8 +59,8 @@ export default class Portfolio extends Component {
 }
 
 class Image extends Component {
-	clickImage = imgProps => {
-		this.props.changeModalStateInfo(this.props.url, this.props.title);
+	clickImage = () => {
+		this.props.changeModalStateInfo(this.props.url, this.props.title, this.props.imgIndex);
 		this.props.showModal(); 
 	}
 
@@ -66,7 +68,7 @@ class Image extends Component {
 		return (
 			<div className="column">
 				<div className="content">
-					<img className="portfolioImage" src={this.props.url} alt={this.props.description} width="100px" height="100px" onClick = {this.clickImage}/>
+					<img className="portfolioImage" src={this.props.url} alt={this.props.description} onClick = {this.clickImage}/>
 				</div>
 			</div>
 		);
@@ -78,7 +80,30 @@ class Modal extends Component {
     onClose = e => {
         this.props.onClose && this.props.onClose(e);
 	  };
-	  
+
+	incrementImage = () => {
+		var newKey;
+		var newImage;
+		if ((this.props.modalKey<listOfImages.length-1)){
+			newKey = this.props.modalKey+1;
+			newImage = listOfImages[newKey];
+			this.props.changeModalStateInfo(newImage, "title", newKey);
+
+		}
+
+	}
+
+	decrementImage = () => {
+		var newKey;
+		var newImage;
+		if ((this.props.modalKey>0)){
+			newKey = this.props.modalKey-1;
+			newImage = listOfImages[newKey];
+			this.props.changeModalStateInfo(newImage, "title", newKey);
+		}
+
+	}
+  
 	render() {
 		if (!this.props.show) {
 			return null;
@@ -90,16 +115,16 @@ class Modal extends Component {
 			</div>
 			<div className="inner-modal">
 				<div className="arrow-container inline">
-					<div className="arrow">&larr;</div>
+					<div className="arrow" onClick={()=>this.decrementImage()}>&larr;</div>
 					</div>
 				<div className="modal-content inline">
 					<div className="inline">
 					<img className="zoomed-image" src={this.props.img} alt="painting"/>
-					<h3>{this.props.imgTitle}</h3>
+					<h3 className="imgTitle">{this.props.imgTitle}</h3>
 					</div>
 				</div>
 				<div className="arrow-container inline">
-					<div className="inline arrow">&rarr;</div>
+					<div className="inline arrow" onClick={()=>this.incrementImage()}>&rarr;</div>
 				</div>
 			</div>
 			</div>
