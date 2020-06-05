@@ -1,0 +1,18 @@
+
+.contentBody {
+	margin-left:20vw;
+	margin-right:20vw;
+
+}
+.mainImage{
+	max-height:50vh;
+	margin-bottom:4vh;
+	float: left;
+ 	padding: 0 2em 0 0;
+}
+
+.contentMainText {
+	margin-left:4vw;
+	margin-top:4vh;
+	font-size:4vh;
+}
