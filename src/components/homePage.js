@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HomeImage from "../testimages/home.jpg";
+
 export default class HomePage extends Component {
 
 		render() {
