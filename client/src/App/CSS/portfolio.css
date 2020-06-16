@@ -1,0 +1,70 @@
+
+
+
+/* Center website */
+.main {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.row {
+  margin: auto;
+  text-align: center;
+
+}
+
+/* Add padding BETWEEN each column */
+.row,
+.row > .column {
+  padding: 1.5em;
+}
+
+/* Create four equal columns that floats next to each other */
+.column {
+  float: left;
+  /*width: 25%;*/
+}
+
+/* Clear floats after rows */ 
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.inline { float:left; }
+.clearBoth { clear:both; }
+
+
+.portfolioImage{
+  max-width:25vw;
+  max-height:35vh; 
+}
+
+.portfolioImage:hover{
+  cursor:pointer;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 900px) {
+  .portfolioImage{
+    max-width:45vw;
+    max-height:45vh; 
+  }
+
+  .column {
+    /*width: 50%;*/
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .portfolioImage{
+    max-width:80vw;
+    max-height:80vh; 
+  }
+
+  .column {
+    /*width: 100%;*/
+  }
+}

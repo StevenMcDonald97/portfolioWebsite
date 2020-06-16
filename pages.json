@@ -1,0 +1,27 @@
+{
+	"Links":[
+		{
+			"name":"home",
+			"type":"home",
+			"path":"/"
+		},
+		{
+			"name":"about",
+			"type":"about",
+			"path":"/about"
+
+		},
+		{
+			"name":"portfolio",
+			"type":"portfolio",
+			"path":"/portfolio"
+
+		},
+		{
+			"name":"contact",
+			"type":"contact",
+			"path":"/contact"
+
+		}
+	]
+}
