@@ -15,11 +15,19 @@ import './CSS/footer.css';
 import './CSS/modal.css';
 import './CSS/contentPage.css';
 
+// authentication
+import Login from './securePages/login';
+import withAuth from './securePages/withAuth';
+import Register from './securePages/registerUser';
+
+// page types
 import Portfolio from './pages/portfolioPage';
 import ContentPage from './pages/contentPage';
 import Contact from './pages/contact';
 import HomePage from './pages/homePage';
+import Secure from './securePages/secure';
 
+// profile information
 import profileImg from "./profileimages/Profile-Pic.jpg";
 import profile from './profile.json';
 import pageInfo from './pages.json';
@@ -40,6 +48,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       showMod: false,
+      isLoading: false,
       routes: [],
     }
   }
@@ -51,6 +60,7 @@ export default class App extends Component {
   };
 
   componentDidMount() {
+    this.setState({ isLoading: true });
     this.getRoutes();
   }
 
@@ -58,18 +68,15 @@ export default class App extends Component {
   getRoutes = () => {
     fetch('/api/getRoutes')
     .then(res => res.json())
-    .then(routes => this.setState({ routes }))
+    .then(data => this.setState({ routes: data.Links, isLoading: false }));
   }
-
-
 
   render(){
     const { routes } = this.state;
-    console.log(routes);
 
     // render a link in the navbar for each link in props
-    const create_links = pageInfo.Links.map((page) =>  
-      <li key={page.name} className="navbar-link"><Link to={page.path} className="navbar-link">{page.name}</Link></li>
+    const create_links = routes.map((route) =>  
+      <li key={route.name} className="navbar-link"><Link to={route.path} className="navbar-link">{route.name}</Link></li>
     );
 
 
@@ -82,6 +89,9 @@ export default class App extends Component {
             <div className="navbar">
               <ul className="navbar-links">
                 { create_links }
+                <li key="login" className="navbar-link"><Link to="/login" className="navbar-link">Login</Link></li>
+                <li key="register" className="navbar-link"><Link to="/register" className="navbar-link">Register</Link></li>
+
               </ul>
             </div>
           </div>
@@ -93,6 +103,9 @@ export default class App extends Component {
           */}
           <Switch>
             <Route exact path="/" component={OpenPage} />
+            <Route exact path="/secret" component={withAuth(Secure)} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
             <Route path="/:id" component={OpenPage} />
           </Switch>
         </Router>
@@ -102,15 +115,6 @@ export default class App extends Component {
   }
 }
 
-class Hero extends Component {
-  render() {
-    return (
-      <div>
-        {this.props.match.params.id}
-      </div>
-    );
-  }
-}
 
 class OpenPage extends Component {
   render(){
