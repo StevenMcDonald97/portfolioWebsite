@@ -26,6 +26,8 @@ import ContentPage from './pages/contentPage';
 import Contact from './pages/contact';
 import HomePage from './pages/homePage';
 import Secure from './securePages/secure';
+import UploadImages from './securePages/uploadImages';
+import EditStyle from './securePages/editStyle';
 
 // profile information
 import profileImg from "./profileimages/Profile-Pic.jpg";
@@ -82,33 +84,39 @@ export default class App extends Component {
 
     return (
       <React.StrictMode>
+      <div>
         <Router>
+          <div>
+            <div className="header">
+              <h1 className="page-title">{profile.Name}</h1>
+              <div className="navbar">
+                <ul className="navbar-links">
+                  { create_links }
+                  <li key="login" className="navbar-link"><Link to="/login" className="navbar-link">Login</Link></li>
+                  <li key="register" className="navbar-link"><Link to="/register" className="navbar-link">Register</Link></li>
+                  <li key="upload" className="navbar-link"><Link to="/uploadImages" className="navbar-link">Upload</Link></li>
 
-          <div className="header">
-            <h1 className="page-title">{profile.Name}</h1>
-            <div className="navbar">
-              <ul className="navbar-links">
-                { create_links }
-                <li key="login" className="navbar-link"><Link to="/login" className="navbar-link">Login</Link></li>
-                <li key="register" className="navbar-link"><Link to="/register" className="navbar-link">Register</Link></li>
-
-              </ul>
+                </ul>
+              </div>
             </div>
-          </div>
 
-          {/* code to dynamically create routes from links */}
-          {/* {routes.map((r) => {
-               return <Route path={r.path} background={r.bg} pageId={r.pageId} component={COMPONENT_MAP[r.component]}/>
-             }}
-          */}
-          <Switch>
-            <Route exact path="/" component={OpenPage} />
-            <Route exact path="/secret" component={withAuth(Secure)} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route path="/:id" component={OpenPage} />
-          </Switch>
+            {/* code to dynamically create routes from links */}
+            {/* {routes.map((r) => {
+                 return <Route path={r.path} background={r.bg} pageId={r.pageId} component={COMPONENT_MAP[r.component]}/>
+               }}
+            */}
+            <Switch>
+              <Route exact path="/" component={OpenPage} />
+              <Route exact path="/secret" component={withAuth(Secure)} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/uploadImages" component={UploadImages} />
+              <Route exact path="/styleEditor" component={EditStyle} />
+              <Route path="/:id" component={OpenPage} />
+            </Switch>
+          </div>
         </Router>
+        </div>
       </React.StrictMode>
       
     );

@@ -30,7 +30,10 @@ UserSchema.pre('save', function(next) {
   }
 });
 
-module.exports = mongoose.model('User', UserSchema);
+
+UserSchema.methods.getFullName = function() {
+  return this.name;
+}
 
 UserSchema.methods.isCorrectPassword = function(password, callback){
   bcrypt.compare(password, this.password, function(err,same){
@@ -41,3 +44,5 @@ UserSchema.methods.isCorrectPassword = function(password, callback){
     }
   });
 }
+
+module.exports = mongoose.model('User', UserSchema);

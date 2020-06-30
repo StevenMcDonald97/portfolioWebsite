@@ -9,7 +9,7 @@ export default class Home extends Component {
     }
   }  componentDidMount() {
     //GET message from server using fetch api
-    fetch('/auth/secret')
+    fetch('/api/secret')
       .then(res => res.text())
       .then(res => this.setState({message: res}));
   }  render() {
