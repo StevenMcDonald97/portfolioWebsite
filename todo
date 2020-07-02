@@ -6,6 +6,14 @@ Multer not storing images in upload folder
 Need to be able to log user out
 Need to be able to edit images
 Need to be able to edit style
+	edit font colors
+	edit background colors
+	edit navigation, portfolio style
+	show page visualization as user edits
+	add verification that all data entered is valid on submit
+
+have clean error handling! redirect to home page with message 'something went wrong'?
+	
 
 
 

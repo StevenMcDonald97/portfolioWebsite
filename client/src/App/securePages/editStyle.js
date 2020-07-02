@@ -1,21 +1,26 @@
 import React, { Component, useState } from 'react';
 import { SketchPicker } from 'react-color'
+import PropTypes from "prop-types";
+
 const styleJson = require('../style.json');
 
 export default class Contact extends Component {
 	constructor(props) {
 		super(props);
-		this.onColorChangeComplete = this.onColorChangeComplete.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.setState = this.setState.bind(this);
+		this.showColorSelector = this.showColorSelector.bind(this);
 	}
 
 	// Note: State variables are listed this way to avoid nesting state
 	// and to allow a visualization of style changes to update for the user
 	// in real time
 	state = {
+		showSelector: false,
 		selectedColor: '#fff',
-		navigationStyle:styleJson.navigationStyle,
+		currentComponent:'',
+		navOrientation:styleJson.navigationStyle.orientation,
+		navVisibility:styleJson.navigationStyle.visibility,
 		portfolioStyle:styleJson.portfolioStyle,
 		backgroundColor:styleJson.backgroundColor,
 		websiteTitleColor: styleJson.text.WebsiteTitle.color, 
@@ -38,8 +43,11 @@ export default class Contact extends Component {
 
 	resetState = () => {
 		this.setState({
+			showSelector: false,
 			selectedColor: '#fff',
-			navigationStyle:styleJson.navigationStyle,
+			currentComponent:'',
+			navOrientation:styleJson.navigationStyle.orientation,
+			navVisibility:styleJson.navigationStyle.visibility,
 			portfolioStyle:styleJson.portfolioStyle,
 			backgroundColor:styleJson.backgroundColor,
 			websiteTitleColor: styleJson.text.WebsiteTitle.color, 
@@ -61,9 +69,21 @@ export default class Contact extends Component {
 		})
 	}
 
-	onColorChangeComplete = (color) => {
-		this.setState({ selectedColor: color.hex });
-	}
+	showColorSelector = (component) => {
+
+		this.setState({
+			currentComponent: component,
+			selectedColor:this.state[component],
+			showSelector: true
+		});
+
+	};
+
+	closeColorSelector = () => {
+		this.setState({
+			showSelector: false
+		});
+	};
 
 	onChange = (event)  => {
     	this.setState({ [event.target.name]: event.target.value });
@@ -73,14 +93,31 @@ export default class Contact extends Component {
 	createNewTextObject = () =>{
 		var styleObject = {}
 		styleObject["WebsiteTitle"]={"color": this.state.websiteTitleColor, "size": this.state.websiteTitleSize};
+		styleObject["PageHeader"]={"color": this.state.pageHeaderColor, "size": this.state.pageHeaderSize};
+		styleObject["MediumHeader"]={"color": this.state.mediumHeaderColor, "size": this.state.mediumHeaderSize};
+		styleObject["SmallHeader"]={"color": this.state.smallHeaderColor, "size": this.state.smallHeaderSize};
+		styleObject["DescriptionText"]={"color": this.state.descriptionTextColor, "size": this.state.descriptionTextSize};
+		styleObject["NavigationLink"]={"color": this.state.navigationLinkColor, "size": this.state.navigationLinkSize};
+		styleObject["OtherLink"]={"color": this.state.otherLinkColor, "size": this.state.otherLinkSize};
+		styleObject["HoverOnLink"]={"color": this.state.hoverOnLinkColor, "size": this.state.hoverOnLinkSize};
+		return styleObject;
+	}
+
+	createNewStyleObject = () => {
+		var styleObject = {}
+		var textObject = this.createNewTextObject();
+		styleObject.text=textObject;
+		styleObject.navigationStyle={"orientation": this.state.navOrientation, "visibility": this.state.navVisibility};
+
+		styleObject.portfolioStyle=styleJson.portfolioStyle;
+		styleObject.backgroundColor=styleJson.backgroundColor;
 		return styleObject;
 	}
 
 	onSubmit =(event) =>{
-
-		var styleObject = this.createNewTextObject();
-
 		event.preventDefault();
+
+		var styleObject = this.createNewStyleObject();
 		fetch('/style/changeStyle',{
 			method:'POST',
 			body:JSON.stringify(styleObject),
@@ -104,24 +141,38 @@ export default class Contact extends Component {
 
 	onCancel = (event) =>{
 		alert("Style values were not saved");
-		const newJson = JSON.parse(JSON.stringify(styleJson));
-		this.setState({
-			styleObject:newJson
-		})
+		this.resetState();
+		// REDIRECT BACK TO MAIN PANEL
 	}
 
 	render(){
 		return(
 			<div className="Editor">
-				<form className="EditorForm">					
-					<TextStyle id="websitetitle" name="Website Title" color={this.state.websiteTitleColor} fontSize={this.state.websiteTitleSize} onChange={this.onChange} setParentState={this.setState}/>
-					<TextStyle id="pageHeader" name="Page Headers" color={this.state.pageHeaderColor} fontSize={this.state.pageHeaderSize} setParentState={this.setState}/>
-					<TextStyle id="mediumHeader" name="Medium Headers" color={this.state.mediumHeaderColor} fontSize={this.state.mediumHeaderSize} setParentState={this.setState}/>
-					<TextStyle id="smallHeader" name="Small Headers" color={this.state.smallHeaderColor} fontSize={this.state.smallHeaderSize} setParentState={this.setState}/>
-					<TextStyle id="descriptionText" name="Description Text" color={this.state.descriptionTextColor} fontSize={this.state.descriptionTextSize} setParentState={this.setState}/>
-					<TextStyle id="navigationLinks" name="Navigation Links" color={this.state.navigationLinkColor} fontSize={this.state.navigationLinkSize} setParentState={this.setState}/>
-					<TextStyle id="otherLinks" name="Other Links" color={this.state.otherLinkColor} fontSize={this.state.otherLinkSize} setParentState={this.setState}/>
-					<TextStyle id="hoverOnLink" name="Links on Hover" color={this.state.hoverOnLinkColor} fontSize={this.state.hoverOnLinkSize} setParentState={this.setState}/>
+				<form className="EditorForm">	
+					<ColorSelector onClose={(this.closeColorSelector)} show={this.state.showSelector} onChangeComplete={this.onColorchangeComplete} initColor={this.state.selectedColor} setParentState={this.setState} currentComponent={this.state.currentComponent}/>
+					<TextStyle id="websiteTitle" name="Website Title" color={this.state.websiteTitleColor} fontSize={this.state.websiteTitleSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<TextStyle id="pageHeader" name="Page Headers" color={this.state.pageHeaderColor} fontSize={this.state.pageHeaderSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<TextStyle id="mediumHeader" name="Medium Headers" color={this.state.mediumHeaderColor} fontSize={this.state.mediumHeaderSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<TextStyle id="smallHeader" name="Small Headers" color={this.state.smallHeaderColor} fontSize={this.state.smallHeaderSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<TextStyle id="descriptionText" name="Description Text" color={this.state.descriptionTextColor} fontSize={this.state.descriptionTextSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<TextStyle id="navigationLink" name="Navigation Links" color={this.state.navigationLinkColor} fontSize={this.state.navigationLinkSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<TextStyle id="otherLink" name="Other Links" color={this.state.otherLinkColor} fontSize={this.state.otherLinkSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<TextStyle id="hoverOnLink" name="Links on Hover" color={this.state.hoverOnLinkColor} fontSize={this.state.hoverOnLinkSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
+					<br/>
+					<label htmlFor="navOrientationStyle">Change the orientation of the menu bar:</label>
+
+					<select id="navOrientationStyle" name="navOrientation" value={this.state.navOrientation} onChange={this.onChange}>
+				        <option value="Horizontal">Horizontal</option>
+				        <option value="Vertical">Vertical</option>
+				    </select>
+				    <br/>
+					<label htmlFor="navViewStyle">Choose a collapsable or non-collapsable menu bar:</label>
+
+					<select id="navViewStyle" name="navVisibility" value={this.state.navVisibility} onChange={this.onChange}>
+				        <option value="visible">Non-collapsable</option>
+				        <option value="notVisile">Collapsable</option>
+				    </select>
+				    <br/>
 					<button type="submit" value="Update">Update</button>
 					<button type="submit" value="Save" onClick={this.onSubmit}>Save</button>
 					<button type="reset" value="Cancel" onClick={this.onCancel}>Cancel</button>
@@ -135,42 +186,86 @@ export default class Contact extends Component {
 
 function TextStyle(props){
 	const [fontSize, setFontSize] = useState(props.fontSize);
+	const [fontColor, setColor] = useState(props.color);
+	const componentState =`${props.id}Color`;
 
 	const handleFontChange = e => {
 	    setFontSize(e.target.value);
-	    let key = `${props.id}Size`;
-	    props.setParentState({key:fontSize})
+		props.onChange(e);
+	};
+
+	const handleColorChange = e => {
+	    setColor(e.target.value);
+		props.onChange(e);
 	};
 
 	return(
 		<div>
 			<h2> {props.name} </h2>
-			<label htmlFor={`${props.id}Color`}> Change color</label>
-			<input type="text" name={`${props.id}Color`} defaultValue={props.color} onChange={props.onChange}/>
+			<label htmlFor={componentState}> Change color</label>
+			<input type="text" name={componentState} defaultValue={props.color} onChange={props.onChange}/>
+			<div name={componentState} value="Choose Color" onClick={()=>props.showSelector(componentState)}>Choose Color</div>
 			<label htmlFor={`${props.id}Size`} > Change font size</label>
 			<input type="range" name={`${props.id}Size`} min="8" max="40" defaultValue={fontSize} onMouseUp={handleFontChange} className="sizeSlider"/>
 			<div>{fontSize}</div>
+
 		</div>
 	)
 }
 
-function TextEditorFields(props){
-	// console.log(props);
-	const textStyleFields = Object.entries(props.textData).map(([key, value]) => 
-	    <TextStyle name={key} color={value.color} fontSize={value.size}/>
-	);
-	return textStyleFields;
+// function TextEditorFields(props){
+// 	// console.log(props);
+// 	const textStyleFields = Object.entries(props.textData).map(([key, value]) => 
+// 	    <TextStyle name={key} color={value.color} fontSize={value.size}/>
+// 	);
+// 	return textStyleFields;
+// }
+
+
+
+class ColorSelector extends Component {
+	state = {
+		selectedColor: this.props.initColor
+	}
+
+	handleChangeComplete = (color) => {
+		this.setState({ selectedColor: color.hex });
+		this.props.setParentState({[this.props.currentComponent]:color.hex})
+		this.props.setParentState({selectedColor:color.hex})
+
+	};
+
+	componentWillReceiveProps(nextProps) {
+	  this.setState({ selectedColor: nextProps.initColor });  
+	}
+
+	onClose = e => {
+		e.preventDefault();
+        this.props.onClose && this.props.onClose(e);
+	  };
+
+	  render(){
+		if (!this.props.show) {
+			return null;
+		}
+		return (
+			<div id="color-picker">
+				<div className="selector-header">
+					<span className="close" onClick={this.onClose}>&times;</span>
+				</div>
+		      	<SketchPicker
+		        	color={ this.state.selectedColor }
+		        	onChangeComplete={ this.handleChangeComplete }
+		     	/>
+		     	<button onClick={this.onClose}> Close</button>
+		     </div>
+		)
+
+	  }
+
 }
 
-
-
-function ColorSelector(props) {
-
-	return (
-      <SketchPicker
-        color={ props.initColor }
-        onChangeComplete={ this.onColorChangeComplete }
-     />
-
-	)
-}
+ColorSelector.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired
+  };

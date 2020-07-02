@@ -40,8 +40,6 @@ export default class Portfolio extends Component {
 
     componentWillMount = ()=> {
 		// var dir=''+this.props.imgDirectory;
-
-
         listOfImages = this.importAllImages(require.context('../testimages/', false, /\.(png|jpe?g|svg)$/));
 	}
 	
