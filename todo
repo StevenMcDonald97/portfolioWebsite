@@ -3,16 +3,25 @@ Login causing error with "isCorrectPassword" - user object is not a user schema 
 
 
 Multer not storing images in upload folder
+create User panel page
 Need to be able to log user out
 Need to be able to edit images
+Need to be able to add and remove pages (keep in mongoDb)
 Need to be able to edit style
-	edit font colors
 	edit background colors
 	edit navigation, portfolio style
-	show page visualization as user edits
+	show sample portfolio styling as user edits
 	add verification that all data entered is valid on submit
 
+error on submit for style form even though it goes through fine
+
+
+
+
 have clean error handling! redirect to home page with message 'something went wrong'?
+
+
+
 	
 
 

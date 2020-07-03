@@ -14,7 +14,7 @@ export default class Contact extends Component {
 
 	// Note: State variables are listed this way to avoid nesting state
 	// and to allow a visualization of style changes to update for the user
-	// in real time
+	// in real time without reloading json on every update
 	state = {
 		showSelector: false,
 		selectedColor: '#fff',
@@ -38,7 +38,11 @@ export default class Contact extends Component {
 		otherLinkColor: styleJson.text.OtherLink.color,
 		otherLinkSize: styleJson.text.OtherLink.size,
 		hoverOnLinkColor: styleJson.text.HoverOnLink.color,
-		hoverOnLinkSize: styleJson.text.HoverOnLink.size
+		hoverOnLinkSize: styleJson.text.HoverOnLink.size,
+		titleBackgroundColor: styleJson.backgroundColor.header,
+		navBackgroundColor: styleJson.backgroundColor.navigation,
+		contentBackgroundColor: styleJson.backgroundColor.content,
+		portfolioBackgroundColor: styleJson.backgroundColor.portfolio
 	}
 
 	resetState = () => {
@@ -65,7 +69,11 @@ export default class Contact extends Component {
 			otherLinkColor: styleJson.text.OtherLink.color,
 			otherLinkSize: styleJson.text.OtherLink.size,
 			hoverOnLinkColor: styleJson.text.HoverOnLink.color,
-			hoverOnLinkSize: styleJson.text.HoverOnLink.size
+			hoverOnLinkSize: styleJson.text.HoverOnLink.size,
+			titleBackgroundColor: styleJson.backgroundColor.header,
+			navBackgroundColor: styleJson.backgroundColor.navigation,
+			contentBackgroundColor: styleJson.backgroundColor.content,
+			portfolioBackgroundColor: styleJson.backgroundColor.portfolio
 		})
 	}
 
@@ -177,6 +185,9 @@ export default class Contact extends Component {
 					<button type="submit" value="Save" onClick={this.onSubmit}>Save</button>
 					<button type="reset" value="Cancel" onClick={this.onCancel}>Cancel</button>
 				</form>
+				<br/>
+				<h2> Style Visualisation</h2>
+				<StyleTemplate getParentState={(key)=>this.state[key]}/>
 			</div>
 		)
 	}
@@ -269,3 +280,111 @@ ColorSelector.propTypes = {
     onClose: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired
   };
+
+
+
+ function StyleTemplate(props){
+ 	const pageStyle = {
+ 				backgroundColor:props.getParentState('contentBackgroundColor')
+			}
+
+	const headerStyle = {
+ 				color: props.getParentState('websiteTitleColor') ,
+ 				backgroundColor:props.getParentState('titleBackgroundColor'),
+ 				fontSize:props.getParentState('websiteTitleSize'),
+ 				display:'block',
+				textAlign:'center'
+	}
+
+	const navBarStyle = {
+	 			backgroundColor: props.getParentState('navBackgroundColor'), 
+	 			overflow: 'hidden'
+				
+	}
+
+	const navLinksStyle = {
+				listStyleType: 'none',
+				width:100,
+				margin: 0,
+				padding: 0,
+				overflow: 'hidden',
+				textAlign:'center'
+			}
+
+	const navLinkStyle = {
+				display: 'inline-block',
+				color: props.getParentState('navigationLinkColor'),
+				textAlign: 'center',
+				textDecoration: 'none',
+				fontSize: props.getParentState('navigationLinkSize'), 
+				cursor:'pointer'
+			}
+
+	const hoverLinkStyle = {
+				display: 'inline-block',
+				color: props.getParentState('hoverOnLinkColor'),
+				textAlign: 'center',
+				textDecoration: 'none',
+				fontSize: props.getParentState('navigationLinkSize'), 
+				cursor:'pointer'
+			}
+
+	const pageHeaderStyle = {
+ 				color: props.getParentState('pageHeaderColor'), 
+ 				fontSize:props.getParentState('pageHeaderSize'),
+				textAlign:'center'
+		}
+
+	const mediumHeaderStyle = {
+ 				color: props.getParentState('mediumHeaderColor'), 
+ 				fontSize:props.getParentState('mediumHeaderSize'),
+				textAlign:'center'
+		}
+
+	const smallHeaderStyle = {
+ 				color: props.getParentState('smallHeaderColor'), 
+ 				fontSize:props.getParentState('smallHeaderSize'),
+				textAlign:'center'
+		}
+
+	const descriptionStyle = {
+ 				color: props.getParentState('descriptionTextColor'), 
+ 				fontSize:props.getParentState('descriptionTextSize'),
+				textAlign:'center'
+			}
+
+	const otherLinkStyle = {
+ 				color: props.getParentState('otherLinkColor'), 
+ 				fontSize:props.getParentState('otherLinkSize'),
+				textAlign:'center'
+			}
+	const footerStyle = {
+				color: props.getParentState('navLinkColor'), 
+ 				fontSize:props.getParentState('navLinkSize'),
+ 				backgroundColor: props.getParentState('navBackgroundColor'), 
+				width:'100vw',
+				height:'10vh',
+				margin: 0,
+				padding: 0
+	}
+
+ 	return (
+ 		<div style={pageStyle}> 
+ 			<h1  style={headerStyle}>This is the Website Title </h1>
+			<div style={navBarStyle}>
+	 			<ul style={navLinksStyle}>
+	 				<li style={navLinkStyle}>Example Link</li>
+	 				<li style={navLinkStyle}>Example Link</li>
+	 				<li style={navLinkStyle}>Link color when mouse goes over</li>
+	 			</ul>
+	 		</div>
+ 			<h2 style={pageHeaderStyle}>Page Header</h2>
+ 			<h3 style={mediumHeaderStyle}>Medium Header</h3>
+ 			<h4 style={smallHeaderStyle}>Small Header</h4>
+ 			<p style={descriptionStyle}>This is an example of description text</p>
+ 			<a style={otherLinkStyle}> Example link</a>
+			<div style={footerStyle}>Footer </div>
+ 		</div>
+ 		)
+ }
+

@@ -17,11 +17,11 @@
       "size": "16"
     },
     "DescriptionText": {
-      "color": "#ccc",
+      "color": "#9013fe",
       "size": "12"
     },
     "NavigationLink": {
-      "color": "#ccc",
+      "color": "#00fff8",
       "size": "12"
     },
     "OtherLink": {
@@ -29,7 +29,7 @@
       "size": "12"
     },
     "HoverOnLink": {
-      "color": "#eee",
+      "color": "#acff00",
       "size": "12"
     }
   },
@@ -37,13 +37,15 @@
     "orientation": "Horizontal",
     "visibility": "notVisile"
   },
-  "portfolioStyle": "grid",
+  "portfolioStyle": {
+    "imgWidth": "20vw",
+    "layout": "grid"
+  },
   "backgroundColor": {
-    "Header": "#333",
-    "Navigation Bar": "#111",
-    "Content": "#555",
-    "Portfolio": "#444",
-    "Contact Form": "#555",
-    "Footer": "#111"
+    "header": "#333",
+    "navigation": "#111",
+    "content": "#555",
+    "portfolio": "#444",
+    "contact": "#555"
   }
 }
