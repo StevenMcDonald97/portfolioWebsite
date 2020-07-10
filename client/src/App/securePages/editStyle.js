@@ -157,7 +157,7 @@ export default class Contact extends Component {
 		return(
 			<div className="Editor">
 				<form className="EditorForm">	
-					<ColorSelector onClose={(this.closeColorSelector)} show={this.state.showSelector} onChangeComplete={this.onColorchangeComplete} initColor={this.state.selectedColor} setParentState={this.setState} currentComponent={this.state.currentComponent}/>
+					<ColorSelector onClose={(this.closeColorSelector)} show={this.state.showSelector} onChangeComplete={this.onColorchangeComplete} initColor={this.state.selectedColor} getParentState={(key)=>this.state[key]} setParentState={this.setState} currentComponent={this.state.currentComponent}/>
 					<TextStyle id="websiteTitle" name="Website Title" color={this.state.websiteTitleColor} fontSize={this.state.websiteTitleSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
 					<TextStyle id="pageHeader" name="Page Headers" color={this.state.pageHeaderColor} fontSize={this.state.pageHeaderSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
 					<TextStyle id="mediumHeader" name="Medium Headers" color={this.state.mediumHeaderColor} fontSize={this.state.mediumHeaderSize} onChange={this.onChange} showSelector={this.showColorSelector} getParentState={(key)=>this.state[key]}/>
@@ -195,7 +195,7 @@ export default class Contact extends Component {
 }       
 
 
-function TextStyle(props){
+function BackgroundStyle(props){
 	const [fontSize, setFontSize] = useState(props.fontSize);
 	const [fontColor, setColor] = useState(props.color);
 	const componentState =`${props.id}Color`;
@@ -222,6 +222,35 @@ function TextStyle(props){
 
 		</div>
 	)
+} 
+
+function TextStyle(props){
+	const [fontSize, setFontSize] = useState(props.fontSize);
+	const [fontColor, setColor] = useState(props.color);
+	const componentState =`${props.id}Color`;
+
+	const handleFontChange = e => {
+	    setFontSize(e.target.value);
+		props.onChange(e);
+	};
+
+	const handleColorChange = e => {
+	    setColor(e.target.value);
+		props.onChange(e);
+	};
+
+	return(
+		<div>
+			<h2> {props.name} </h2>
+			<label htmlFor={componentState}> Change color</label>
+			<input type="text" name={componentState} defaultValue={props.color} onChange={props.onChange}/>
+			<div name={componentState} value="Choose Color" onClick={()=>props.showSelector(componentState)}>Choose Color</div>
+			<label htmlFor={`${props.id}Size`} > Change font size</label>
+			<input type="range" name={`${props.id}Size`} min="8" max="60" defaultValue={fontSize} onMouseUp={handleFontChange} className="sizeSlider"/>
+			<div>{fontSize}</div>
+
+		</div>
+	)
 }
 
 // function TextEditorFields(props){
@@ -238,7 +267,11 @@ class ColorSelector extends Component {
 	state = {
 		selectedColor: this.props.initColor
 	}
-
+ 	selectorStyle = {
+			marginLeft:'50vw',
+			marginTop:'-20vh',
+			position:'fixed'
+		}
 	handleChangeComplete = (color) => {
 		this.setState({ selectedColor: color.hex });
 		this.props.setParentState({[this.props.currentComponent]:color.hex})
@@ -260,7 +293,7 @@ class ColorSelector extends Component {
 			return null;
 		}
 		return (
-			<div id="color-picker">
+			<div id="color-picker" style={this.selectorStyle}>
 				<div className="selector-header">
 					<span className="close" onClick={this.onClose}>&times;</span>
 				</div>
@@ -291,7 +324,7 @@ ColorSelector.propTypes = {
 	const headerStyle = {
  				color: props.getParentState('websiteTitleColor') ,
  				backgroundColor:props.getParentState('titleBackgroundColor'),
- 				fontSize:props.getParentState('websiteTitleSize'),
+ 				fontSize:`${props.getParentState('websiteTitleSize')}px`,
  				display:'block',
 				textAlign:'center'
 	}
@@ -316,7 +349,7 @@ ColorSelector.propTypes = {
 				color: props.getParentState('navigationLinkColor'),
 				textAlign: 'center',
 				textDecoration: 'none',
-				fontSize: props.getParentState('navigationLinkSize'), 
+				fontSize: `${props.getParentState('navigationLinkSize')}px`, 
 				cursor:'pointer'
 			}
 
@@ -325,42 +358,42 @@ ColorSelector.propTypes = {
 				color: props.getParentState('hoverOnLinkColor'),
 				textAlign: 'center',
 				textDecoration: 'none',
-				fontSize: props.getParentState('navigationLinkSize'), 
+				fontSize: `${props.getParentState('navigationLinkSize')}px`, 
 				cursor:'pointer'
 			}
 
 	const pageHeaderStyle = {
  				color: props.getParentState('pageHeaderColor'), 
- 				fontSize:props.getParentState('pageHeaderSize'),
+ 				fontSize:`${props.getParentState('pageHeaderSize')}`,
 				textAlign:'center'
 		}
 
 	const mediumHeaderStyle = {
  				color: props.getParentState('mediumHeaderColor'), 
- 				fontSize:props.getParentState('mediumHeaderSize'),
+ 				fontSize:`${props.getParentState('mediumHeaderSize')}px`,
 				textAlign:'center'
 		}
 
 	const smallHeaderStyle = {
  				color: props.getParentState('smallHeaderColor'), 
- 				fontSize:props.getParentState('smallHeaderSize'),
+ 				fontSize:`${props.getParentState('smallHeaderSize')}px`,
 				textAlign:'center'
 		}
 
 	const descriptionStyle = {
  				color: props.getParentState('descriptionTextColor'), 
- 				fontSize:props.getParentState('descriptionTextSize'),
+ 				fontSize:`${props.getParentState('descriptionTextSize')}px`,
 				textAlign:'center'
 			}
 
 	const otherLinkStyle = {
  				color: props.getParentState('otherLinkColor'), 
- 				fontSize:props.getParentState('otherLinkSize'),
+ 				fontSize:`${props.getParentState('otherLinkSize')}px`,
 				textAlign:'center'
 			}
 	const footerStyle = {
 				color: props.getParentState('navLinkColor'), 
- 				fontSize:props.getParentState('navLinkSize'),
+ 				fontSize:`${props.getParentState('navLinkSize')}px`,
  				backgroundColor: props.getParentState('navBackgroundColor'), 
 				width:'100vw',
 				height:'10vh',
@@ -375,7 +408,7 @@ ColorSelector.propTypes = {
 	 			<ul style={navLinksStyle}>
 	 				<li style={navLinkStyle}>Example Link</li>
 	 				<li style={navLinkStyle}>Example Link</li>
-	 				<li style={navLinkStyle}>Link color when mouse goes over</li>
+	 				<li style={hoverLinkStyle}>Link color when mouse goes over</li>
 	 			</ul>
 	 		</div>
  			<h2 style={pageHeaderStyle}>Page Header</h2>

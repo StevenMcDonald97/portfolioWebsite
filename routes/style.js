@@ -10,7 +10,6 @@ const file = require(fileName);
 
 StyleRouter.route('/changeStyle')
 	.post(function(req, res) {
-		console.log(req.body);
 		let styleObject = req.body;
 		let styleJson = JSON.stringify(styleObject, null, 2);
 		fs.writeFile(fileName, styleJson, (err) => {

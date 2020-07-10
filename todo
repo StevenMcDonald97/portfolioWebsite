@@ -1,6 +1,5 @@
 
-Login causing error with "isCorrectPassword" - user object is not a user schema object (resolved?)
-
+Login causing error with "isCorrectPassword" - user object is not a user schema object
 
 Multer not storing images in upload folder
 create User panel page
