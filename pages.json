@@ -16,12 +16,6 @@
 			"type":"portfolio",
 			"path":"/portfolio"
 
-		},
-		{
-			"name":"contact",
-			"type":"contact",
-			"path":"/contact"
-
 		}
 	]
 }

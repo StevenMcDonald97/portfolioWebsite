@@ -1,7 +1,7 @@
 {
   "text": {
     "WebsiteTitle": {
-      "color": "#c59393",
+      "color": "#84fdff",
       "size": "26"
     },
     "PageHeader": {
@@ -33,9 +33,11 @@
       "size": "12"
     }
   },
+  "textAlign" : "left",
   "navigationStyle": {
+    "alignment" : "stacked",
     "orientation": "Horizontal",
-    "visibility": "notVisile"
+    "visibility": "visible"
   },
   "portfolioStyle": {
     "imgWidth": "20vw",

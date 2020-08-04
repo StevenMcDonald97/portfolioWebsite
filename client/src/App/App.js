@@ -25,6 +25,7 @@ import Portfolio from './pages/portfolioPage';
 import ContentPage from './pages/contentPage';
 import Contact from './pages/contact';
 import HomePage from './pages/homePage';
+import Modal from './pages/modal';
 import Secure from './securePages/secure';
 import UploadImages from './securePages/uploadImages';
 import EditStyle from './securePages/editStyle';
@@ -32,7 +33,6 @@ import EditStyle from './securePages/editStyle';
 // profile information
 import profileImg from "./profileimages/Profile-Pic.jpg";
 import profile from './profile.json';
-import pageInfo from './pages.json';
 
 // import Modal from "./components/test-modal";
 // import Portfolio from "./components/portfolioPage";
@@ -49,15 +49,18 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMod: false,
       isLoading: false,
-      routes: [],
+      routes: [],   
+      showContact: false,
+
     }
+    this.setState = this.setState.bind(this);
   }
 
-  showModal = e => {
+  showContact = e => {
+    console.log("test");
     this.setState({
-      showMod: !this.state.showMod
+      showContact: !this.state.showContact
     });
   };
 
@@ -76,15 +79,18 @@ export default class App extends Component {
   render(){
     const { routes } = this.state;
 
-    // render a link in the navbar for each link in props
+    // render a link in the navbar for each route in the database
     const create_links = routes.map((route) =>  
       <li key={route.name} className="navbar-link"><Link to={route.path} className="navbar-link">{route.name}</Link></li>
     );
 
-
+    const Contact = <Contact />;
+    
     return (
       <React.StrictMode>
       <div>
+        <Modal onClose={ this.showContact } show={ this.state.showContact} 
+            content={ Contact }/>
         <Router>
           <div>
             <div className="header">
@@ -92,7 +98,8 @@ export default class App extends Component {
               <div className="navbar">
                 <ul className="navbar-links">
                   { create_links }
-                  <li key="login" className="navbar-link"><Link to="/login" className="navbar-link">Login</Link></li>
+                  <li key="contact" className="navbar-link"><div className="navbar-link" onClick={ this.showContact } >Contact</div></li>
+                  <li key="login" className="navbar-link"><Link to ="/contact" className="navbar-link">Login</Link></li>
                   <li key="register" className="navbar-link"><Link to="/register" className="navbar-link">Register</Link></li>
                   <li key="upload" className="navbar-link"><Link to="/uploadImages" className="navbar-link">Upload</Link></li>
 
@@ -139,9 +146,6 @@ class OpenPage extends Component {
       
       return <ContentPage  title={title} image={imgTag} mainText={profile.About} secondaryText={profile.Resume}></ContentPage>
       
-    }else if (this.props.match.params.id==="contact"){
-      return <Contact/>
-
     } else {  
       return <HomePage heading={profile.name}  homeText={profile.HomeText} imgDescription={profile.HomeImageText}></HomePage>;
     }

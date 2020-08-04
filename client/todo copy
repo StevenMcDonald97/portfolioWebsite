@@ -1,0 +1,70 @@
+PRIORITY:
+
+Login causing error with "isCorrectPassword" - user object is not a user schema object
+
+
+Need to be able to log user out
+
+create User panel page
+	edit images / portfolios / about pages / text pages 
+
+edit images (keep in MongoDB)
+	-existing images: from database, load thumbnail, title, size, medium, date, price, 	portfolio
+	-add button to add new artwork
+	-delete option for each (create alert "are you sure?" before deleting) 
+	-Multer not storing images in upload folder
+
+	
+edit portfolios:
+	-option to create a new portfolio or delete existing portfolio 
+	-can either choose existing images or upload new ones
+	-should be able to easily upload a bunch at once
+
+add and remove pages (keep in mongoDb)
+	-page types the can be created: about, portfolio, galleries, generic, blog
+	-about:
+		have set format, area for name, artist statement, resume 
+	-portfolio: should just generate from existing portfolio of images
+
+edit text page:
+	just load text into textures to edit, have place for profile image 
+
+Need to be able to edit style
+	-have split screen if wide enough, or stacked if not (i.e. if not roughly 2:3 		ratio)  with selection tools and preview
+	-have color picker appear as modal in front 
+	-enable editing background colors
+	edit navigation, portfolio style -
+		nabber can be vertical or horizontal, and collapsible or fixed 
+	show sample portfolio styling as user edits
+	have preset style choices for home page that a user can pick form, maybe from a 		carousel of pictures? 
+	add verification that all data entered is valid on submit
+
+style preview
+	-images should change orientation based on selection
+	-all colors should change
+
+create contact form 
+	
+have mobile design! update view arrangement if screen size if small enough 
+
+
+error on submit for style form even though it goes through fine
+
+
+
+have clean error handling! redirect to home page with message 'something went wrong'?
+
+
+
+
+FUTURE GOALS:
+
+link to instagram and other social media
+include google analytics tracking code to track viewers?
+include ability to buy artwork 
+let users create a blog
+allow social interactivity: create community forum(s) to talk about art, post art instruction, maps, events etc. Allow direct messaging between artists! (chat now feature on user panel)
+
+
+
+
