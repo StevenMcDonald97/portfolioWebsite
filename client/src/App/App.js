@@ -13,6 +13,7 @@ import './CSS/main.css';
 import './CSS/portfolio.css';
 import './CSS/footer.css';
 import './CSS/modal.css';
+import './CSS/form.css';
 import './CSS/contentPage.css';
 
 // authentication
@@ -58,7 +59,6 @@ export default class App extends Component {
   }
 
   showContact = e => {
-    console.log("test");
     this.setState({
       showContact: !this.state.showContact
     });
@@ -84,13 +84,13 @@ export default class App extends Component {
       <li key={route.name} className="navbar-link"><Link to={route.path} className="navbar-link">{route.name}</Link></li>
     );
 
-    const Contact = <Contact />;
+    const ContactElement = <Contact />;
     
     return (
       <React.StrictMode>
       <div>
         <Modal onClose={ this.showContact } show={ this.state.showContact} 
-            content={ Contact }/>
+            content={ ContactElement }/>
         <Router>
           <div>
             <div className="header">

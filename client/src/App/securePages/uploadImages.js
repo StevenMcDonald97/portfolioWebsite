@@ -2,61 +2,78 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import ImageUploader from "react-images-upload";
+const FileReader = require('filereader');
 
 export default class Contact extends Component {
-	constructor(props) {
+	 imageArray = [];
+   imageObj=[];
+
+  constructor(props) {
 		super(props);
-        this.state ={
-            files: null
-        };
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
+      this.state ={
+        selectedFiles: []
+      };
+      this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
    	}
 
+    uploadMultipleFiles(e) {
+
+      this.setState({
+       selectedFiles: e.target.files,
+      })
 
 
-	onFormSubmit(e){
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('myImages', this.state.files);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-        console.log(this.state.files);
-        axios.post('/image/uploadimages',formData,config)
-            .then((response) => {
-                alert("The file is successfully uploaded");
-            }).catch((error) => {
-            	alert("Error while uploading these images");
-				console.error(error);
-        	});
+        this.imageObj.push(e.target.files);
+
+        for (let i = 0; i < this.imageObj[0].length; i++) {
+            this.imageArray.push(URL.createObjectURL(this.imageObj[0][i]))
+
+        }
+
+        this.setState({ file: this.imageArray });
+        console.log(this.state);
+
+
     }
 
-    onChange(e) {
-        this.setState({files:e.target.files});
-    }
+    onSubmit(e) {
 
+        const data = new FormData();
+           for(var x = 0; x<this.state.selectedFiles.length; x++) {
+               data.append('file', this.state.selectedFiles[x])
+           }
+
+          axios.post("/upload/uploadImages", data, { 
+              // receive two    parameter endpoint url ,form data
+          })
+
+        .then(res => { // then print response status
+            console.log(res.statusText)
+         })
+
+    }
 
   render(){
+
   	return(
-
   		<div className="main-upload-container"> 
-  			<h3 className="main-heading"> Upload Images </h3>
-  			<div className ="image-container">
-  				<form encType="multipart/form-data" onSubmit={this.onFormSubmit}>
-  					<p className="process_details">Upload images to your portfolio(s)</p>
-  					<input name="uploadForm" type="file" onChange= {this.onChange} multiple/>
-  				    <button type="submit">Upload Images</button>
-  				</form>
-  			</div>
+  			<h3 className="main-heading"> Upload an Image </h3>
+        <form>
+            <div className="form-group multi-preview">
+                {(this.imageArray || []).map(url => (
+                    <img key={url} src={url} style={{'maxWidth':'20vw', 'maxHeight':'30vh'}} alt="..." />
+                ))}
+            </div>
+
+            <div className="form-group">
+                <input type="file" className="form-control" onChange={this.uploadMultipleFiles} multiple />
+            </div>
+            <button type="button" className="btn" onClick={this.onSubmit}>Upload</button>
+        </form >
   		</div>
-
-
-
-  		)
+  	)
   }
-
  }
 

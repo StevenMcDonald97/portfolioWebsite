@@ -40,6 +40,7 @@ Need to be able to edit style
 	show sample portfolio styling as user edits
 	have preset style choices for home page that a user can pick form, maybe from a 		carousel of pictures? 
 	add verification that all data entered is valid on submit
+	on cancel redirect back to user panel page
 
 use sass with node sass importer to load style variables from JSON
 
@@ -49,6 +50,10 @@ style preview
 	-all colors should change
 
 create contact form 
+	-have to update email to load from user settings
+	-nodemailer need to set smtp in route and config files properly
+	-update email routes
+	-test with Mailtrap.io
 	
 have mobile design! update view arrangement if screen size if small enough 
 
@@ -61,7 +66,7 @@ get rid of JSON, store everything in database!
 
 have clean error handling! redirect to home page with message 'something went wrong'?
 
-
+remove unnecessary packages
 
 
 FUTURE GOALS:

@@ -2,6 +2,7 @@ PRIORITY:
 
 Login causing error with "isCorrectPassword" - user object is not a user schema object
 
+Merriweather font
 
 Need to be able to log user out
 
@@ -25,12 +26,13 @@ add and remove pages (keep in mongoDb)
 	-about:
 		have set format, area for name, artist statement, resume 
 	-portfolio: should just generate from existing portfolio of images
+	-update pages.json with new page routing information 
 
 edit text page:
 	just load text into textures to edit, have place for profile image 
 
 Need to be able to edit style
-	-have split screen if wide enough, or stacked if not (i.e. if not roughly 2:3 		ratio)  with selection tools and preview
+	-have split screen if wide enough, or button to pop up modal (i.e. if not roughly 2:3 		ratio)  with selection tools and preview
 	-have color picker appear as modal in front 
 	-enable editing background colors
 	edit navigation, portfolio style -
@@ -38,18 +40,28 @@ Need to be able to edit style
 	show sample portfolio styling as user edits
 	have preset style choices for home page that a user can pick form, maybe from a 		carousel of pictures? 
 	add verification that all data entered is valid on submit
+	on cancel redirect back to user panel page
+
+use sass with node sass importer to load style variables from JSON
+
 
 style preview
 	-images should change orientation based on selection
 	-all colors should change
 
 create contact form 
+	-have to update email to load from user settings
+	-nodemailer need to set smtp in route and config files properly
+	-update email routes
+	-test with Mailtrap.io
 	
 have mobile design! update view arrangement if screen size if small enough 
 
 
 error on submit for style form even though it goes through fine
 
+
+get rid of JSON, store everything in database!
 
 
 have clean error handling! redirect to home page with message 'something went wrong'?
@@ -59,12 +71,15 @@ have clean error handling! redirect to home page with message 'something went wr
 
 FUTURE GOALS:
 
-link to instagram and other social media
+title: Salon? 
+make backwards compatible 
+charge for hosting: ask for service fee to set up was, manage hosting
+link to instagram, ETSY, and other social media
 include google analytics tracking code to track viewers?
 include ability to buy artwork 
 let users create a blog
 allow social interactivity: create community forum(s) to talk about art, post art instruction, maps, events etc. Allow direct messaging between artists! (chat now feature on user panel)
-
+build a large market of like minded people, add advertising and can make service free
 
 
 

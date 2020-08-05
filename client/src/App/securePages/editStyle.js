@@ -4,6 +4,7 @@ import Modal from "../pages/modal";
 import sampleImg1 from "./exampleImages/pic1.jpg";
 import sampleImg2 from "./exampleImages/pic2.jpg";
 import sampleImg3 from "./exampleImages/pic3.jpg";
+const axios = require("axios");
 
 const styleJson = require('../style.json');
 
@@ -126,7 +127,7 @@ export default class EditStyle extends Component {
 		styleObject.text=textObject;
 		styleObject.navigationStyle={"orientation": this.state.navOrientation, "visibility": this.state.navVisibility};
 
-		styleObject.portfolioArrangement=this.state.portfolioArrangement;
+		styleObject.portfolioStyle={"layout":this.state.portfolioArrangement, "imgWidth":this.state.imgWidth };
 		styleObject.imageWidth=this.state.imageWidth;
 
 		styleObject.backgroundColor=styleJson.backgroundColor;
@@ -137,25 +138,23 @@ export default class EditStyle extends Component {
 		event.preventDefault();
 
 		var styleObject = this.createNewStyleObject();
-		fetch('/style/changeStyle',{
-			method:'POST',
-			body:JSON.stringify(styleObject),
-			headers:{
-				'Content-Type': 'application/json'
-			}
-		})
-		.then(res => {
-			if(res.status===200){
-				this.props.history.push('/');
-			} else {
-				const error = new Error(res.error);
-				throw error;
-			}
-		})
-		.catch(err=>{
-			console.error(err);
-			alert('Error changing website styling, please try again');
-		});
+
+
+		const options = {
+		  url: '/style/changeStyle',
+		  method: 'POST',
+		  headers: {
+		    'Accept': 'application/json',
+		    'Content-Type': 'application/json;charset=UTF-8'
+		  },
+		  data: styleObject
+		};
+
+		axios(options)
+		  .then(response => {
+		    console.log(response.status);
+		  });
+
 	}
 
 	onCancel = (event) =>{

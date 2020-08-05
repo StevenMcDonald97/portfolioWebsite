@@ -6,16 +6,19 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const port = process.env.PORT || 5000;
 const app = express();
 
 // mongoose model
-const User = require('./models/User.js');
-const Image = require('./models/Image.js');
+// const User = require('./models/User.js');
+// const Image = require('./models/Image.js');
 
 const imageRoutes = require('./routes/image');
 const userRoutes = require('./routes/user');
 const styleRoutes = require('./routes/style');
+const emailRoutes = require('./routes/email');
+const uploadRoutes = require('./routes/upload'); 
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -25,6 +28,9 @@ app.use('imageUploads', express.static(process.cwd()+'/imageUploads'));
 app.use('/image', imageRoutes);
 app.use('/user', userRoutes);
 app.use('/style', styleRoutes);
+app.use('/email', emailRoutes);
+app.use('/upload', uploadRoutes);
+app.use(cors());
 
 const mongo_uri = 'mongodb://localhost/react-auth';
 

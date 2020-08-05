@@ -5,12 +5,12 @@ export default class Contact extends Component {
   constructor(props){
     super(props);
     this.state = {
-      formData = {
+      formData : {
         name:'',
         email:'',
         message:''
       },
-      errors = {}
+      errors : {}
     }
   }
 
@@ -21,14 +21,14 @@ export default class Contact extends Component {
 
 
   onChange(field, e){         
-      let fields = this.state.fields;
+      let fields = this.state.formData;
       fields[field] = e.target.value;        
       this.setState({fields});
   }
 
 
   handleValidation(){
-    const fields = this.state;
+    const fields = this.state.formData;
     let errors = {}; 
     let formIsValid = true;
 
@@ -46,14 +46,14 @@ export default class Contact extends Component {
       let lastPositionOfAt = fields["email"].lastIndexOf('@');
       let lastPositionOfPeriod = fields["email"].lastIndexOf('.');
       if(!(lastPositionOfAt < lastPositionOfPeriod && lastPositionOfAt > 0 
-          && fields["email"].indexOf('@@') == -1 && lastPositionOfPeriod>2 
+          && fields["email"].indexOf('@@') === -1 && lastPositionOfPeriod>2 
           && (fields["email"].length - lastPositionOfPeriod) > 2)) {
 
-            formisValid=false
+            formIsValid=false
             errors["email"] = "Must be a valid email address";
 
+          }
     }
-
     if (!fields.message){
       formIsValid = false;
       errors['message'] = "Please enter a message";
@@ -65,11 +65,12 @@ export default class Contact extends Component {
   }
 
   handleSubmit(event) {
-      event.preventDefault();
+    event.preventDefault();
+    this.handleValidation();
 
     axios({
       method: "POST", 
-      url:"/api/SendEmail/", 
+      url:"/email/send/", 
       data:  this.state
     }).then((response)=>{
       if (response.data.status === 'success'){
@@ -84,32 +85,35 @@ export default class Contact extends Component {
 
   render(){
     return(
-      <form className="contactForm" name="contactForm" 
-        onSubmit={this.handleSubmit.bind(this)} method="post">
-        <div className="formBody">
-            <div className="formGroup">
-              <label htmlFor="recipientName" className="formLabel">Your Name:</label>
-              <input type="text" className="formInput" value={this.state.formdata.name} 
-                onChange={this.onChange.bind(this, "name")} required/>
-                <span style={{color: "red"}}>{this.state.errors["name"]}</span>
-            </div>
-            <div className="formGroup">
-              <label htmlFor="recipient-email" className="formLabel">Your Email:</label>
-              <input type="text" className="formInput" value={this.state.formData.email} 
-                onChange={this.onChange.bind(this, "email")}  required/>
-                <span style={{color: "red"}}>{this.state.errors["email"]}</span>
-            </div>
-            <div className="formGroup">
-              <label htmlFor="message-text" className="formLabel">Message:</label>
-              <textarea className="formInput" name="message" value={this.state.formData.message} 
-                onChange={this.onChange.bind(this, "message")} required></textarea>
-                <span style={{color: "red"}}>{this.state.errors["message"]}</span>
-            </div>
-        </div>
-        <div className="modal-footer">
-          <button type="submit" className="submitButton">Send</button>
-        </div>
-      </form>
+      <div className="contactForm" >
+        <h2 className="formTitle">Contact the Artist</h2>
+        <form name="contactForm" 
+          onSubmit={this.handleSubmit.bind(this)} method="post">
+          <div className="formBody">
+              <div className="formGroup">
+                <label htmlFor="recipientName" className="formLabel">Your Name:</label>
+                <input type="text" className="formInput" value={this.state.formData.name} 
+                  onChange={this.onChange.bind(this, "name")} placeholder="Please enter your name" required/>
+                  <span className="formError" >{this.state.errors["name"]}</span>
+              </div>
+              <div className="formGroup">
+                <label htmlFor="recipient-email" className="formLabel">Your Email:</label>
+                <input type="text" className="formInput" value={this.state.formData.email} 
+                  onChange={this.onChange.bind(this, "email")}  placeholder="Please enter your email" required/>
+                  <span className="formError" >{this.state.errors["email"]}</span>
+              </div>
+              <div className="formGroup">
+                <label htmlFor="message-text" className="formLabel">Message:</label>
+                <textarea className="formInput formMessage" name="message" value={this.state.formData.message} 
+                  onChange={this.onChange.bind(this, "message")} placeholder="Type your message..." required></textarea>
+                  <span className="formError" >{this.state.errors["message"]}</span>
+              </div>
+          </div>
+          <div className="modal-footer">
+            <button type="submit" className="submitButton">Send</button>
+          </div>
+        </form>
+      </div>
     )
   }
 

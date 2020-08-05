@@ -2,11 +2,11 @@
   "text": {
     "WebsiteTitle": {
       "color": "#84fdff",
-      "size": "26"
+      "size": "30"
     },
     "PageHeader": {
       "color": "#383030",
-      "size": "25"
+      "size": "24"
     },
     "MediumHeader": {
       "color": "#84d396",
@@ -33,14 +33,11 @@
       "size": "12"
     }
   },
-  "textAlign" : "left",
   "navigationStyle": {
-    "alignment" : "stacked",
     "orientation": "Horizontal",
     "visibility": "visible"
   },
   "portfolioStyle": {
-    "imgWidth": "20vw",
     "layout": "grid"
   },
   "backgroundColor": {

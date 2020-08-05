@@ -1,0 +1,78 @@
+.contactForm {
+	width:60vw;
+	height:80vh;
+	min-height:25em;
+	margin:0 auto;
+	padding-top:3%;
+	border-radius:7px;
+	background-color:#FFFDFB;
+	overflow: hidden;
+
+}
+
+.formBody {
+
+}
+
+.formTitle{
+	 font-weight: bold;
+	 text-align:center;
+
+}
+
+.formGroup{
+	margin-top:5%;
+	margin-bottom:5%;
+	margin-left:15%;
+
+}
+
+.formLabel{
+	display: block;
+	margin-top:2%;
+	margin-bottom:2%;
+}
+
+.formInput{
+	width:80%;
+	height:5vh;
+	min-height:1.5em;
+	max-width:80%;
+	margin: 0 auto;
+	padding:2%;
+	background-color:#FFFDFB;
+	border:none;
+	border-radius:3px;
+  	-webkit-box-shadow: 0px 0px 3px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  	-moz-box-shadow:    0px 0px 3px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+ 	box-shadow:         0px 0px 3px 2px #ccc;
+ }
+
+ .formMessage {
+ 	height:20vh;
+ }
+
+.submitButton{
+	height:5vh;
+	width:12vw;
+	margin-left:40%;
+	border:none;
+	cursor: pointer;
+	border-radius:15px;
+  	-webkit-box-shadow: 0px 0px 3px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  	-moz-box-shadow:    0px 0px 3px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+ 	box-shadow:         0px 0px 3px 2px #ccc;
+}
+
+.submitButton:hover{
+	background-color:#ddd;
+}
+
+.formError{
+	margin-top:2%;
+	display:block;
+	color:#DC143C;
+}
+
+
+
