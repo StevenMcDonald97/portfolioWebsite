@@ -7,6 +7,9 @@ const FileReader = require('filereader');
 
 export default class Contact extends Component {
   imageObj=[];
+  imageURLs=[];
+  // image data is stored both in state and in a global variable 
+  // to avoid complications from state updating asynchronously 
   imageNonStateData=[];
 
   constructor(props) {
@@ -15,21 +18,18 @@ export default class Contact extends Component {
         selectedFiles: [],
         imageData:[]
       };
-      this.uploadFiles = this.uploadFiles.bind(this);
+      this.uploadImages = this.uploadImages.bind(this);
       this.addImage = this.addImage.bind(this);
       this.removeImage = this.removeImage.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
    	}
 
 
-  addImage = (link) => {
+  addImage = (link, fileName) => {
+    this.imageURLs.push(link)
     const values = [...this.imageNonStateData];
-    console.log("Start");
-    console.log(values);
-    console.log(link);
-
     values.push({
-        url:link,
+        fileName:fileName,
         title:'',
         date:'',
         size:'',
@@ -38,14 +38,12 @@ export default class Contact extends Component {
         price:'',
         portfolio:''
       });
-    console.log(values);
     this.imageNonStateData=values;
-    this.setState({imageData:values}, () => console.log(this.state.imageData));
-    console.log("End");
+    this.setState({imageData:values});
 
   };
 
-  removeImage = (url, index) => {
+  removeImage = (index) => {
     if(index > -1){
       const values = [...this.imageNonStateData];
       values.splice(index, 1);
@@ -55,6 +53,8 @@ export default class Contact extends Component {
       const newFiles = this.state.selectedFiles.splice(index, 1);
       this.setState({selectedFiles: newFiles})
       this.imageObj.splice(index, 1);
+      this.imageURLs.splice(index, 1);
+
     }
   };
 
@@ -79,7 +79,7 @@ export default class Contact extends Component {
     this.setState({imageData:values});
   };
 
-  uploadFiles(e) {
+  uploadImages(e) {
 
     this.setState({
       selectedFiles: Array.from(e.target.files),
@@ -88,26 +88,32 @@ export default class Contact extends Component {
     this.imageObj=this.imageObj.concat(Array.from(e.target.files));
 
     for (let i = 0; i < this.imageObj.length; i++) {
-        this.addImage(URL.createObjectURL(this.imageObj[i]))
+        this.addImage(URL.createObjectURL(this.imageObj[i]), this.imageObj[i].name)
     }
     
   }
 
   onSubmit(e) {
+    console.log(this.state.imageData);
+    console.log(this.imageObj);
 
-      const data = new FormData();
-         for(var x = 0; x<this.imageObj.length; x++) {
-             data.append('file', this.imageObj[x])
-         }
+    const data = new FormData();
+       for(var x = 0; x<this.imageObj.length; x++) {
+           data.append('file', this.imageObj[x])
+       }
 
-        axios.post("/upload/uploadImages", data, { 
-            // receive two    parameter endpoint url ,form data
-        })
+      axios.post("/upload/uploadImages", data, { 
+          // receive two    parameter endpoint url ,form data
+      }).then(res => { // then print response status
+        console.log(`Image upload returned: ${res.statusText}`)
 
-      .then(res => { // then print response status
-          console.log(res.statusText)
-       })
+     }).catch(err => console.log(err));
 
+      axios.post("/upload/storeImagesInDB", this.state.imageData, { 
+          // receive two    parameter endpoint url ,form data
+      }).then(res => { // then print response status
+        console.log(`Storing iamges in database returned: ${res.statusText}`)
+     }).catch(err => console.log(err));
   }
 
   render(){
@@ -117,27 +123,27 @@ export default class Contact extends Component {
   			<h3 className="main-heading"> Upload an Image </h3>
         <form onSubmit={this.onSubmit} >
           {(this.state.imageData).map((img, index) => (
-            <div className="editImageTag" key={`${img.url}~${index}`}>
-              <img className="editImageTag" src={img.url} className="uploadImage" alt="..."/>
-              <input type="text" className="imageField" name="title" value={ img.title } placeholder="Title" onChange={this.handleInputChange} />
-              <input type="text" className="imageSmallField" name="date" value={ img.date } placeholder="Date" onChange={this.handleInputChange} />
-              <input type="text" className="imageSmallField" name="medium" value={ img.medium } placeholder="Medium" onChange={this.handleInputChange} />
-              <input type="text" className="imageSmallField" name="size" value={ img.size } placeholder="Size" onChange={this.handleInputChange} />
-              <input type="text" className="imageSmallField" name="price" value={ img.price } placeholder="Price" onChange={this.handleInputChange} />
+            <div className="editImageTag" key={`${this.imageURLs[index]}~${index}`}>
+              <img className="editImageTag" src={this.imageURLs[index]} className="uploadImage" alt="..."/>
+              <input type="text" className="imageField" name="title" value={ img.title } placeholder="Title" onChange={event => this.handleInputChange(index, event)} />
+              <input type="text" className="imageSmallField" name="date" value={ img.date } placeholder="Date" onChange={event => this.handleInputChange(index, event)} />
+              <input type="text" className="imageSmallField" name="medium" value={ img.medium } placeholder="Medium" onChange={event => this.handleInputChange(index, event)} />
+              <input type="text" className="imageSmallField" name="size" value={ img.size } placeholder="Size" onChange={event => this.handleInputChange(index, event)} />
+              <input type="text" className="imageSmallField" name="price" value={ img.price } placeholder="Price" onChange={event => this.handleInputChange(index, event)} />
               <select className="imageField" name="availability" value={img.availability} onChange={this.handleInputChange}>            
                 <option value="forSale">For Sale</option>
                 <option value="notForSale">Not For Sale</option>
                 <option value="sold">Sold</option>
                 <option value="other">Not Applicable</option>
               </select>
-              <button type="button" className="tooltip btn" onClick={()=>this.removeImage(img.url, index)}>
+              <button type="button" className="tooltip btn" onClick={()=>this.removeImage(index)}>
                 <i className="fa fa-trash-o"/> 
                 <span className="toolTipText">Remove this Image</span>
               </button>
             </div>
           ))}
             <div className="form-group">
-                <input type="file" className="form-control" onChange={this.uploadFiles} multiple />
+                <input type="file" className="form-control" onChange={this.uploadImages} multiple />
             </div>
             <button type="button" className="btn" onClick={this.onSubmit}>Upload</button>
           </form>
