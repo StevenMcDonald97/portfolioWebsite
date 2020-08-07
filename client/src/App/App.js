@@ -15,6 +15,7 @@ import './CSS/footer.css';
 import './CSS/modal.css';
 import './CSS/form.css';
 import './CSS/contentPage.css';
+import './CSS/editing.css';
 
 // authentication
 import Login from './securePages/login';

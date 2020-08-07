@@ -1,0 +1,8 @@
+.editImageTag{
+	display:inline-block;
+}
+
+.uploadImage{
+	max-width:20vw;
+	max-height:30vh;
+}

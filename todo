@@ -13,8 +13,8 @@ edit images (keep in MongoDB)
 	-existing images: from database, load thumbnail, title, size, medium, date, price, 	portfolio
 	-add button to add new artwork
 	-delete option for each (create alert "are you sure?" before deleting) 
-	-Multer not storing images in upload folder
-
+	-drop down option for choosing a portfolio for works from the existing portfolios
+	-have images save in a mongoldb database
 	
 edit portfolios:
 	-option to create a new portfolio or delete existing portfolio 
