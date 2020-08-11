@@ -6,15 +6,26 @@ Merriweather font
 
 Need to be able to log user out
 
+let users control order of links
+
 create User panel page
+	title /optional subtitle, links - control color and font on all of them
 	edit images / portfolios / about pages / text pages 
+
+have back button to easily navigate back to pages! (i.e. <- Back)
+
+home page style
+	can have carousel of images or static image
 
 edit images (keep in MongoDB)
 	-existing images: from database, load thumbnail, title, size, medium, date, price, 	portfolio
 	-add button to add new artwork
-	-delete option for each (create alert "are you sure?" before deleting) 
+	-delete option for each (create alert "are you sure? This will remove this image(s) from everywhere on your website" before deleting) 
+	-can select multiple and click "delete selected images"
 	-drop down option for choosing a portfolio for works from the existing portfolios
+	-on save or cancel redirect to user home panel
 	-have images save in a mongoldb database
+	-issue with uploading one set, then uploading more images before submitting- old 		images get readied because they're still in the file input element's list
 	
 edit portfolios:
 	-option to create a new portfolio or delete existing portfolio 
@@ -33,21 +44,19 @@ edit text page:
 
 Need to be able to edit style
 	-have split screen if wide enough, or button to pop up modal (i.e. if not roughly 2:3 		ratio)  with selection tools and preview
-	-have color picker appear as modal in front 
 	-enable editing background colors
-	edit navigation, portfolio style -
+	-edit navigation, portfolio style -
 		nabber can be vertical or horizontal, and collapsible or fixed 
-	show sample portfolio styling as user edits
-	have preset style choices for home page that a user can pick form, maybe from a 		carousel of pictures? 
-	add verification that all data entered is valid on submit
-	on cancel redirect back to user panel page
+	-add verification that all data entered is valid on submit
+	-on cancel redirect back to user panel page
+	-let user change Font(s) (main, secondary, and third fonts?)
+	-preset styles:
+		-create ten based off of common themes
+		-create a list in json and json for each variation, create an option or 		each
+		-maybe choose from a carousel of pictures? 
+
 
 use sass with node sass importer to load style variables from JSON
-
-
-style preview
-	-images should change orientation based on selection
-	-all colors should change
 
 create contact form 
 	-have to update email to load from user settings
@@ -61,24 +70,35 @@ have mobile design! update view arrangement if screen size if small enough
 error on submit for style form even though it goes through fine
 
 
-get rid of JSON, store everything in database!
+get rid of JSON, store everything in database except sample styles!
 
 
 have clean error handling! redirect to home page with message 'something went wrong'?
 
 remove unnecessary packages
 
+back up data incase mongodb loses data
+
+
+DEPLOYMENT:
+
+Need to look into running react / express / mongodb on AWS for easy deployment 
+
 
 FUTURE GOALS:
 
+link to dropbox
 title: Salon? 
-make backwards compatible 
+make more customizable, allow animations, unique designs
+make backwards compatible on browsers
 charge for hosting: ask for service fee to set up was, manage hosting
 link to instagram, ETSY, and other social media
 include google analytics tracking code to track viewers?
 include ability to buy artwork 
 let users create a blog
-allow social interactivity: create community forum(s) to talk about art, post art instruction, maps, events etc. Allow direct messaging between artists! (chat now feature on user panel)
+let users create a newsletter
+allow social interactivity: create community forum(s) to talk about art, post art instruction, maps, events etc. 
+Allow direct messaging between artists! (chat now feature on user panel)
 build a large market of like minded people, add advertising and can make service free
 
 

@@ -31,6 +31,13 @@ import Modal from './pages/modal';
 import Secure from './securePages/secure';
 import UploadImages from './securePages/uploadImages';
 import EditStyle from './securePages/editStyle';
+import UserPanel from './securePages/userPanel';
+import EditImages from './securePages/editImages';
+import AddPages from './securePages/addPages';
+import EditPages from './securePages/editPages';
+import AddPortfolios from './securePages/addPortfolios';
+import EditPortfolios from './securePages/editPortfolios';
+import StyleEditor from './securePages/editStyle';
 
 // profile information
 import profileImg from "./profileimages/Profile-Pic.jpg";
@@ -120,6 +127,10 @@ export default class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/uploadImages" component={UploadImages} />
               <Route exact path="/styleEditor" component={EditStyle} />
+              <Route exact path="/userPanel" component={UserPanel} />
+              <Route exact path="/uploadImages" component={UploadImages} />
+              <Route exact path="/addPages" component={AddPages} />
+
               <Route path="/:id" component={OpenPage} />
             </Switch>
           </div>

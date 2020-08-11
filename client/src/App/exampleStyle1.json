@@ -1,0 +1,50 @@
+{
+  "text": {
+    "WebsiteTitle": {
+      "color": "blue",
+      "size": "32"
+    },
+    "PageHeader": {
+      "color": "#383030",
+      "size": "20"
+    },
+    "MediumHeader": {
+      "color": "#84d396",
+      "size": "18"
+    },
+    "SmallHeader": {
+      "color": "green",
+      "size": "16"
+    },
+    "DescriptionText": {
+      "color": "#9013fe",
+      "size": "12"
+    },
+    "NavigationLink": {
+      "color": "#00fff8",
+      "size": "12"
+    },
+    "OtherLink": {
+      "color": "#ccc",
+      "size": "12"
+    },
+    "HoverOnLink": {
+      "color": "#acff00",
+      "size": "12"
+    }
+  },
+  "navigationStyle": {
+    "orientation": "Horizontal",
+    "visibility": "visible"
+  },
+  "portfolioStyle": {
+    "layout": "grid"
+  },
+  "backgroundColor": {
+    "header": "#888",
+    "navigation": "#555",
+    "content": "#999",
+    "portfolio": "#999",
+    "contact": "#555"
+  }
+}
