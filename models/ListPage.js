@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ListPageSchema = new Schema({
-	type: { type: String, required: true, unique: true },
-	title: { type: String, required: true, unique: false },
+	type: { type: String, required: true, unique: false },
+	title: { type: String, required: true, unique: true },
 	text: { type: String, required: false, unique: false },
 	objectIds: [{ type: String}]
 
@@ -17,6 +17,6 @@ const ListObjectSchema = new Schema({
 
 
 module.exports = {
-  listPage: mongoose.model('ListPage', ListPageSchema);,
-  listObject: mongoose.model('ListObject',ListObjectSchema)
+  ListPage: mongoose.model('ListPage', ListPageSchema),
+  ListObject: mongoose.model('ListObject',ListObjectSchema)
 }

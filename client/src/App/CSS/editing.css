@@ -1,3 +1,58 @@
+.button {
+	clear:inline-block;
+	height:2em;
+	min-width:6em;
+	font-size:1.1em;
+	margin-right:auto;
+    margin-left: auto;
+    margin-top:2vw;
+    display:block;
+    border:none;
+	cursor: pointer;
+	border-radius:10px;
+  	-webkit-box-shadow: 0px 0px 3px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  	-moz-box-shadow:    0px 0px 3px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+ 	box-shadow:         0px 0px 3px 2px #ccc;
+}
+
+
+.editSubmitButton{
+	height:5vh;
+	width:12vw;
+	font-size:1.1em;
+	margin-right:1vw;
+	border:none;
+	display:inline-block;
+	cursor: pointer;
+	border-radius:15px;
+  	-webkit-box-shadow: 0px 0px 3px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  	-moz-box-shadow:    0px 0px 3px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+ 	box-shadow:         0px 0px 3px 2px #ccc;
+}
+
+.pageEditor{
+	background-color:ghostwhite;
+	min-height:100vh;
+	height:100%;
+	padding-top:2vw;
+}
+
+.pageForm{
+	display:block;
+}
+
+.pageImage{
+	width:20vw;
+	margin:0 auto;
+	display:inline-block;
+	min-width-width:200px;
+	min-height:150px;
+}
+
+.pageEditingObject{
+	list-style-type: none;
+}
+
 .editImageTag{
 	display:inline-block;
 }
@@ -6,3 +61,123 @@
 	max-width:20vw;
 	max-height:30vh;
 }
+
+.checkImage{
+	width:10vw;
+	min-width:100px;
+	min-height:100px;
+}
+
+.listObjectImage{
+	width:15vw;
+	min-width:100px;
+	min-height:100px;
+}
+
+.backLink{
+	cursor:pointer;
+}
+
+.addPageMain{
+	text-align:center;
+}
+
+.editingTitle{
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom:2vw;
+	margin-top:0vw;
+	font-size:2em;
+}
+
+.pageEditButton{
+	display:block;
+	cursor:pointer;
+	height:2.5em;
+	width:15em;
+	font-size:1.2em;
+	border:none;
+	border-radius:1em;
+	color:white;
+	background-color:#28a745;
+	margin: 0 auto;
+	margin-top:1vw;
+}
+
+.pageEditButton:hover{
+	background-color:#23903c;
+}
+
+
+.backLink{
+	font-size:1.5em;
+	margin-top:1vw;
+	margin-left:1vw;
+	padding:0 auto;
+	line-height:100%;
+	width:10vw;
+	color:#000;
+}
+
+.backLink:hover{
+	color:#555;
+}
+
+.inputGroup{
+	clear:inline-block;
+	margin-left:auto;
+	margin-right:auto;
+	width:50vw;
+}
+
+.inputLabel{
+	color:#333;
+	font-size:1.3em;
+	margin-right:2vw;
+	margin-top:2vw;
+	margin-bottom:1vw;
+	display:inline-block;
+	vertical-align:top;
+
+}
+
+.smallPageField{
+	clear:inline;
+	display:block;
+	margin-left:2vw;
+	height:2em;
+	width:15em;
+}
+
+.pageField{
+	display:block;
+	margin-left:2vw;
+	height:10em;
+	width:40em;
+}
+
+.form-group{
+	line-height:100%;
+	width:100%;
+}
+
+.fileInput {
+	display:inline-block;
+}
+
+.editSubmitButtons {
+	margin-top:3vw;
+	margin-left:auto;
+	margin-right:auto;
+	padding-bottom:5vw;
+	text-align:center;
+	width:26vw;
+}
+
+.portfolioImageChoice {
+	text-align:center;
+	margin-top:2vw;
+	font-size:1.2em;
+}
+
+

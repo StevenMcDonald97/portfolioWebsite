@@ -13,7 +13,7 @@ export default class UserPanel extends Component {
 					<div className="navbar">
 						<ul className="user-navbar-links">
 							<li key="editInfo" className="user-navbar-link"><div className="user-navbar-link">Personal Info</div></li>
-							<li key="editPages" className="user-navbar-link dropdown">
+							<li key="editImages" className="user-navbar-link dropdown">
 								<div className="user-navbar-link dropbtn">Images <FaAngleDown /></div>
 								<div class="dropdown-content">
 									<Link to="/uploadImages">Upload Images</Link>

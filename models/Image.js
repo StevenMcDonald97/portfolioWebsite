@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
-	fileName: { type: String, required: true, unique: true },
+	fileName: { type: String, required: true, unique: false },
 	title: { type: String, required: false, unique: false },
 	date: { type: String, required: false, unique: false },
 	size: { type: String, required: false, unique: false },

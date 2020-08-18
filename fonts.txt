@@ -1,0 +1,34 @@
+Fonts:
+
+ltc-bodoni-175;
+Merriweather font
+Poppins
+Open Sans
+Roboto Slab
+Montserrat
+
+Playfair Display
+League Spartan
+LTC Bodoni 175
+Calluna
+Futura PT
+Freight Display Pro
+
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"> 
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;600&display=swap" rel="stylesheet"> 
+
+ <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet"> 
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet"> '
+
+
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet"> 
+
+
+
+font-family: ltc-bodoni-175, serif;
+font-style: normal;
+font-weight: 400;
+

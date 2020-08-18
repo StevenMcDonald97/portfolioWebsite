@@ -2,6 +2,9 @@ const express = require("express");
 const UploadRouter = express.Router();
 const multer = require('multer');
 const Image = require('../models/image');
+const TextPage = require('../models/textPage');
+const {ListPage, ListObject} = require('../models/listPage');
+const Portfolio = require('../models/portfolio');
 
 var storage = multer.diskStorage({
       destination: function (req, file, cb) {
@@ -36,13 +39,64 @@ UploadRouter.route('/storeImagesInDB').post(function(req, res) {
  		newImage.save(function(err) {
 		    if (err) {
 		      console.error(err);
-		      res.status(500).send("Error uploading image.");
+		      res.status(500).send("Error uploading image(s).");
 		    } 
 		});
 	})
 
 });
 
+
+UploadRouter.route('/uploadTextPage').post(function(req, res) {
+  const newPage=new TextPage(req.body);
+  newPage.save(function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error uploading page.");
+        } 
+    });
+
+});
+
+UploadRouter.route('/uploadListPage').post(function(req, res) {
+  let objIds = [];
+  req.body.objs.forEach((obj, index) => {
+    let newListObject = new ListLobject(obj);
+    objIds.push(newListObject._id);
+    newListObject.save(function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error uploading list object.");
+        } 
+    });
+
+  });
+
+  let pageData = req.body;
+  pageData.objectIds=objIds;
+
+  const newPage=new ListPage(pageData);
+
+  newPage.save(function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error uploading page.");
+        } 
+    });
+
+});
+
+
+UploadRouter.route('/uploadPortfolio').post(function(req, res) {
+  const newPortfolio=new Portfolio(req.body);
+  newPortfolio.save(function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error uploading page.");
+        } 
+    });
+
+});
 
 // UploadRouter.route('/removeImageFromDB').post(function(req, res) {
 // 	console.log(req.body);
