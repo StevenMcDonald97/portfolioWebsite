@@ -6,6 +6,7 @@ import {
   Route,
   Link,
 } from "react-router-dom";
+import axios from 'axios';
 
 import '../index.css';
 import './CSS/header.css';
@@ -24,7 +25,9 @@ import Register from './securePages/registerUser';
 
 // page types
 import Portfolio from './pages/portfolioPage';
-import ContentPage from './pages/contentPage';
+import TextPage from './pages/textPage';
+import ListPage from './pages/listPage';
+
 import Contact from './pages/contact';
 import HomePage from './pages/homePage';
 import Modal from './pages/modal';
@@ -38,10 +41,12 @@ import EditPages from './securePages/editPages';
 import AddPortfolios from './securePages/addPortfolios';
 import EditPortfolios from './securePages/editPortfolios';
 import StyleEditor from './securePages/editStyle';
+import userPanel from './securePages/userPanel';
 
 // profile information
 import profileImg from "./profileimages/Profile-Pic.jpg";
 import profile from './profile.json';
+
 
 // import Modal from "./components/test-modal";
 // import Portfolio from "./components/portfolioPage";
@@ -59,11 +64,12 @@ export default class App extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      routes: [],   
+      pageInfo: [],   
       showContact: false,
 
     }
     this.setState = this.setState.bind(this);
+    this.getPageInfo=this.getPageInfo.bind(this);
   }
 
   showContact = e => {
@@ -72,25 +78,38 @@ export default class App extends Component {
     });
   };
 
-  componentDidMount() {
-    this.setState({ isLoading: true });
-    this.getRoutes();
+  getPageInfo = () =>{
+    axios.get('/api/getPageInfo').then((response) => {
+      this.setState({pageInfo:response.data})
+    });
+
   }
 
-   // Retrieves the list of items from the Express app
-  getRoutes = () => {
-    fetch('/api/getRoutes')
-    .then(res => res.json())
-    .then(data => this.setState({ routes: data.Links, isLoading: false }));
+  componentDidMount() {
+    this.getPageInfo();
   }
+
+
+
+  //  // Retrieves the list of items from the Express app
+  // getRoutes = () => {
+  //   fetch('/api/getRoutes')
+  //   .then(res => res.json())
+  //   .then(data => this.setState({ routes: data, isLoading: false }));
+  // }
 
   render(){
-    const { routes } = this.state;
+    // const { routes } = this.state;
 
     // render a link in the navbar for each route in the database
-    const create_links = routes.map((route) =>  
-      <li key={route.name} className="navbar-link"><Link to={route.path} className="navbar-link">{route.name}</Link></li>
+    const createLinks = this.state.pageInfo.map((page) => 
+      <li key={page._id} className="navbar-link"><Link to={`/${page.title.replace(/\s+/g, '')}`} className="navbar-link">{page.title}</Link></li>
     );
+
+    const createRoutes = this.state.pageInfo.map((page) => (
+      <Route key={page.title} exact path={`/${page.title.replace(/\s+/g, '')}`} render={() => {return <NewPage pageId={`${page._id}`} pageType={page.type}/>} } />
+
+    ));
 
     const ContactElement = <Contact />;
     
@@ -105,23 +124,17 @@ export default class App extends Component {
               <h1 className="page-title">{profile.Name}</h1>
               <div className="navbar">
                 <ul className="navbar-links">
-                  { create_links }
+                  { createLinks }
                   <li key="contact" className="navbar-link"><div className="navbar-link" onClick={ this.showContact } >Contact</div></li>
                   <li key="login" className="navbar-link"><Link to ="/contact" className="navbar-link">Login</Link></li>
-                  <li key="register" className="navbar-link"><Link to="/register" className="navbar-link">Register</Link></li>
+                  <li key="user" className="navbar-link"><Link to="/userPanel" className="navbar-link">User Panel</Link></li>
                   <li key="upload" className="navbar-link"><Link to="/uploadImages" className="navbar-link">Upload</Link></li>
 
                 </ul>
               </div>
             </div>
 
-            {/* code to dynamically create routes from links */}
-            {/* {routes.map((r) => {
-                 return <Route path={r.path} background={r.bg} pageId={r.pageId} component={COMPONENT_MAP[r.component]}/>
-               }}
-            */}
             <Switch>
-              <Route exact path="/" component={OpenPage} />
               <Route exact path="/secret" component={withAuth(Secure)} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
@@ -130,8 +143,9 @@ export default class App extends Component {
               <Route exact path="/userPanel" component={UserPanel} />
               <Route exact path="/uploadImages" component={UploadImages} />
               <Route exact path="/addPages" component={AddPages} />
+              { createRoutes }
+              <Route path="/" component={NewPage} />
 
-              <Route path="/:id" component={OpenPage} />
             </Switch>
           </div>
         </Router>
@@ -143,25 +157,18 @@ export default class App extends Component {
 }
 
 
-class OpenPage extends Component {
-  render(){
-    if (this.props.match.params.id===""){
+const NewPage =(props)=> {
+    if (props.pageType==="text"){
+      return <TextPage pageId={props.pageId}/>
+    } else if (props.pageType==="list"){
+      return <ListPage pageId={props.pageId}/>
+    } else if (props.pageType==="portfolio"){
+      return <Portfolio pageId={props.pageId}/>
+    } else {
       return <HomePage heading={profile.name}  homeText={profile.HomeText} imgDescription={profile.HomeImageText}></HomePage>;
 
-    } else if (this.props.match.params.id==="portfolio"){
-      return <Portfolio imgDirectory='../testimages/'></Portfolio>
-
-    }else if (this.props.match.params.id==="about"){
-      var title="About Me";
-      var imgDescription = "A picture of the artist"
-      var imgTag = <img className="mainImage" src={profileImg} alt={imgDescription} align="left"/>;
-      
-      return <ContentPage  title={title} image={imgTag} mainText={profile.About} secondaryText={profile.Resume}></ContentPage>
-      
-    } else {  
-      return <HomePage heading={profile.name}  homeText={profile.HomeText} imgDescription={profile.HomeImageText}></HomePage>;
     }
-  }
+  
 
 }
 

@@ -15,21 +15,21 @@ export default class UserPanel extends Component {
 							<li key="editInfo" className="user-navbar-link"><div className="user-navbar-link">Personal Info</div></li>
 							<li key="editImages" className="user-navbar-link dropdown">
 								<div className="user-navbar-link dropbtn">Images <FaAngleDown /></div>
-								<div class="dropdown-content">
+								<div className="dropdown-content">
 									<Link to="/uploadImages">Upload Images</Link>
 									<Link to="/editImages">Edit/Remove Images</Link>
 								</div>
 							</li>
 							<li key="editPages" className="user-navbar-link dropdown">
 								<div className="user-navbar-link dropbtn">Pages</div>
-								<div class="dropdown-content">
+								<div className="dropdown-content">
 									<Link to="/addPages">Create New Page(s)</Link>
 									<Link to="/editPages">Edit/Remove Pages</Link>
 								</div>
 							</li>
 							<li key="editPortfolios" className="user-navbar-link dropdown">
 								<div className="user-navbar-link dropbtn">Portfolios</div>
-								<div class="dropdown-content">
+								<div className="dropdown-content">
 									<Link to="/addPortfolios">Create Portfolio</Link>
 									<Link to="/editPortfolios">Edit/Remove</Link>
 								</div>							

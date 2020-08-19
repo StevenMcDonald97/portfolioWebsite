@@ -18,7 +18,13 @@ const imageRoutes = require('./routes/image');
 const userRoutes = require('./routes/user');
 const styleRoutes = require('./routes/style');
 const emailRoutes = require('./routes/email');
-const uploadRoutes = require('./routes/upload'); 
+const uploadRoutes = require('./routes/upload');
+
+const page = require("./models/Page")
+const homePage = require("./home.json")
+const textPage = require('./models/TextPage');
+const  {listPage, listObject} = require('./models/ListPage');
+const portfolio = require('./models/Portfolio');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -42,32 +48,41 @@ mongoose.connect(mongo_uri, { useNewUrlParser: true, useUnifiedTopology: true}, 
   }
 });
 
-
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+/*API end point to return the information for a single page*/
+app.get('/api/getPage', (req,res) => {
+	var pageId = (req.query.pageId);
+  var pageType = (req.query.pageType);
 
-// return a secure page
-app.get('/api/secret', function(req, res) {
-  res.send('Secure');
+  if (pageType==="text"){
+      textPage.findById(pageId).lean().exec(
+      function (err, textPage) {  
+
+          res.send(textPage);
+      }); 
+  } else if (pageType==="list"){
+    listPage.findById(pageId).lean().exec(
+      function (err, listPage) {         
+          res.send(listPage);
+      }); 
+  } else if (pageType==="portfolio"){
+    portfolio.findById(pageId).lean().exec(
+    function (err, portfolioPage) {         
+        res.send(portfolioPage);
+    }); 
+  }
+    
 });
 
-// // check if the user has a valid token
-// app.get('/checkToken', withAuth, function(req,res){
-//   res.sendStatus(200);
-// })
-
-
-// An api endpoint that returns a list of routes for the site
-app.get('/api/getRoutes', (req,res) => {
-	var routes;
-	fs.readFile('./pages.json', 'utf8', function (err, data) {
-	  if (err) throw err;
-	  routes = JSON.parse(data);
-      res.json(routes);
-
-	});
+/*API end point to return a list of page titles and ids*/
+app.get('/api/getPageInfo', (req,res) => {
+  page.find().lean().exec(
+      function (err, pages) {  
+          res.send(pages);
+      });     
 });
 
 // Handles any requests that don't match the ones above
@@ -75,8 +90,9 @@ app.get('*', (req,res) =>{
     res.send('Invalid GET request');
 });
 
-
-
+app.post('*', (req,res) =>{
+    res.send('Invalid POST request');
+});
 
 app.listen(port, () => {
     console.log('Server is listening on port: ' + port);

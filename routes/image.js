@@ -9,7 +9,6 @@ ImageRouter.route("/getAll")
 		console.log("here");
 
         Image.find({}, function(err, images) {
-        	console.log(images);
            res.send(images);
         });
     });

@@ -46,15 +46,15 @@ export default class UserPanel extends Component {
 					defaultImage={defaultImage} backPage={this.returnToPageSelection} 
 					setPageData={this.setPageData}/>)
 			} else if (this.state.pageType==="gallery"){
-				return( <ListPage pageType="gallery" title="" description="" 
+				return( <ListPage pageType="Galleries" title="" description="" 
 					objects={[]} backPage={this.returnToPageSelection} 
 					setPageData={this.setPageData}/>)
 			} else if (this.state.pageType==="event"){
-				return( <ListPage pageType="event" title="" description="" 
+				return( <ListPage pageType="Events" title="" description="" 
 					objects={[]} backPage={this.returnToPageSelection} 
 					setPageData={this.setPageData}/>)
 			} else if (this.state.pageType==="workshop"){
-				return( <ListPage pageType="workshop" title="" description="" 
+				return( <ListPage pageType="Workshops" title="" description="" 
 					objects={[]} backPage={this.returnToPageSelection} 
 					setPageData={this.setPageData}/>)
 			} else {
@@ -102,6 +102,7 @@ class AboutPage extends Component {
 		super(props)
 		this.state ={
 			mainImage:this.props.defaultImage,
+			mainImageName:'',
 			name:this.props.name,
 			description:this.props.description,
 			secondaryText:this.props.resume
@@ -116,12 +117,13 @@ class AboutPage extends Component {
 
 	updateImage(file){
 		this.setState({mainImage:URL.createObjectURL(file)})
+		this.setState({mainImageName:(file.name)})
 	}
 
 
 	onSubmit(){
-		const PageData={"type":"about", "title":this.state.name,
-		 "image":this.state.mainImage, "mainText":this.state.description,
+		const PageData={"type":"about", "title":"About the Artist",
+		 "img":this.state.mainImageName, "mainText":this.state.description,
 		 "subText":this.state.resume};
 		axios.post('/upload/uploadTextPage', PageData)
 	}
@@ -179,7 +181,6 @@ class PortfolioPage extends Component {
 		}
 		this.loadImages=this.loadImages.bind(this);
 		this.handleChange=this.handleChange.bind(this);
-		this.loadImages();
 		this.addImageToPortfolio=this.addImageToPortfolio.bind(this);
 		this.removeImageFromPortfolio=this.removeImageFromPortfolio.bind(this);
 
@@ -227,6 +228,10 @@ class PortfolioPage extends Component {
 		axios.post('/upload/uploadPortfolio', PageData)
 	}
 
+	componentDidMount(){
+		this.loadImages();
+	}
+
 	render(){
 
 		return(
@@ -266,7 +271,7 @@ class PortfolioPage extends Component {
 					) : <div> Go to Add Images to upload images to your site </div>}
 				</div>
 				<div className="editSubmitButtons">
-					<button type="button" className="editSubmitButton" onClick={this.onsubmit}> Create </button>
+					<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Create </button>
 					<button type="button" className="editSubmitButton" onClick={this.props.backPage}> Cancel </button>
 				</div>
 			</form>
@@ -341,9 +346,9 @@ class ListPage extends Component {
 	}
 
 	onSubmit(){
-		const PageData={"type":this.state.type, "title":this.state.title, 
+		const PageData={"type":this.state.type, "title":this.state.type, "text":"",
 			"objs":this.state.listObjects};
-		axios.post('/upload/listPage', PageData)
+		axios.post('/upload/uploadListPage', PageData)
 	}
 
 	render(){
@@ -432,7 +437,7 @@ class OtherPage extends Component {
 
 	onSubmit(){
 		const PageData={"type":"other", "title":this.state.title, 
-			"image":this.state.mainImage, "description":this.state.description, 
+			"img":this.state.mainImage, "description":this.state.description, 
 			"subText":""};
 		axios.post('/upload/uploadTextPage', PageData)
 	}

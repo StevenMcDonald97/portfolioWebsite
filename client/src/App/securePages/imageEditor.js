@@ -110,7 +110,7 @@ export default class ImageEditor extends Component {
 					{(this.state.imageData).map((img, index) => (
 			            <div className="editImageTag" key={`${this.imageURLs[index]}~${index}`}>
 			              <img className="editImageTag" src={this.imageURLs[index]} className="uploadImage" alt="..."/>
-			              <input type="text" className="imageField" name="title" value={ img.title } placeholder="Title" onChange={event => this.handleInputChange(index, event)} />
+			              <input type="text" className="imageField" name="title" value={ img.title.replace(/\s+/g, '') } placeholder="Title" onChange={event => this.handleInputChange(index, event)} />
 			              <input type="text" className="imageSmallField" name="date" value={ img.date } placeholder="Date" onChange={event => this.handleInputChange(index, event)} />
 			              <input type="text" className="imageSmallField" name="medium" value={ img.medium } placeholder="Medium" onChange={event => this.handleInputChange(index, event)} />
 			              <input type="text" className="imageSmallField" name="size" value={ img.size } placeholder="Size" onChange={event => this.handleInputChange(index, event)} />
