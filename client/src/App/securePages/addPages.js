@@ -315,6 +315,7 @@ class ListPage extends Component {
 		}
 		this.onChange=this.onChange.bind(this);
 		this.addPageObject=this.addPageObject.bind(this);
+		this.updatePageObject=this.updatePageObject.bind(this);
 		this.removePageObject=this.removePageObject.bind(this);
 		this.onSubmit=this.onSubmit.bind(this);
 	}
@@ -332,6 +333,12 @@ class ListPage extends Component {
 		this.setState({listObjects:values}, 
 			()=>this.setState({numObjs:this.state.numObjs+1}));
 
+	}
+
+	updatePageObject(index, field, value){
+	    const values = [...this.state.listObjects];
+	    values[index][field]=value;
+		this.setState({listObjects:values});
 	}
 
 	removePageObject(index){
@@ -357,6 +364,7 @@ class ListPage extends Component {
 	     	<ListObjectEditor key={index} img={obj.img} num={obj.num} 
 	     		title={this.state.listObjects[index].title} 
 	     		description={this.state.listObjects[index].description}
+	     		updatePageObject={this.updatePageObject}
 	     		removePageObject={this.removePageObject}
 	     	/>
 	    );
@@ -381,35 +389,51 @@ class ListPage extends Component {
 }
 
 
-function ListObjectEditor(props) {
-
-	const [image, setImage] = useState(props.img);
-
-	const updateImage = (file) =>{
-		setImage(file);
+class ListObjectEditor extends Component {
+	constructor(props){
+		super(props);
+		this.state={
+			image:''
+		}
+		this.updateIamge=this.updateImage.bind(this);
+		this.updateObject=this.updateObject.bind(this);
 	}
 
-	return(
- 		<li className="pageEditingObject">
- 			<div className="inputGroup">
-				<img className="listObjectImage" src={image} />
-				<UploadImage changeImage={updateImage}/>
-			</div>
-			<div className="inputGroup">
-				<input type="text" value={props.title} placeholder="Title" 
-					onChange={()=>console.log("change unimplemented yet")}/>
-			</div>
-			<div className="inputGroup">
-				<input type="text" value={props.description} placeholder="Description" 
-					onChange={()=>console.log("change unimplemented yet")}/>
-			</div>
-			<button type="button" name={props.num} className="tooltip btn" 
-				onClick={index=>props.removePageObject(index)}>
-		    	<FaTrashAlt />
-			    <span className="tooltiptext">Remove this</span>
-			</button>
-		</li>
-	)
+
+	updateImage = (file) =>{
+		this.setState({image:file});
+		this.props.updatePageObject(this.props.num, "image", file);
+	}
+
+	updateObject = (event) =>{
+		if(event){
+			this.props.updatePageObject(this.props.num, event.target.name, event.target.value);
+		}
+	}
+
+	render(){
+		return(
+	 		<li className="pageEditingObject">
+	 			<div className="inputGroup">
+					<img className="listObjectImage" src={this.state.image} />
+					<UploadImage changeImage={this.updateImage}/>
+				</div>
+				<div className="inputGroup">
+					<input type="text" name="title" value={this.props.title} placeholder="Title" 
+						onChange={this.updateObject}/>
+				</div>
+				<div className="inputGroup">
+					<input type="text" name="description" value={this.props.description} placeholder="Description" 
+						onChange={this.updateObject}/>
+				</div>
+				<button type="button" name={this.props.num} className="tooltip btn" 
+					onClick={index=>this.props.removePageObject(index)}>
+			    	<FaTrashAlt />
+				    <span className="tooltiptext">Remove this</span>
+				</button>
+			</li>
+		)
+	}
 }
 
 

@@ -11,8 +11,9 @@ const ListPageSchema = new Schema({
 
 const ListObjectSchema = new Schema({
 	title: { type: String},
-	img: { data: Buffer, contentType: String},
+	img: { type: String},
 	description: { type: String},
+	num: {type: Number}
 });
 
 
