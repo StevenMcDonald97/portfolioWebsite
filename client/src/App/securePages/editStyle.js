@@ -1,11 +1,11 @@
 import React, { Component, useState } from 'react';
 import { SketchPicker } from 'react-color';
-import StyleVisualization from './styleVisualization';
-import Modal from "../pages/modal";
+import StyleVisualization from 'App/securePages/styleVisualization';
+import Modal from "App/pages/modal";
 
 const axios = require("axios");
-const styleJson = require('../style.json');
-const presetStyle1 = require('../exampleStyle1.json');
+const styleJson = require('App/style.json');
+const presetStyle1 = require('App/exampleStyle1.json');
 
 export default class EditStyle extends Component {
 	constructor(props) {

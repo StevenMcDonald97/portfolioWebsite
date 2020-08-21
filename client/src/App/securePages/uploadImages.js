@@ -4,7 +4,7 @@ import React, { Component} from 'react';
 import axios from 'axios';
 import ImageUploader from "react-images-upload";
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
-import ImageEditor from "./imageEditor";
+import ImageEditor from "App/securePages/imageEditor";
 
 export default class Contact extends Component {
   constructor(props) {

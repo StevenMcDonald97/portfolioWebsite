@@ -8,44 +8,44 @@ import {
 } from "react-router-dom";
 import axios from 'axios';
 
-import '../index.css';
-import './CSS/header.css';
-import './CSS/main.css';
-import './CSS/portfolio.css';
-import './CSS/footer.css';
-import './CSS/modal.css';
-import './CSS/form.css';
-import './CSS/contentPage.css';
-import './CSS/editing.css';
+import 'index.css';
+import 'App/CSS/header.css';
+import 'App/CSS/main.css';
+import 'App/CSS/portfolio.css';
+import 'App/CSS/footer.css';
+import 'App/CSS/modal.css';
+import 'App/CSS/form.css';
+import 'App/CSS/contentPage.css';
+import 'App/CSS/editing.css';
 
 // authentication
-import Login from './securePages/login';
-import withAuth from './securePages/withAuth';
-import Register from './securePages/registerUser';
+import Login from 'App/securePages/login';
+import withAuth from 'App/securePages/withAuth';
+import Register from 'App/securePages/registerUser';
 
 // page types
-import Portfolio from './pages/portfolioPage';
-import TextPage from './pages/textPage';
-import ListPage from './pages/listPage';
+import Portfolio from 'App/pages/portfolio';
+import TextPage from 'App/pages/textPage';
+import ListPage from 'App/pages/listPage';
 
-import Contact from './pages/contact';
-import HomePage from './pages/homePage';
-import Modal from './pages/modal';
-import Secure from './securePages/secure';
-import UploadImages from './securePages/uploadImages';
-import EditStyle from './securePages/editStyle';
-import UserPanel from './securePages/userPanel';
-import EditImages from './securePages/editImages';
-import AddPages from './securePages/addPages';
-import EditPages from './securePages/editPages';
-import AddPortfolios from './securePages/addPortfolios';
-import EditPortfolios from './securePages/editPortfolios';
-import StyleEditor from './securePages/editStyle';
-import userPanel from './securePages/userPanel';
+import Contact from 'App/pages/contact';
+import HomePage from 'App/pages/homePage';
+import Modal from 'App/pages/modal';
+import Secure from 'App/securePages/secure';
+import UploadImages from 'App/securePages/uploadImages';
+import EditStyle from 'App/securePages/editStyle';
+import UserPanel from 'App/securePages/userPanel';
+import EditImages from 'App/securePages/editImages';
+import AddPages from 'App/securePages/addPages';
+import EditPages from 'App/securePages/editPages';
+import AddPortfolios from 'App/securePages/addPortfolios';
+import EditPortfolios from 'App/securePages/editPortfolios';
+import StyleEditor from 'App/securePages/editStyle';
+import userPanel from 'App/securePages/userPanel';
 
 // profile information
-import profileImg from "./profileimages/Profile-Pic.jpg";
-import profile from './profile.json';
+import profileImg from "App/profileimages/Profile-Pic.jpg";
+import profile from 'App/profile.json';
 
 
 // import Modal from "./components/test-modal";
@@ -121,7 +121,7 @@ export default class App extends Component {
         <Router>
           <div>
             <div className="header">
-              <h1 className="page-title">{profile.Name}</h1>
+              <h1 className="page-title"><Link to ="/" className="pageTitle">{profile.Name}</Link></h1>
               <div className="navbar">
                 <ul className="navbar-links">
                   { createLinks }
@@ -163,6 +163,7 @@ const NewPage =(props)=> {
     } else if (props.pageType==="list"){
       return <ListPage pageId={props.pageId}/>
     } else if (props.pageType==="portfolio"){
+      console.log("here");
       return <Portfolio pageId={props.pageId}/>
     } else {
       return <HomePage heading={profile.name}  homeText={profile.HomeText} imgDescription={profile.HomeImageText}></HomePage>;

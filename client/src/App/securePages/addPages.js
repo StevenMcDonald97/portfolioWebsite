@@ -2,9 +2,9 @@ import React, { Component, useState } from 'react';
 import axios from 'axios';
 import {FaArrowLeft} from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
-import defaultImage from "./exampleImages/default-image.png";
+import defaultImage from "App/securePages/exampleImages/default-image.png";
 const d = new Date();
-const images = require.context('../../../../upload', true);
+const images = require.context('App/upload', true);
 
 export default class UserPanel extends Component {
 	constructor(props){
@@ -176,7 +176,7 @@ class PortfolioPage extends Component {
 			title:this.props.title,
 			mainImage:this.props.defaultImage,
 			description:this.props.description,
-			images:this.props.images,
+			imageFileNames:[],
 			allImages:[]
 		}
 		this.loadImages=this.loadImages.bind(this);
@@ -203,19 +203,19 @@ class PortfolioPage extends Component {
 
 	}
 
-	addImageToPortfolio(imageId){
-		console.log(`added image ${imageId} to portfolio`);
-		const values = [...this.state.images];
-		values.push(imageId);
-		this.setState({images:values});
+	addImageToPortfolio(imageName){
+		console.log(`added image ${imageName} to portfolio`);
+		const values = [...this.state.imageFileNames];
+		values.push(imageName);
+		this.setState({imageFileNames:values});
 	}
 
-	removeImageFromPortfolio(imageId){
-		console.log(`removed image ${imageId} from portfolio`);
- 		const values = [...this.state.images];
- 		const index = values.indexOf(imageId);
+	removeImageFromPortfolio(imageName){
+		console.log(`removed image ${imageName} from portfolio`);
+ 		const values = [...this.state.imageFileNames];
+ 		const index = values.indexOf(imageName);
 		values.splice(index,1);
-		this.setState({images:values});
+		this.setState({imageFileNames:values});
 	}
 
 	handleChange = (event) => {
@@ -224,8 +224,8 @@ class PortfolioPage extends Component {
 
 	onSubmit(){
 		const PageData={"title":this.state.title, "mainImage":this.state.mainImage, 
-			"description":this.state.description, "images":this.state.images};
-		axios.post('/upload/uploadPortfolio', PageData)
+			"description":this.state.description, "imageFileNames":this.state.imageFileNames};
+		axios.post('/upload/uploadPortfolio', PageData).then((response)=>console.log(response));
 	}
 
 	componentDidMount(){
@@ -285,16 +285,16 @@ function ImageCheckBox(props) {
   	const toggle = React.useCallback(() => {
   		setChecked(!checked);
   		if (!checked) {
-  			props.addToPortfolio(props.image._id)
+  			props.addToPortfolio(props.image.fileName)
   		} else {
-  			props.removeFromPortfolio(props.image._id)
+  			props.removeFromPortfolio(props.image.fileName)
   		}
   	});
 
 
 	return (			  
 		<div className="imageSelection">
-			<input type="checkbox" name={props.image.id} checked={checked} 
+			<input type="checkbox" name={props.image.fileName} checked={checked} 
 				onChange={toggle}/>
 			<img className="checkImage" src={images(`./${props.image.fileName}`)}/>
 			<div> {props.image.title} </div>

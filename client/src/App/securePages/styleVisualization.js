@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
-import sampleImg1 from "./exampleImages/pic1.jpg";
-import sampleImg2 from "./exampleImages/pic2.jpg";
-import sampleImg3 from "./exampleImages/pic3.jpg";
+import sampleImg1 from "App/securePages/exampleImages/pic1.jpg";
+import sampleImg2 from "App/securePages/exampleImages/pic2.jpg";
+import sampleImg3 from "App/securePages/exampleImages/pic3.jpg";
 
 const StyleVisualization = (props) => {
 

@@ -25,6 +25,7 @@ const homePage = require("./home.json")
 const textPage = require('./models/TextPage');
 const  {listPage, listObject} = require('./models/ListPage');
 const portfolio = require('./models/Portfolio');
+const Image = require('./models/image');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -83,6 +84,19 @@ app.get('/api/getPageInfo', (req,res) => {
       function (err, pages) {  
           res.send(pages);
       });     
+});
+
+app.get('/api/getPortfolioImages', (req, res)=>{
+  let images = [];
+  req.query.imageNames.forEach((image, index)=>{
+
+      Image.find({fileName:imageName}).lean().exec(
+        function (err, img) {  
+          images.push(img)
+        }
+      ); 
+      if (images.length==req.query.imageNames.length) { res.send(images)};
+    })
 });
 
 // Handles any requests that don't match the ones above

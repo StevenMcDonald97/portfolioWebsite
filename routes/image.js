@@ -6,8 +6,6 @@ const Image = require('../models/image');
 
 ImageRouter.route("/getAll")
 	.get(function(req, res) {
-		console.log("here");
-
         Image.find({}, function(err, images) {
            res.send(images);
         });

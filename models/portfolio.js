@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const PortfolioSchema = new Schema({
 	title: { type: String, required: true},
-	desription: { type: String},
-	mainImage: { data: Buffer, contentType: String },
-	images: [{type:String}]
+	description: { type: String},
+	mainImageUrl: { type: String},
+	imageFileNames: [{type:String}]
 });
 
 module.exports = mongoose.model('Portfolio', PortfolioSchema);

@@ -16,16 +16,17 @@ export default class ListPage extends Component {
     }
 
     fetchListObjects = () =>{
+        var self = this;
         axios.get('/api/getListObjects', {
             params: {
               Ids: this.props.objectIds
             }
           }).then(function (response) {
             console.log(response);
-            this.setState({ listObjectsData:response.data})
+            self.setState({ listObjectsData:response.data})
           })
         .catch(function (error) {
-            console.err(error);
+            console.log(error);
         });
     }
 

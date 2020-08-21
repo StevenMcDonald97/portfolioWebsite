@@ -36,7 +36,7 @@ export default class TextPage extends Component {
             <div className="page">
                 <div className="textPage">
                     <h2 className="pageHeader"> { this.state.title }</h2>
-                    <img src={`../../../../upload/${this.state.image}`}/>
+                    <img src={`app/upload/${this.state.image}`}/>
                     <div className="contentMainText"> {this.state.mainText} </div>
                     <div className="contentSecondaryText clearBoth"> {this.state.secondText} </div>
                 </div>

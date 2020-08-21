@@ -9,7 +9,7 @@ const Page = require("../models/Page")
 
 var storage = multer.diskStorage({
       destination: function (req, file, cb) {
-      cb(null, './upload')
+      cb(null, './client/src/App/upload')
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname )
@@ -38,13 +38,35 @@ UploadRouter.route('/storeImagesInDB').post(function(req, res) {
  		newImage.save(function(err) {
 		    if (err) {
 		      console.error(err);
-		      res.status(500).send("Error uploading image(s).");
+		      return res.status(500).send("Error uploading image(s).");
 		    } 
 		});
+
+    var query = {'title': img.portfolio};
+
+    Portfolio.findOneAndUpdate(
+      query, 
+      {$push: {'imageFileNames': img.FileName}}
+    );
 	})
 
 });
 
+// create a record pointing to a page's data
+const storePageInfo = (page, res) =>{
+  let pageInformation = {
+    "title":page.title,
+    "type":"text",
+    "_id":page._id
+  }
+  const pageInfo = new Page(pageInformation);
+    pageInfo.save(function(err) {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error adding to list of pages.");
+      }
+    });
+}
 
 UploadRouter.route('/uploadTextPage').post(function(req, res) {
   const newPage=new TextPage(req.body);
@@ -53,18 +75,7 @@ UploadRouter.route('/uploadTextPage').post(function(req, res) {
           console.error(err);
           res.status(500).send("Error uploading page.");
         } else {
-          let pageInformation = {
-            "title":newPage.title,
-            "type":"text",
-            "_id":newPage._id
-          }
-          const pageInfo = new Page(pageInformation);
-            pageInfo.save(function(err) {
-              if (err) {
-                console.error(err);
-                res.status(500).send("Error adding to list of pages.");
-              }
-            });
+          storePageInfo(newPage, res);
         }
     });
 
@@ -92,51 +103,39 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
       "objectIds":objIds
     };
 
-  const newPage=new ListPage(pageData);
+  const newPage = new ListPage(pageData);
 
   newPage.save(function(err) {
         if (err) {
           console.error(err);
           res.status(500).send("Error uploading page.");
         } else {
-          let pageInformation = {
-            "title":req.body.title,
-            "type":"list",
-            "_id":newPage._id
-          }
-          const pageInfo = new Page(pageInformation);
-            pageInfo.save(function(err) {
-              if (err) {
-                console.error(err);
-                res.status(500).send("Error adding to list of pages.");
-              }
-            });
+          storePageInfo(newPage, res);
         }
     });
-
-
 });
 
 
 UploadRouter.route('/uploadPortfolio').post(function(req, res) {
-  const newPortfolio=new Portfolio(req.body);
+  const newPortfolio = new Portfolio(req.body);
+
   newPortfolio.save(function(err) {
         if (err) {
           console.error(err);
           res.status(500).send("Error uploading page.");
         } else {
-          let pageInformation = {
-            "title":newPortfolio.title,
-            "type":"portfolio",
-            "_id":newPortfolio._id
-          }
-          const pageInfo = new Page(pageInformation);
-            pageInfo.save(function(err) {
-              if (err) {
-                console.error(err);
-                res.status(500).send("Error adding to list of pages.");
-              }
-            });
+           storePageInfo(newPortfolio, res);
+           // for each image added to the portfolo, update the image's portfolio field
+          newPortfolio.imageFileNames.forEach(async (imageFileName,index)=>{ 
+            Image.findOneAndUpdate({ fileName: imageFileName }, {$set:{portfolio:newPortfolio.title}}, function(err,updated){
+                if(err){
+                  console.log("error");
+                }else{
+                  console.log(updated);
+                }
+              })
+
+          })
         }
     });
 
