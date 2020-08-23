@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const port = process.env.PORT || 5000;
@@ -19,6 +20,8 @@ const userRoutes = require('./routes/user');
 const styleRoutes = require('./routes/style');
 const emailRoutes = require('./routes/email');
 const uploadRoutes = require('./routes/upload');
+const editRoutes = require('./routes/edit');
+const removeRoutes = require('./routes/remove');
 
 const page = require("./models/Page")
 const homePage = require("./home.json")
@@ -37,6 +40,8 @@ app.use('/user', userRoutes);
 app.use('/style', styleRoutes);
 app.use('/email', emailRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/edit', editRoutes);
+app.use('/remove', removeRoutes);
 app.use(cors());
 
 const mongo_uri = 'mongodb://localhost/react-auth';
@@ -88,14 +93,17 @@ app.get('/api/getPageInfo', (req,res) => {
 
 app.get('/api/getPortfolioImages', (req, res)=>{
   let images = [];
-  req.query.imageNames.forEach((image, index)=>{
+
+  req.query.imageNames.forEach((imageName, index)=>{
 
       Image.find({fileName:imageName}).lean().exec(
         function (err, img) {  
-          images.push(img)
+          images.push(img[0])
+            if (images.length==req.query.imageNames.length) {   
+              res.send(images)
+            };
         }
       ); 
-      if (images.length==req.query.imageNames.length) { res.send(images)};
     })
 });
 

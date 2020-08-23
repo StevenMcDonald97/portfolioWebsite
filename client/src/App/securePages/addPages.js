@@ -3,10 +3,14 @@ import axios from 'axios';
 import {FaArrowLeft} from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
 import defaultImage from "App/securePages/exampleImages/default-image.png";
-const d = new Date();
+import { AboutPageTemplate, OtherPageTemplate } from 'App/securePages/textPageTemplate';
+import ListPageTemplate from 'App/securePages/listPageTemplate';
+import PortfolioTemplate from 'App/securePages/portfolioTemplate'
+
+// const d = new Date();
 const images = require.context('App/upload', true);
 
-export default class UserPanel extends Component {
+export default class AddPages extends Component {
 	constructor(props){
 		super(props);
 		this.state={
@@ -35,30 +39,31 @@ export default class UserPanel extends Component {
 	render() {
 		const PageContents = () => {
 			if (this.state.pageType==="none"){
-				return(<ChoosePage changePageType={this.changePageType} 
-					setPageData={this.setPageData}/>)
+				return(<ChoosePage changePageType={this.changePageType}/>)
 			} else if (this.state.pageType==="about"){
-				return( <AboutPage name="" description="" resume="" 
-					defaultImage={defaultImage} backPage={this.returnToPageSelection} 
-					ageData={this.setPageData}/>)
+				return( <AboutPageTemplate 
+					defaultImage={defaultImage} 
+					backPage={this.returnToPageSelection} 
+					createPage={true}/>)
 			} else if (this.state.pageType==="portfolio"){
-				return( <PortfolioPage title="" description="" images={[]} 
-					defaultImage={defaultImage} backPage={this.returnToPageSelection} 
-					setPageData={this.setPageData}/>)
+				return( <PortfolioTemplate 
+					defaultImage={defaultImage} 
+					backPage={this.returnToPageSelection} 
+					createPage={true}/>)
 			} else if (this.state.pageType==="gallery"){
-				return( <ListPage pageType="Galleries" title="" description="" 
-					objects={[]} backPage={this.returnToPageSelection} 
-					setPageData={this.setPageData}/>)
+				return( <ListPageTemplate pageType="Galleries"  
+					backPage={this.returnToPageSelection} 
+					createPage={true}/>)
 			} else if (this.state.pageType==="event"){
-				return( <ListPage pageType="Events" title="" description="" 
-					objects={[]} backPage={this.returnToPageSelection} 
-					setPageData={this.setPageData}/>)
+				return( <ListPageTemplate pageType="Events"
+					backPage={this.returnToPageSelection} 
+					createPage={true}/>)
 			} else if (this.state.pageType==="workshop"){
-				return( <ListPage pageType="Workshops" title="" description="" 
-					objects={[]} backPage={this.returnToPageSelection} 
-					setPageData={this.setPageData}/>)
+				return( <ListPageTemplate pageType="Workshops"
+					backPage={this.returnToPageSelection} 
+					createPage={true}/>)
 			} else {
-				return( <OtherPage backPage={this.returnToPageSelection}/>)
+				return( <OtherPageTemplate backPage={this.returnToPageSelection}/>)
 			}
 		}
 
@@ -435,7 +440,6 @@ class ListObjectEditor extends Component {
 		)
 	}
 }
-
 
 
 class OtherPage extends Component {

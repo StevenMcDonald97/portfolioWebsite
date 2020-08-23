@@ -17,7 +17,6 @@ export default class Portfolio extends Component {
             modalImage:{},
             imageKey:-1
           };
-        listOfImages=this.props.images;
         this.changeModalStateInfo = this.changeModalStateInfo.bind(this);
         this.showModal=this.showModal.bind(this);
         this.getPageData=this.getPageData.bind(this);
@@ -30,16 +29,17 @@ export default class Portfolio extends Component {
           this.setState({
             title:response.data.title, 
             description:response.data.description, 
-            imageNames:response.data.images, 
+            imageNames:response.data.imageFileNames, 
             }, ()=>this.getPortfolioImages());
         });
-
     }
 
     getPortfolioImages = () => {
-        axios.get('/api/getPortfolioImages', { params: {imageNames:this.state.imageNames} })
-        .then((response)=>{
-            listOfImages=response.data.images
+        axios.get(
+            '/api/getPortfolioImages', 
+            { params: {imageNames:this.state.imageNames} }
+        ).then((response)=>{
+            listOfImages=response.data
         });
     }
 
@@ -53,7 +53,6 @@ export default class Portfolio extends Component {
             modalImage: modalImage,
             imageKey:modalKey
         })
-        console.log(this.state.imageKey);
     }
 
     showModal = () => {
@@ -71,7 +70,7 @@ export default class Portfolio extends Component {
               {
                 listOfImages.map(
                     (image, index) =>   
-                        <Image key={index} url={image.fileName} description="painting" title={image.title} date={image.date} size={image.size} medium={image.medium} availability={image.availability} price={image.price} changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}></Image>
+                        <Image key={index} imgKey={index} img={image} description="A painting" changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}></Image>
                 )
               }
             <PortfolioModal onClose={this.showModal} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
@@ -83,7 +82,7 @@ export default class Portfolio extends Component {
 
 class Image extends Component {
     clickImage = () => {
-        this.props.changeModalStateInfo(this.props.url, this.props.title, this.props.key);
+        this.props.changeModalStateInfo(this.props.img, this.props.imgKey);
         this.props.showModal(); 
     }
 
@@ -91,7 +90,7 @@ class Image extends Component {
         return (
             <div className="column">
                 <div className="content">
-                    <img className="portfolioImage" src={images(`./${this.props.url}`)} alt={this.props.description} onClick = {this.clickImage}/>
+                    <img className="portfolioImage" src={images(`./${this.props.img.fileName}`)} alt={this.props.description} onClick = {this.clickImage}/>
                 </div>
             </div>
         );
@@ -112,7 +111,7 @@ class PortfolioModal extends Component {
         if ((this.props.modalKey<listOfImages.length-1)){
             newKey = this.props.modalKey+1;
             newImage = listOfImages[newKey];
-            this.props.changeModalStateInfo(newImage, "title", newKey);
+            this.props.changeModalStateInfo(newImage, newKey);
         }
     }
 
@@ -122,7 +121,7 @@ class PortfolioModal extends Component {
         if ((this.props.modalKey>0)){
             newKey = this.props.modalKey-1;
             newImage = listOfImages[newKey];
-            this.props.changeModalStateInfo(newImage, "title", newKey);
+            this.props.changeModalStateInfo(newImage, newKey);
         }
 
     }
@@ -142,7 +141,7 @@ class PortfolioModal extends Component {
                     </div>
                     <div className="modal-content inline">
                         <div className="inline">
-                            <img className="zoomed-image" src={this.props.fileName} alt="artwork"/>
+                            <img className="zoomed-image" src={images(`./${this.props.img.fileName}`)} alt="artwork"/>
                             <h3 className="portfolioImgTitle">
                                 {this.props.img.title}
                             </h3>

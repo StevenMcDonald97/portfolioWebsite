@@ -85,7 +85,7 @@ export default class ImageEditor extends Component {
 
 	onSubmit(e) {
 		const data = new FormData();
-		   for(var x = 0; x<this.imageObj.length; x++) {
+		for(var x = 0; x<this.imageObj.length; x++) {
 		       data.append('file', this.imageObj[x])
 		}
 

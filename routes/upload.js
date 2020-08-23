@@ -31,8 +31,6 @@ UploadRouter.route('/uploadImages').post(function(req, res) {
 });
 
 UploadRouter.route('/storeImagesInDB').post(function(req, res) {
-	console.log(req.body);
-
  	req.body.forEach((img)=>{
  		const newImage = new Image(img);
  		newImage.save(function(err) {
@@ -53,31 +51,45 @@ UploadRouter.route('/storeImagesInDB').post(function(req, res) {
 });
 
 // create a record pointing to a page's data
-const storePageInfo = (page, res) =>{
+function storePageInfo(page, type, res){
   let pageInformation = {
     "title":page.title,
-    "type":"text",
+    "type":type,
     "_id":page._id
   }
+  let result=true;
   const pageInfo = new Page(pageInformation);
-    pageInfo.save(function(err) {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Error adding to list of pages.");
-      }
+  Page.find({title: pageInfo.title}, function (err, docs) {
+        if (docs.length){
+            res.send("Title Already Exists");
+            result=false;
+        }else{
+            pageInfo.save(function(err) {
+            if (err) {
+              console.error(err);
+              res.status(500).send("Error adding to list of pages.");
+              result= false;
+            }
+          });
+        }
     });
+
+  return result;
+
 }
 
 UploadRouter.route('/uploadTextPage').post(function(req, res) {
   const newPage=new TextPage(req.body);
-  newPage.save(function(err) {
+  const pageLoaded=storePageInfo(newPage, "text", res);
+  console.log(pageLoaded);
+  if (pageLoaded) {newPage.save(function(err) {
         if (err) {
           console.error(err);
           res.status(500).send("Error uploading page.");
-        } else {
-          storePageInfo(newPage, res);
-        }
+        } 
     });
+  }
+  
 
 });
 
@@ -104,40 +116,38 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
     };
 
   const newPage = new ListPage(pageData);
-
-  newPage.save(function(err) {
+  const pageLoaded = storePageInfo(newPage, "list", res);
+  if (pageLoaded) {newPage.save(function(err) {
         if (err) {
           console.error(err);
           res.status(500).send("Error uploading page.");
-        } else {
-          storePageInfo(newPage, res);
-        }
+        } 
     });
+  }
 });
 
 
 UploadRouter.route('/uploadPortfolio').post(function(req, res) {
   const newPortfolio = new Portfolio(req.body);
+  const pageLoaded = storePageInfo(newPortfolio, "portfolio", res);
 
-  newPortfolio.save(function(err) {
+  if (pageLoaded) {newPortfolio.save(function(err) {
         if (err) {
           console.error(err);
           res.status(500).send("Error uploading page.");
         } else {
-           storePageInfo(newPortfolio, res);
            // for each image added to the portfolo, update the image's portfolio field
           newPortfolio.imageFileNames.forEach(async (imageFileName,index)=>{ 
             Image.findOneAndUpdate({ fileName: imageFileName }, {$set:{portfolio:newPortfolio.title}}, function(err,updated){
                 if(err){
                   console.log("error");
-                }else{
-                  console.log(updated);
                 }
               })
 
           })
         }
     });
+  }
 
 });
 

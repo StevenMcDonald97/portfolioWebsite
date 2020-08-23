@@ -82,14 +82,11 @@ export default class App extends Component {
     axios.get('/api/getPageInfo').then((response) => {
       this.setState({pageInfo:response.data})
     });
-
   }
 
   componentDidMount() {
     this.getPageInfo();
   }
-
-
 
   //  // Retrieves the list of items from the Express app
   // getRoutes = () => {
@@ -108,7 +105,6 @@ export default class App extends Component {
 
     const createRoutes = this.state.pageInfo.map((page) => (
       <Route key={page.title} exact path={`/${page.title.replace(/\s+/g, '')}`} render={() => {return <NewPage pageId={`${page._id}`} pageType={page.type}/>} } />
-
     ));
 
     const ContactElement = <Contact />;
@@ -143,6 +139,7 @@ export default class App extends Component {
               <Route exact path="/userPanel" component={UserPanel} />
               <Route exact path="/uploadImages" component={UploadImages} />
               <Route exact path="/addPages" component={AddPages} />
+              <Route exact path="/editPages" component={EditPages} />
               { createRoutes }
               <Route path="/" component={NewPage} />
 

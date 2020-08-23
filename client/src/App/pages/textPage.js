@@ -7,7 +7,7 @@ export default class TextPage extends Component {
         this.state={
             title:'',
             mainText:'',
-            secondText:'',
+            secondaryText:'',
             image:''
         }
         this.getPageData=this.getPageData.bind(this);
@@ -38,7 +38,7 @@ export default class TextPage extends Component {
                     <h2 className="pageHeader"> { this.state.title }</h2>
                     <img src={`app/upload/${this.state.image}`}/>
                     <div className="contentMainText"> {this.state.mainText} </div>
-                    <div className="contentSecondaryText clearBoth"> {this.state.secondText} </div>
+                    <div className="contentSecondaryText clearBoth"> {this.state.secondaryText} </div>
                 </div>
             </div>
         );
