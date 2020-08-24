@@ -73,15 +73,15 @@ export default class EditPages extends Component {
 
 	render() {
 		const PageList = this.state.pages.map((page) =>
-			<div className="pageListElement" key={page._id}> 
-				{page.title} 
+			<div className="pageEditElement" key={page._id}> 
+				<div className="pageEditTitle">{page.title} </div>
 				<button type="button" name={page._id} className="pageEditorButton" onClick={this.selectPage}>
 					Edit
 				</button>
-				<button type="button"className="tooltip btn" onClick={()=>this.removePage(page)}>
+				<button type="button" className="tooltip pageEditorButton" onClick={()=>this.removePage(page)}>
 					<FaTrashAlt />
 					<span className="tooltiptext">
-						Remove this Image
+						Remove this Page
 					</span>
 				</button>
 			</div>

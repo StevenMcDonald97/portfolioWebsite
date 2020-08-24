@@ -87,7 +87,7 @@ class AboutPageTemplate extends Component {
 	onSubmit(){
 		const PageData={"type":"about", "title":"About the Artist",
 		 "img":this.state.mainImageName, "mainText":this.state.description,
-		 "subText":this.state.secondaryText};
+		 "subText":this.state.secondaryText, "id":this.props.pageId};
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
 		} else {
@@ -124,7 +124,7 @@ class AboutPageTemplate extends Component {
 							onChange={this.handleChange} />
 					</div>
 					<div className="editSubmitButtons">
-						<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Create </button>
+						<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Submit </button>
 						<button type="button" className="editSubmitButton" onClick={this.props.backPage}> 
 							Cancel 
 						</button>
@@ -161,7 +161,7 @@ class OtherPageTemplate extends Component {
 	onSubmit(){
 		const PageData={"type":"other", "title":this.state.title, 
 			"img":this.state.mainImage, "mainText":this.state.description, 
-			"subText":""};
+			"subText":"", "id":this.props.pageId};
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
 		} else {

@@ -13,6 +13,7 @@ export default class Portfolio extends Component {
             title:'',
             description:'',
             imageNames:[],
+            images:[],
             showMod: false,
             modalImage:{},
             imageKey:-1
@@ -22,6 +23,9 @@ export default class Portfolio extends Component {
         this.getPageData=this.getPageData.bind(this);
         this.getPortfolioImages=this.getPortfolioImages.bind(this);
     }
+    componentDidMount(){
+        this.getPageData();
+    }
 
     getPageData = () =>{
         axios.get('/api/getPage', { params: {pageId: this.props.pageId, pageType:"portfolio" } })
@@ -30,7 +34,7 @@ export default class Portfolio extends Component {
             title:response.data.title, 
             description:response.data.description, 
             imageNames:response.data.imageFileNames, 
-            }, ()=>this.getPortfolioImages());
+            }, ()=>{this.getPortfolioImages()});
         });
     }
 
@@ -39,13 +43,10 @@ export default class Portfolio extends Component {
             '/api/getPortfolioImages', 
             { params: {imageNames:this.state.imageNames} }
         ).then((response)=>{
-            listOfImages=response.data
+            this.setState({images:response.data})
         });
     }
 
-    componentDidMount(){
-        this.getPageData();
-    }
 
 
     changeModalStateInfo(modalImage, modalKey) {
@@ -60,20 +61,17 @@ export default class Portfolio extends Component {
             showMod: !this.state.showMod
         });
     };
-
-
-
     
     render(){
         return(
           <div className="row">
               {
-                listOfImages.map(
+                this.state.images.map(
                     (image, index) =>   
                         <Image key={index} imgKey={index} img={image} description="A painting" changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}></Image>
                 )
               }
-            <PortfolioModal onClose={this.showModal} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
+            <PortfolioModal onClose={this.showModal} images={this.state.images} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
 
           </div>
         )
@@ -81,6 +79,10 @@ export default class Portfolio extends Component {
 }
 
 class Image extends Component {
+    constructor(props){
+        super(props);
+    }
+
     clickImage = () => {
         this.props.changeModalStateInfo(this.props.img, this.props.imgKey);
         this.props.showModal(); 
@@ -108,9 +110,9 @@ class PortfolioModal extends Component {
     incrementImage = () => {
         var newKey;
         var newImage;
-        if ((this.props.modalKey<listOfImages.length-1)){
+        if ((this.props.modalKey<this.props.images.length-1)){
             newKey = this.props.modalKey+1;
-            newImage = listOfImages[newKey];
+            newImage = this.props.images[newKey];
             this.props.changeModalStateInfo(newImage, newKey);
         }
     }
@@ -120,7 +122,7 @@ class PortfolioModal extends Component {
         var newImage;
         if ((this.props.modalKey>0)){
             newKey = this.props.modalKey-1;
-            newImage = listOfImages[newKey];
+            newImage = this.props.images[newKey];
             this.props.changeModalStateInfo(newImage, newKey);
         }
 
@@ -146,7 +148,7 @@ class PortfolioModal extends Component {
                                 {this.props.img.title}
                             </h3>
                             <h4 className="portfolioImgInfo">
-                                { (this.props.img.size) ? this.props.img.size : "" } { (this.props.img.medium) ? this.props.img.medium : ""} {  (this.props.img.price) ? this.props.img.price : "" } {  (this.props.img.date) ? this.props.img.date : "" }
+                                { (this.props.img.size) ? this.props.img.size : "" }  { (this.props.img.medium) ? this.props.img.medium : ""}  {  (this.props.img.price) ? ("$"+this.props.img.price) : "" }  <i>{  (this.props.img.date) ? this.props.img.date : "" }</i>
                             </h4>
 
                         </div>

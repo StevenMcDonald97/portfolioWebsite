@@ -14,7 +14,6 @@ export default class PortfolioPage extends Component {
 			allImages:[],
 			createPage:this.props.createPage
 		}
-	console.log("here");
 
 		this.loadImages=this.loadImages.bind(this);
 		this.handleChange=this.handleChange.bind(this);
@@ -26,11 +25,14 @@ export default class PortfolioPage extends Component {
 	}
 
 	componentDidMount(){
-		this.getPageData();
+		if (this.props.pageId){
+			this.getPageData();
+		} else {
+			this.loadImages()
+		}
 	}
 
     getPageData = () =>{
-    	console.log(this.props.pageId);
 
     	if (this.props.pageId){
 	        axios.get('/api/getPage', { params: {pageId: this.props.pageId, pageType:"portfolio" } })
@@ -40,7 +42,7 @@ export default class PortfolioPage extends Component {
 	            mainImage:response.data.mainImage, 
 	            description:response.data.description, 
 	            imageFileNames:response.data.imageFileNames, 
-	            }, ()=>{console.log(this.state.imageFileNames); this.loadImages()});
+	            }, ()=>{ this.loadImages()});
 	        });
 	    }
     }
@@ -53,7 +55,7 @@ export default class PortfolioPage extends Component {
 		/* fetch all images from database */
 		axios.get('/image/getAll')
 		  .then((response) => {
-		  	this.setState({allImages:response.data}, ()=>console.log(this.state.allImages))
+		  	this.setState({allImages:response.data})
 		  });
 	}
 
@@ -78,7 +80,8 @@ export default class PortfolioPage extends Component {
 
 	onSubmit(){
 		const PageData={"title":this.state.title, "mainImage":this.state.mainImage, 
-			"description":this.state.description, "imageFileNames":this.state.imageFileNames};
+			"description":this.state.description, "imageFileNames":this.state.imageFileNames,
+			"id":this.props.pageId};
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadPortfolio', PageData).then((response)=>console.log(response))
 		} else {
@@ -120,7 +123,7 @@ export default class PortfolioPage extends Component {
 							<ImageCheckBox 
 								key={image._id}
 								image={image} 
-								isInPortfolio={image.portfolio===this.state.title}
+								title={this.state.title}
 								addToPortfolio={this.addImageToPortfolio}
 								removeFromPortfolio={this.removeImageFromPortfolio}
 								isInPortfolio={false}
@@ -129,7 +132,7 @@ export default class PortfolioPage extends Component {
 					) : <div> Go to Add Images to upload images to your site </div>}
 				</div>
 				<div className="editSubmitButtons">
-					<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Create </button>
+					<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Submit </button>
 					<button type="button" className="editSubmitButton" onClick={this.props.backPage}> Cancel </button>
 				</div>
 			</form>
@@ -139,7 +142,7 @@ export default class PortfolioPage extends Component {
 
 /*create a component for each image to enable adding and removing from a portfolio*/
 function ImageCheckBox(props) {
-	const [checked, setChecked] = useState(props.isInPortfolio);
+	const [checked, setChecked] = useState(props.title===props.image.portfolio);
   	const toggle = React.useCallback(() => {
   		setChecked(!checked);
   		if (!checked) {

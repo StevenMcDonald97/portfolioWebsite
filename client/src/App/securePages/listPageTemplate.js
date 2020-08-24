@@ -70,7 +70,7 @@ export default class ListPageTemplate extends Component {
 
 	onSubmit(){
 		const PageData={"type":this.state.type, "title":this.state.type, "text":"",
-			"objs":this.state.listObjects};
+			"objs":this.state.listObjects, "id":this.props.pageId};
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadListPage', PageData).then((response)=>console.log(response))
 		} else {
@@ -98,7 +98,7 @@ export default class ListPageTemplate extends Component {
 					Add new {this.props.pageType} 
 				</button>
 				<div className="editSubmitButtons">
-					<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Create Page</button>
+					<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Submit </button>
 					<button type="button" className="editSubmitButton" onClick={this.props.backPage}>
 						Cancel 
 					</button>

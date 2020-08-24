@@ -180,4 +180,35 @@
 	font-size:1.2em;
 }
 
+.pageEditElement {
+	text-align:center;
+	margin-bottom:2vw;
+}
+
+.editingTitle {
+	text-align:center;
+	margin-top:2vw;
+}
+
+.pageEditTitle {
+	display:inline-block;
+	font-size:1.3em;
+}
+
+.pageEditorButton {
+	height:2em;
+	width:10vw;	
+	border-radius:5px;
+	border-style: none;
+	margin-left:1vw;
+	cursor:pointer;
+	-webkit-box-shadow: 0px 0px 3px 2px #888;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  	-moz-box-shadow:    0px 0px 3px 2px #888;  /* Firefox 3.5 - 3.6 */
+ 	box-shadow:         0px 0px 3px 2px #888;
+
+}
+
+
+
+
 
