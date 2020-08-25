@@ -93,9 +93,8 @@ app.get('/api/getPageInfo', (req,res) => {
 
 app.get('/api/getPortfolioImages', (req, res)=>{
   let images = [];
-
-  req.query.imageNames.forEach((imageName, index)=>{
-
+  if (req.query.imageNames){
+    req.query.imageNames.forEach((imageName, index)=>{
       Image.find({fileName:imageName}).lean().exec(
         function (err, img) {  
           images.push(img[0])
@@ -105,6 +104,7 @@ app.get('/api/getPortfolioImages', (req, res)=>{
         }
       ); 
     })
+  }
 });
 
 // Handles any requests that don't match the ones above

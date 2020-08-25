@@ -9,8 +9,10 @@ const Page = require("../models/Page");
 
 EditRouter.route('/editImages').post(function(req, res) {
  	req.body.forEach((img)=>{
+ 		const update = img;
     	const query = {'fileName': img.fileName};
-	    Image.findOneAndUpdate(query, {$set:img});
+	    Image.findOneAndUpdate(query, update,
+			{new: true }, (obj) => console.log(obj));
 	})
 
 });
@@ -26,7 +28,8 @@ EditRouter.route('/editTextPage').post(function(req, res) {
 		mainText: page.mainText,
 		subText: page.subText
     }
-	TextPage.findOneAndUpdate(query, update);
+	TextPage.findOneAndUpdate(query, update,
+		{new: true }, (obj) => console.log(obj));
 
 });
 
@@ -39,7 +42,8 @@ EditRouter.route('/editListPage').post(function(req, res) {
 		text: page.text,
 		objectIds: page.objectIds
     }	
-    ListPage.findOneAndUpdate(query, update);
+    ListPage.findOneAndUpdate(query, update,
+		{new: true }, (obj) => console.log(obj));
 
 });
 
@@ -57,18 +61,25 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 	// 	{new: true }, (response) => console.log(response));
 
 	Portfolio.findOne(query, function(err, obj) { 
-		console.log(obj); 
 		obj.imageFileNames.forEach((name,index)=>{
 			if (!page.imageFileNames.includes(name)){
 				let imageUpdate={portfolio:""};
 				let imageQuery = {fileName:name};
+
+				Image.findOne(imageQuery, function(err, obj){
+					if(err) return err;
+					const portfolio=obj.portfolio;
+					console.log(obj);
+	            	Portfolio.updateOne( {'title': portfolio}, { $pullAll: {imageFileNames: [ name ] } } ).then(()=>
+	            	console.log("Successfully updated portfolio"));
+				})
+
 				Image.findOneAndUpdate(imageQuery, imageUpdate,
 					{new: true }, (obj) => console.log(obj)
 				);
 			}
 		});
-		obj.update(update).exec();
-
+		Portfolio.updateOne({title:page.title}, update).exec();
 
 	});
 

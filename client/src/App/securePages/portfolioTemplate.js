@@ -142,7 +142,7 @@ export default class PortfolioPage extends Component {
 
 /*create a component for each image to enable adding and removing from a portfolio*/
 function ImageCheckBox(props) {
-	const [checked, setChecked] = useState(props.title===props.image.portfolio);
+	const [checked, setChecked] = useState(props.title===props.image.portfolio && props.title!=="");
   	const toggle = React.useCallback(() => {
   		setChecked(!checked);
   		if (!checked) {

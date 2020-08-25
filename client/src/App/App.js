@@ -140,6 +140,7 @@ export default class App extends Component {
               <Route exact path="/uploadImages" component={UploadImages} />
               <Route exact path="/addPages" component={AddPages} />
               <Route exact path="/editPages" component={EditPages} />
+              <Route exact path="/editImages" component={EditImages} />
               { createRoutes }
               <Route path="/" component={NewPage} />
 
