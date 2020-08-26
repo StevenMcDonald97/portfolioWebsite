@@ -7,12 +7,25 @@ export default class ImageEditor extends Component {
 		super(props);
 		this.state ={
 			images:this.props.images,
-			imageURLs:this.props.imageURLs
+			imageURLs:this.props.imageURLs,
+			portfolios:[]
 		};
-
+		this.getPortfolioTitles=this.getPortfolioTitles.bind(this);
 		this.removeImage = this.removeImage.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
    	}
+
+   	componentDidMount(){
+		this.getPortfolioTitles();
+	}
+
+   	getPortfolioTitles(){
+		/* fetch all images from database */
+		axios.get('/api/getPortfolioTitles')
+		  .then((response) => {
+		  	this.setState({portfolios:response.data})
+		  });
+	}
 
 	removeImage = (index) => {
 		console.log(index);
@@ -57,6 +70,14 @@ export default class ImageEditor extends Component {
 			                <option value="notForSale">Not For Sale</option>
 			                <option value="sold">Sold</option>
 			                <option value="other">Not Applicable</option>
+			              </select>
+			              <select className="imageField" name="portfolio" value={img.portfolio} onChange={event => this.handleInputChange(index, event)}>            
+			                <option value="none">No Portfolio</option>
+			                { 
+			                	this.state.portfolios.map((portfolio)=>
+			                		<option key={portfolio} value={portfolio}>{portfolio}</option>
+			                	)
+			                }
 			              </select>
 			              <button type="button" className="tooltip btn" onClick={()=>this.removeImage(index)}>
 			                <FaTrashAlt />

@@ -9,10 +9,18 @@ const Page = require("../models/Page");
 
 EditRouter.route('/editImages').post(function(req, res) {
  	req.body.forEach((img)=>{
- 		const update = img;
+	 	const update={
+			title: page.title,
+			fileName: page.fileName,
+			size: page.size,
+			medium: page.medium,
+			price: page.price,
+			availability: page.availability,
+			portfolio: page.portfolio
+	    }
     	const query = {'fileName': img.fileName};
 	    Image.findOneAndUpdate(query, update,
-			{new: true }, (obj) => console.log(obj));
+			{new: true }, (err, obj) => console.log(obj));
 	})
 
 });
@@ -29,7 +37,7 @@ EditRouter.route('/editTextPage').post(function(req, res) {
 		subText: page.subText
     }
 	TextPage.findOneAndUpdate(query, update,
-		{new: true }, (obj) => console.log(obj));
+		{new: true }, (err, obj) => console.log(obj));
 
 });
 
@@ -43,7 +51,7 @@ EditRouter.route('/editListPage').post(function(req, res) {
 		objectIds: page.objectIds
     }	
     ListPage.findOneAndUpdate(query, update,
-		{new: true }, (obj) => console.log(obj));
+		{new: true }, (err, obj) => console.log(obj));
 
 });
 
@@ -60,36 +68,56 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 	// Portfolio.findOneAndUpdate(query, update,  
 	// 	{new: true }, (response) => console.log(response));
 
-	Portfolio.findOne(query, function(err, obj) { 
-		obj.imageFileNames.forEach((name,index)=>{
-			if (!page.imageFileNames.includes(name)){
-				let imageUpdate={portfolio:""};
-				let imageQuery = {fileName:name};
+	// find the portfolio
+	// add or remove images from its image list and change their portfolio
+	// if an image is in another portfolio, remove it from that portfolio's list
 
-				Image.findOne(imageQuery, function(err, obj){
-					if(err) return err;
-					const portfolio=obj.portfolio;
-					console.log(obj);
-	            	Portfolio.updateOne( {'title': portfolio}, { $pullAll: {imageFileNames: [ name ] } } ).then(()=>
-	            	console.log("Successfully updated portfolio"));
+	Portfolio.findOne(query, function(err, portfolio){
+
+        if (err){
+            return done(err);
+        }  
+
+		let oldFileNames = portfolio.imageFileNames;
+		Portfolio.updateOne(query, update).exec();
+
+		// set images removed from the portfolio to have no portfolio
+		oldFileNames.forEach((name)=>{
+			if (!update.imageFileNames.includes(name)){
+				Image.updateOne({fileName:name}, {portfolio:""}).exec();
+			}
+		})
+
+		// update images added to the portfolio and their old portfolio, if any
+		update.imageFileNames.forEach((name)=>{
+			if (!oldFileNames.includes(name)){
+				Image.findOne({fileName:name}, function(err, img){
+					if (err){
+						console.log(`Error updating image ${name}`);
+			            return done(err);
+			        }  
+			        if(img){
+			        	let oldPortfolio=img.portfolio;
+			        	console.log(`The Old Portfolio is: ${oldPortfolio}`)
+		                Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:name} }, { 'new': true }, (err, info) => {
+		                    if (err) {
+		                        return err;
+		                    } else {
+		                        if (!info) {
+		                            console.log('no portfolio found');
+		                        } else {
+		                          console.log(info);
+		                        }
+		                    }
+		                });			        
+		            }
 				})
 
-				Image.findOneAndUpdate(imageQuery, imageUpdate,
-					{new: true }, (obj) => console.log(obj)
-				);
+				Image.updateOne({fileName:name}, {portfolio:page.title}).exec();
+
 			}
 		});
-		Portfolio.updateOne({title:page.title}, update).exec();
-
-	});
-
-	page.imageFileNames.forEach((name, index)=> {
-		let imageUpdate={portfolio:page.title};
-		let imageQuery = {fileName:name};
-		Image.findOneAndUpdate(imageQuery, imageUpdate,
-			{new: true }, (obj) => console.log(obj));
-
-	});
+	})
 });
 
 module.exports = EditRouter;

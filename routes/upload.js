@@ -41,13 +41,16 @@ UploadRouter.route('/storeImagesInDB').post(function(req, res) {
 		});
 
     var query = {'title': img.portfolio};
-
-    Portfolio.findOneAndUpdate(
-      query, 
-      {$push: {'imageFileNames': img.FileName}}
-    );
-	})
-
+    Portfolio.findOneAndUpdate(query, {"$push": {"imageFileNames": img.fileName}},{ 'new': true }, (err, info) => {
+            if (err) {
+                return err;
+            } else {
+                if (!info) {
+                    console.log('no portfolio found');
+                }
+            }
+        });
+  });
 });
 
 // create a record pointing to a page's data
@@ -81,7 +84,7 @@ function storePageInfo(page, type, res){
 UploadRouter.route('/uploadTextPage').post(function(req, res) {
   const newPage=new TextPage(req.body);
   const pageLoaded=storePageInfo(newPage, "text", res);
-  console.log(pageLoaded);
+
   if (pageLoaded) {newPage.save(function(err) {
         if (err) {
           console.error(err);
@@ -97,7 +100,7 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
   let objIds = [];
   req.body.objs.forEach((obj, index) => {
     const newListObject = new ListObject(obj);
-    console.log(obj);
+
     objIds.push(newListObject._id);
     newListObject.save(function(err) {
         if (err) {
@@ -134,17 +137,64 @@ UploadRouter.route('/uploadPortfolio').post(function(req, res) {
   if (pageLoaded) {newPortfolio.save(function(err) {
         if (err) {
           console.error(err);
+          Page.fineOneAndRemove({title:newPortfolio.title}, 
+            function (err, docs) { 
+              if (err){ 
+                  console.log(err) 
+              } 
+              else{ 
+                  console.log("Removed page : ", docs); 
+              } 
+          }); 
           res.status(500).send("Error uploading page.");
         } else {
-           // for each image added to the portfolo, update the image's portfolio field
-          newPortfolio.imageFileNames.forEach(async (imageFileName,index)=>{ 
-            Image.findOneAndUpdate({ fileName: imageFileName }, {$set:{portfolio:newPortfolio.title}}, function(err,updated){
-                if(err){
-                  console.log("error");
-                }
-              })
 
-          })
+          // update images added to the portfolio and their old portfolio, if any
+          newPortfolio.imageFileNames.forEach((name)=>{
+            Image.findOne({fileName:name}, function(err, img){
+
+              if (err){
+                console.log(`Error updating image ${name}`);
+
+
+                Portfolio.fineOneAndRemove({title:newPortfolio.title}, 
+                  function (err, docs) { 
+                    if (err){ 
+                        console.log(err) 
+                    } 
+                }); 
+
+                Page.fineOneAndRemove({title:newPortfolio.title}, 
+                  function (err, docs) { 
+                    if (err){ 
+                        console.log(err) 
+                    } 
+                    else{ 
+                        console.log("Removed page : ", docs); 
+                    } 
+                }); 
+                return done(err);
+              }  
+
+              if(img){
+                let oldPortfolio=img.portfolio;
+                console.log(`The Old Portfolio is: ${oldPortfolio}`)
+                Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:name} }, { 'new': true }, (err, info) => {
+                    if (err) {
+                        return err;
+                    } else {
+                        if (!info) {
+                            console.log('no portfolio found');
+                        } else {
+                          console.log(info);
+                        }
+                    }
+                });
+              }
+            })
+            Image.updateOne({fileName:name}, {portfolio:newPortfolio.title}).exec();
+          });
+
         }
     });
   }

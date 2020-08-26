@@ -107,6 +107,17 @@ app.get('/api/getPortfolioImages', (req, res)=>{
   }
 });
 
+app.get('/api/getPortfolioTitles', (req, res)=>{
+  let portfolioTitles=[];
+  portfolio.find({}, (err, portfolios)=>{
+    portfolios.forEach((port)=>{
+      portfolioTitles.push(port.title);
+    })
+
+    res.send(portfolioTitles);
+  })
+})
+
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{
     res.send('Invalid GET request');
