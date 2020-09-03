@@ -1,6 +1,5 @@
 
 const express = require('express');
-const withAuth = require('../middleware/withAuth');
 const StyleRouter = express.Router();
 const fs = require('fs');
 const fileName = __dirname +'/../client/src/App/style.json';

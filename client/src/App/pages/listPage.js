@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 export default class ListPage extends Component {
     constructor(props){
@@ -65,3 +66,14 @@ const ListObject = (props) => {
 
 }
 
+ListPage.propTypes = {
+  title: PropTypes.string,
+  mainText: PropTypes.string,
+  objectIds:PropTypes.array
+};
+
+ListObject.propTypes = {
+  title: PropTypes.string,
+  text: PropTypes.string,
+  img:PropTypes.string
+};

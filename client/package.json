@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.2",
+    "formik": "^2.1.5",
     "prop-types": "^15.7.2",
     "react": "^16.4.1",
     "react-color": "^2.17.3",
@@ -12,7 +13,8 @@
     "react-icons": "^3.10.0",
     "react-images-upload": "^1.2.8",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.4.3"
+    "react-scripts": "^3.4.3",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,5 +35,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0"
   }
 }

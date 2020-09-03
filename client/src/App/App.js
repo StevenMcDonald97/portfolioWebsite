@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
-} from "react-router-dom";
+} from 'react-router-dom';
 import axios from 'axios';
 
 import 'index.css';
@@ -18,46 +17,45 @@ import 'App/CSS/form.css';
 import 'App/CSS/contentPage.css';
 import 'App/CSS/editing.css';
 
-// authentication
-import Login from 'App/securePages/login';
-import withAuth from 'App/securePages/withAuth';
-import Register from 'App/securePages/registerUser';
+
+import ErrorBoundary from 'App/errorBoundary';
 
 // page types
 import Portfolio from 'App/pages/portfolio';
 import TextPage from 'App/pages/textPage';
 import ListPage from 'App/pages/listPage';
-
 import Contact from 'App/pages/contact';
 import HomePage from 'App/pages/homePage';
 import Modal from 'App/pages/modal';
-import Secure from 'App/securePages/secure';
-import UploadImages from 'App/securePages/uploadImages';
-import EditStyle from 'App/securePages/editStyle';
-import UserPanel from 'App/securePages/userPanel';
-import EditImages from 'App/securePages/editImages';
-import AddPages from 'App/securePages/addPages';
-import EditPages from 'App/securePages/editPages';
-import AddPortfolios from 'App/securePages/addPortfolios';
-import EditPortfolios from 'App/securePages/editPortfolios';
-import StyleEditor from 'App/securePages/editStyle';
-import userPanel from 'App/securePages/userPanel';
+
+import Login from 'App/admin/login'
+import Register from 'App/admin/register'
+
+import UploadImages from 'App/admin/uploadImages';
+import EditStyle from 'App/admin/editStyle';
+import UserPanel from 'App/admin/userPanel';
+import EditImages from 'App/admin/editImages';
+import AddPages from 'App/admin/addPages';
+import EditPages from 'App/admin/editPages';
+
+import { history } from 'App/admin/authentication/history'
+import { authenticationService } from 'App/admin/authentication/authenticationService';
+import { PrivateRoute } from 'App/admin/authentication/privateRoute';
 
 // profile information
-import profileImg from "App/profileimages/Profile-Pic.jpg";
 import profile from 'App/profile.json';
 
 
-// import Modal from "./components/test-modal";
-// import Portfolio from "./components/portfolioPage";
+// import Modal from './components/test-modal';
+// import Portfolio from './components/portfolioPage';
 
 // import * as serviceWorker from './serviceWorker';
 
 // var homeText = `Steven is a nationally awarded plein air artist 
 // living and working in the California Bay Area`;
-// var HomeImage = "../testimages/home.jpg";
-// var homeHeading = "Steven McDonald";
-// var homeImageDescription="A Painting of Clouds over Marshland"
+// var HomeImage = '../testimages/home.jpg';
+// var homeHeading = 'Steven McDonald';
+// var homeImageDescription='A Painting of Clouds over Marshland'
 
 export default class App extends Component {
   constructor(props) {
@@ -66,41 +64,34 @@ export default class App extends Component {
       isLoading: false,
       pageInfo: [],   
       showContact: false,
-
-    }
+    };
     this.setState = this.setState.bind(this);
-    this.getPageInfo=this.getPageInfo.bind(this);
   }
 
-  showContact = e => {
+  showContact = () => {
     this.setState({
       showContact: !this.state.showContact
     });
   };
 
-  getPageInfo = () =>{
-    axios.get('/api/getPageInfo').then((response) => {
-      this.setState({pageInfo:response.data})
-    });
-  }
-
   componentDidMount() {
-    this.getPageInfo();
+    axios.get('/api/getPageInfo').then((response) => {
+      this.setState({pageInfo:response.data});
+    });
+
+
   }
 
-  //  // Retrieves the list of items from the Express app
-  // getRoutes = () => {
-  //   fetch('/api/getRoutes')
-  //   .then(res => res.json())
-  //   .then(data => this.setState({ routes: data, isLoading: false }));
-  // }
+  logout() {
+    authenticationService.logout();
+    history.push('/login');
+  }
+
 
   render(){
-    // const { routes } = this.state;
-
     // render a link in the navbar for each route in the database
     const createLinks = this.state.pageInfo.map((page) => 
-      <li key={page._id} className="navbar-link"><Link to={`/${page.title.replace(/\s+/g, '')}`} className="navbar-link">{page.title}</Link></li>
+      <li key={page._id} className='navbar-link'><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
     );
 
     const createRoutes = this.state.pageInfo.map((page) => (
@@ -108,68 +99,79 @@ export default class App extends Component {
     ));
 
     const ContactElement = <Contact />;
-    
+
     return (
       <React.StrictMode>
-      <div>
-        <Modal onClose={ this.showContact } show={ this.state.showContact} 
+        <div>
+          <Modal onClose={ this.showContact } show={ this.state.showContact} 
             content={ ContactElement }/>
-        <Router>
-          <div>
-            <div className="header">
-              <h1 className="page-title"><Link to ="/" className="pageTitle">{profile.Name}</Link></h1>
-              <div className="navbar">
-                <ul className="navbar-links">
-                  { createLinks }
-                  <li key="contact" className="navbar-link"><div className="navbar-link" onClick={ this.showContact } >Contact</div></li>
-                  <li key="login" className="navbar-link"><Link to ="/contact" className="navbar-link">Login</Link></li>
-                  <li key="user" className="navbar-link"><Link to="/userPanel" className="navbar-link">User Panel</Link></li>
-                  <li key="upload" className="navbar-link"><Link to="/uploadImages" className="navbar-link">Upload</Link></li>
+          <Router>
+            <div>
+              <div className='header'>
+                <h1 className='page-title'><Link to ='/' className='pageTitle'>{profile.Name}</Link></h1>
+                <ErrorBoundary>
+                  <div className='navbar'>
+                    <ul className='navbar-links'>
+                      { createLinks }
+                      <li key='contact' className='navbar-link'><div className='navbar-link' onClick={ this.showContact } >Contact</div></li>
+                      <li key='login' className='navbar-link'><Link to ='/contact' className='navbar-link'>Login</Link></li>
+                      <li key='user' className='navbar-link'><Link to='/userPanel' className='navbar-link'>User Panel</Link></li>
+                      <li key='upload' className='navbar-link'><Link to='/uploadImages' className='navbar-link'>Upload</Link></li>
 
-                </ul>
+                    </ul>
+                  </div>
+                </ErrorBoundary >
               </div>
+
+              <Switch>
+                <Route exact path='/login' component={Login} />
+                <Route exact path='/register' component={Register} />
+                <PrivateRoute exact path='/uploadImages' component={UploadImages} />
+                <PrivateRoute exact path='/styleEditor' component={EditStyle} />
+                <PrivateRoute exact path='/userPanel' component={UserPanel} />
+                <PrivateRoute exact path='/addPages' component={AddPages} />
+                <PrivateRoute exact path='/editPages' component={EditPages} />
+                <PrivateRoute exact path='/editImages' component={EditImages} />
+                { createRoutes }
+                <Route path='/' component={NewPage} />
+              </Switch>
             </div>
-
-            <Switch>
-              <Route exact path="/secret" component={withAuth(Secure)} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/uploadImages" component={UploadImages} />
-              <Route exact path="/styleEditor" component={EditStyle} />
-              <Route exact path="/userPanel" component={UserPanel} />
-              <Route exact path="/uploadImages" component={UploadImages} />
-              <Route exact path="/addPages" component={AddPages} />
-              <Route exact path="/editPages" component={EditPages} />
-              <Route exact path="/editImages" component={EditImages} />
-              { createRoutes }
-              <Route path="/" component={NewPage} />
-
-            </Switch>
-          </div>
-        </Router>
+          </Router>
         </div>
       </React.StrictMode>
-      
     );
   }
 }
 
 
 const NewPage =(props)=> {
-    if (props.pageType==="text"){
-      return <TextPage pageId={props.pageId}/>
-    } else if (props.pageType==="list"){
-      return <ListPage pageId={props.pageId}/>
-    } else if (props.pageType==="portfolio"){
-      console.log("here");
-      return <Portfolio pageId={props.pageId}/>
-    } else {
-      return <HomePage heading={profile.name}  homeText={profile.HomeText} imgDescription={profile.HomeImageText}></HomePage>;
-
-    }
+  if (props.pageType==='text'){
+    return (
+      <ErrorBoundary >
+        <TextPage pageId={props.pageId}/>
+      </ErrorBoundary>
+    );
+  } else if (props.pageType==='list'){
+    return (
+      <ErrorBoundary >
+       <ListPage pageId={props.pageId}/>
+      </ErrorBoundary>
+    );
+  } else if (props.pageType==='portfolio'){
+    return (
+      <ErrorBoundary >
+       <Portfolio pageId={props.pageId}/>
+      </ErrorBoundary>
+    );
+  } else {
+    return (
+      <ErrorBoundary >
+       <HomePage heading={profile.name}  homeText={profile.HomeText} imgDescription={profile.HomeImageText}></HomePage>;
+      </ErrorBoundary>
+    );
+  }
   
-
-}
+};
 
 
 

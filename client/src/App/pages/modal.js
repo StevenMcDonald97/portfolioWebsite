@@ -28,6 +28,6 @@ export default class Modal extends Component {
 }
 
 Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired
-  };
+	onClose: PropTypes.func.isRequired,
+	show: PropTypes.bool.isRequired
+};

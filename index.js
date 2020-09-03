@@ -23,6 +23,8 @@ const uploadRoutes = require('./routes/upload');
 const editRoutes = require('./routes/edit');
 const removeRoutes = require('./routes/remove');
 
+const errorHandler = require('./middleware/globalError');
+
 const page = require("./models/Page")
 const homePage = require("./home.json")
 const textPage = require('./models/TextPage');
@@ -42,6 +44,8 @@ app.use('/email', emailRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/edit', editRoutes);
 app.use('/remove', removeRoutes);
+app.use('/users', userRoutes);
+app.use(errorHandler);
 app.use(cors());
 
 const mongo_uri = 'mongodb://localhost/react-auth';

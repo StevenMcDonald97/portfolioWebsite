@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PropTypes from "prop-types";
 
 export default class TextPage extends Component {
     constructor(props){
@@ -43,4 +44,8 @@ export default class TextPage extends Component {
             </div>
         );
     }
+}
+
+TextPage.propTypes = {
+    pageId:PropTypes.string
 }

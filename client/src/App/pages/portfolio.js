@@ -78,6 +78,10 @@ export default class Portfolio extends Component {
     }
 }
 
+Portfolio.propTypes = {
+  pageId: PropTypes.string
+};
+
 class Image extends Component {
     constructor(props){
         super(props);
@@ -97,6 +101,14 @@ class Image extends Component {
             </div>
         );
     }
+}
+
+Image.propTypes = {
+    showModal:PropTypes.func.isRequired,
+    changeModalStateInfo:PropTypes.func.isRequired,
+    imgKey:PropTypes.number,
+    description:PropTypes.string,
+    img:PropTypes.object
 }
 
 // a different modal component is used here because it needs to be able to 
@@ -163,7 +175,10 @@ class PortfolioModal extends Component {
 
 }
 
-Modal.propTypes = {
+PortfolioModal.propTypes = {
+    images:PropTypes.array,
+    modalKey:PropTypes.number,
+    img:PropTypes.object,
     onClose: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired
   };
