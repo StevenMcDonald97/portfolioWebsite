@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';  // Font Awesome
 import defaultImage from 'App/admin/exampleImages/defaultImage.png';
+import HomePageTemplate from 'App/admin/homePageTemplate';
 import {TextPageTemplate } from 'App/admin/textPageTemplate';
 import ListPageTemplate from 'App/admin/listPageTemplate';
 import PortfolioTemplate from 'App/admin/portfolioTemplate';
 import ErrorBoundary from 'App/errorBoundary';
-// const d = new Date();
 
 export default class EditPages extends Component {
 	constructor(props){
@@ -54,13 +54,16 @@ export default class EditPages extends Component {
 	}
 
 	selectPage(event){
-
-		this.setState({currentPageId:event.target.name},
+		if (event.target.name==='home') {
+ 			this.setState({currentPageStyle:'home'});		
+ 		} else {
+			this.setState({currentPageId:event.target.name},
 			()=>{
 				for(let i=0; i< this.state.pages.length; i++){
 					if (this.state.pages[i]._id===this.state.currentPageId) this.setState({currentPageStyle:this.state.pages[i].type});
 				}
 			});
+		}
 	}
 
 
@@ -90,9 +93,24 @@ export default class EditPages extends Component {
 				<div>
 					<h3 className='editingTitle'>Select a Page to Edit</h3>
 					<ErrorBoundary>
+						<div className='pageEditElement'> 
+							<div className='pageEditTitle'>Home Page</div>
+							<button type='button' name='home' className='pageEditorButton' onClick={this.selectPage}>
+								Edit
+							</button>
+						</div>
 						{ PageList }
 					</ErrorBoundary>
 				</div>
+			);
+		} else if (this.state.currentPageStyle==='home'){
+			return( 
+				<ErrorBoundary>
+					<HomePageTemplate
+					defaultImage={defaultImage} 
+					backPage={this.returnToPageSelection} 
+				/>
+				</ErrorBoundary>
 			);
 		} else if (this.state.currentPageStyle==='text'){
 			return( 
@@ -117,7 +135,7 @@ export default class EditPages extends Component {
 		} else if (this.state.currentPageStyle==='list'){
 			return( 
 				<ErrorBoundary>
-					<ListPageTemplate backPage={this.returnToPageSelection} 
+					<ListPageTemplate pageType={this.state.pageData.type} backPage={this.returnToPageSelection} 
 					pageId={this.state.currentPageId}
 					createPage={false}/>
 				</ErrorBoundary>

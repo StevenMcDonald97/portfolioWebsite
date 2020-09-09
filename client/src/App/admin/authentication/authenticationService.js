@@ -10,22 +10,26 @@ export const authenticationService = {
     get currentUserValue () { return currentUserSubject.value }
 };
 
-function login(email, password) {
+function login(email, password, redirect) {
     axios.post(`/user/authenticate`, { email:email, password:password })
     .then(handleResponse)
     .then(response => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(response.token));
         currentUserSubject.next(response);
-
+        redirect();
         return response;
-    }).catch(err => console.log(err));
+    }).catch(err => {       
+        alert("Login info is incorrect!");
+        return {};
+    });
 }
 
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     currentUserSubject.next(null);
+    alert("Logged out");
 }
 
 function handleResponse(response) {   

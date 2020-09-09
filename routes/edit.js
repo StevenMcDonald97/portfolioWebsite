@@ -2,6 +2,7 @@ const express = require("express");
 const EditRouter = express.Router();
 const multer = require('multer');
 const Image = require('../models/image');
+const HomePage = require('../models/HomePage');
 const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
@@ -25,6 +26,12 @@ EditRouter.route('/editImages').post(function(req, res) {
 
 });
 
+EditRouter.route('/editHomePage').post(function(req, res) {
+	HomePage.findOneAndUpdate({}, req.body, {upsert: true}, function(err, doc) {
+	    if (err) return res.send(500, {error: err});
+	    return res.send('Succesfully updated your home page.');
+	});
+});
 
 EditRouter.route('/editTextPage').post(function(req, res) {
 	const page = req.body;
@@ -38,20 +45,38 @@ EditRouter.route('/editTextPage').post(function(req, res) {
     }
 	TextPage.findOneAndUpdate(query, update,
 		{new: true }, (err, obj) => console.log(obj));
-
 });
 
 EditRouter.route('/editListPage').post(function(req, res) {
 	const page = req.body;
     const query = {_id: page.id};
-    const update={
-		type: page.type,
-		title: page.title,
-		text: page.text,
-		objectIds: page.objectIds
-    }	
-    ListPage.findOneAndUpdate(query, update,
-		{new: true }, (err, obj) => console.log(obj));
+
+// delete objects which were removed
+    ListObjects.deleteMany({_id: {$in: req.body.deleted}}, function(err){console.log(err)});
+
+// ------------ upsert new objects----------
+	console.log(req.body.objs);
+	let objIds = [];
+	req.body.objs.forEach((obj, index) => {
+		var query = {_id:obj.id};
+		ListObject.findOneAndUpdate(query, obj, {upsert: true}, function(err, doc) {
+		    if (err) return res.send(500, {error: err});
+		    objIds.push(doc._id);
+		    console.log('Succesfully saved object.');
+		    if (objIds.length===req.body.objs.length){
+		    	const update={
+					type: page.type,
+					title: page.title,
+					text: page.text,
+					objectIds: objIds
+			    }	
+			    ListPage.findOneAndUpdate(query, update,
+					{new: true }, (err, obj) => console.log(obj));
+		    }
+		});
+
+	});
+// ---------------------------------------------------
 
 });
 

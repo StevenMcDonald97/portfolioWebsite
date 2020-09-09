@@ -1,6 +1,22 @@
 Fonts:
 
-ltc-bodoni-175;
+ltc-bodoni-175  x36
+Raleway  x12
+proxima-nova x17
+
+
+cinzel,sans-serif x30
+cabin, sans-serif x20, x15
+
+
+Muli, sans-serif x32 x18 x16
+
+
+
+
+
+
+
 Merriweather font
 Poppins
 Open Sans

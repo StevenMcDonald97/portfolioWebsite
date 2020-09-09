@@ -67,7 +67,8 @@ export default class RegistrationPage extends Component {
                             alert('Please check that all fields are entered correctly')
                         }}
                     }
-                    render={({ errors, status, touched, isSubmitting }) => (
+                >
+                    {({ errors, status, touched, isSubmitting }) => (
                         <Form>
                             <div className="form-group">
                                 <label htmlFor="username">Your Name</label>
@@ -85,7 +86,7 @@ export default class RegistrationPage extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="confirm">Confirm Password</label>
-                                <Field name="confirm" type="text" className={'form-control' + (errors.confirm && touched.confirm ? ' is-invalid' : '')} />
+                                <Field name="confirm" type="password" className={'form-control' + (errors.confirm && touched.confirm ? ' is-invalid' : '')} />
                                 <ErrorMessage name="confirm" component="div" className="invalid-feedback" />
                             </div>                            <div className="form-group">
                                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Register</button>
@@ -98,7 +99,7 @@ export default class RegistrationPage extends Component {
                             }
                         </Form>
                     )}
-                />
+                </Formik>
             </div>
         )
     }

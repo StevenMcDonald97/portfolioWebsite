@@ -31,14 +31,36 @@ UserRouter.route('/createUser')
 		}); 	  
 });
 
-function authenticate(req, res, next) {
-	console.log("1");
+// api end point to handle a new user registering
+UserRouter.route('/editUser')
+    .post(function(req, res) {
+        User.findOne({}, function(err, usr){
+            if (err) return res.send(500, {error: err});
+            let oldPassword = req.body.oldPassword;
+            usr.comparePassword(oldPassword, function(err, isMatch){
+                if (err) throw err;
+                if (isMatch){
+                    usr.name=req.body.name;
+                    usr.email=req.body.email;
+                    usr.password=req.body.password;
+                    usr.save();
+                    return res.send('Succesfully updated user info.');
+                } else {
+                    res.status(400).json({ message: 'Old Password is wrong' });
+                };
 
+
+            });  
+        })
+});    
+
+
+function authenticate(req, res, next) {
 	User.findOne({email : req.body.email}, function(err, user){
         if (err) throw err;
         user.comparePassword(req.body.password, function(err, isMatch){
             if (err) throw err;
-            if (isMatch){
+            if (isMatch && user.email===req.body.email){
                 const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);
                 const { password, ...userWithoutPassword } = user;
                 res.json({
@@ -74,6 +96,6 @@ function getUser(req, res, next) {
 
 // routes
 UserRouter.post('/authenticate', authenticate); // public route
-UserRouter.get('/', getUser); // admin only
+UserRouter.get('/getUser', getUser); // admin only
 
 module.exports = UserRouter;

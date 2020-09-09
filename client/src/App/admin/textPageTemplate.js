@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BackButton, UploadImage } from 'App/admin/helperComponents';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 class TextPageTemplate extends Component{
 	constructor(props){
 		super(props)
 		this.state ={
-			type:"",
-			mainImage:"",
-			name:"",
-			description:"",
-			secondaryText:""
+			type:'',
+			mainImage:'',
+			name:'',
+			description:'',
+			secondaryText:''
 		}
 		this.getPageData=this.getPageData.bind(this);
 	}
@@ -23,7 +23,7 @@ class TextPageTemplate extends Component{
     getPageData = () =>{
 
     	if (this.props.pageId){
-	        axios.get('/api/getPage', { params: {pageId: this.props.pageId, pageType:"text" } })
+	        axios.get('/api/getPage', { params: {pageId: this.props.pageId, pageType:'text' } })
 	        .then((response) => {
 
 	          this.setState({
@@ -39,22 +39,23 @@ class TextPageTemplate extends Component{
 
 
 	render() {
-		if (this.state.type==="about"){
+		if (this.state.type==='about'){
 			return(<AboutPageTemplate 
-				title={this.state.name}
 				image={this.state.mainImage}
-				description={this.state.description}
-				secondaryText={this.state.secondaryText}
+				mainText={this.state.description}
+				subText={this.state.secondaryText}
 				createPage={this.props.createPage}
 				backPage={this.props.backPage}
+				pageId={this.props.pageId}
 				/>)
 		} else {
 			return(<OtherPageTemplate 
 				title={this.state.name}
 				image={this.state.mainImage}
-				description={this.state.description}
+				mainText={this.state.description}
 				createPage={this.props.createPage}
 				backPage={this.props.backPage}
+				pageId={this.props.pageId}
 				/>)
 		}
 	}
@@ -64,7 +65,6 @@ TextPageTemplate.propTypes ={
 	pageId:PropTypes.string,
 	createPage:PropTypes.bool,
 	backPage:PropTypes.func
-
 }
 
 
@@ -72,10 +72,11 @@ class AboutPageTemplate extends Component {
 	constructor(props){
 		super(props)
 		this.state ={
-			mainImage:this.props.image,
-			name:this.props.title,
-			description:this.props.description,
-			secondaryText:this.props.secondaryText,
+			type:'about',
+			img:this.props.image,
+			title:'About the Artist',
+			mainText:this.props.mainText,
+			subText:this.props.subText,
 			createPage:this.props.createPage
 		}
 		this.updateImage=this.updateImage.bind(this);
@@ -88,53 +89,45 @@ class AboutPageTemplate extends Component {
 	}
 
 	updateImage(file){
-		this.setState({mainImage:URL.createObjectURL(file)})
-		this.setState({mainImageName:(file.name)})
+		this.setState({img:URL.createObjectURL(file)})
 	}
 
 
 	onSubmit(){
-		const PageData={"type":"about", "title":"About the Artist",
-		 "img":this.state.mainImageName, "mainText":this.state.description,
-		 "subText":this.state.secondaryText, "id":this.props.pageId};
+		const {createPage, ...PageData} = this.state;
+
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
 		} else {
-			axios.post('/edit/editTextPage', PageData).then((response)=>console.log(response))
+			axios.post('/edit/editTextPage', {id:this.props.pageId, ...PageData}).then((response)=>console.log(response))
 		};	
 	}
 
 	render(){
 		return(
-			<div className="pageEditor">
-				<form className="pageForm">
+			<div className='pageEditor'>
+				<form className='pageForm'>
 					<BackButton backPage={this.props.backPage}/>
-					<div className="inputGroup">
-						<label className="inputLabel">Profile Picture:</label>
-						<img className="pageImage" name="aboutImage" src={this.state.mainImage}/>
+					<div className='inputGroup'>
+						<label className='inputLabel'>Profile Picture:</label>
+						<img className='pageImage' name='aboutImage' src={this.state.img}/>
 						<UploadImage changeImage={this.updateImage} />
 					</div>
-					<div className="inputGroup">
-						<label className="inputLabel" htmlFor="name">Your Name:</label>
-						<input type="text" className="smallPageField" name="name" 
-							value={this.state.name} 
-							onChange={this.handleChange}/>
-					</div>
-					<div className="inputGroup">
-						<label className="inputLabel" htmlFor="description">Your Artist Statement:</label>
-						<textarea className="pageField" name="description" 
-							value={this.state.description} 
+					<div className='inputGroup'>
+						<label className='inputLabel' htmlFor='mainText'>Your Artist Statement:</label>
+						<textarea className='pageField' name='mainText' 
+							value={this.state.mainText} 
 							onChange={this.handleChange} />
 					</div>
-					<div className="inputGroup">
-						<label className="inputLabel" htmlFor="secondaryText">Your Resume (optional):</label>
-						<textarea className="pageField" name="secondaryText" 
-							value={this.state.secondaryText} 
+					<div className='inputGroup'>
+						<label className='inputLabel' htmlFor='subText'>Your Resume (optional):</label>
+						<textarea className='pageField' name='subText' 
+							value={this.state.subText} 
 							onChange={this.handleChange} />
 					</div>
-					<div className="editSubmitButtons">
-						<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Submit </button>
-						<button type="button" className="editSubmitButton" onClick={this.props.backPage}> 
+					<div className='editSubmitButtons'>
+						<button type='button' className='editSubmitButton' onClick={this.onSubmit}> Submit </button>
+						<button type='button' className='editSubmitButton' onClick={this.props.backPage}> 
 							Cancel 
 						</button>
 					</div>
@@ -146,21 +139,21 @@ class AboutPageTemplate extends Component {
 
 AboutPageTemplate.propTypes={
 	image:PropTypes.string,
-	name:PropTypes.string,
-	description:PropTypes.string,
-	secondaryText:PropTypes.string,
+	mainText:PropTypes.string,
+	subText:PropTypes.string,
 	pageId:PropTypes.string,
 	createPage:PropTypes.bool,
-	backPage:PropTypes.string
+	backPage:PropTypes.func
 }
 
 class OtherPageTemplate extends Component {
 	constructor(props){
 		super(props)
 		this.state ={
-			mainImage:this.props.image,
+			type:'other',
+			img:this.props.image,
 			title:this.props.title,
-			description:this.props.description,
+			mainText:this.props.mainText,
 			createPage:this.props.createPage
 
 		}
@@ -174,45 +167,44 @@ class OtherPageTemplate extends Component {
 
 	updateImage(file){
 		let newUrl=URL.createObjectURL(file);
-		this.setState({mainImage:newUrl})
+		this.setState({img:newUrl})
 	}
 
 	onSubmit(){
-		const PageData={"type":"other", "title":this.state.title, 
-			"img":this.state.mainImage, "mainText":this.state.description, 
-			"subText":"", "id":this.props.pageId};
+		const {createPage, ...PageData} = this.state;
+		
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
 		} else {
-			axios.post('/edit/editTextPage', PageData).then((response)=>console.log(response))
+			axios.post('/edit/editTextPage', {id:this.props.pageId, ...PageData}).then((response)=>console.log(response))
 		};	
 	}
 
 	render(){
 		return(
-		<div className="pageEditor">
+		<div className='pageEditor'>
 			<BackButton backPage={this.props.backPage}/>
-			<div className="inputGroup">
+			<div className='inputGroup'>
 
-				<label className="inputLabel" htmlFor="pageImage">Main Image (optional):</label>
-				<img className="pageImage" src={this.state.mainImage}/>
+				<label className='inputLabel' htmlFor='pageImage'>Main Image (optional):</label>
+				<img className='pageImage' src={this.state.img}/>
 				<UploadImage changeImage={this.updateImage} />
 			</div>
-			<div className="inputGroup">
-				<label className="inputLabel" htmlFor="title">Page Title:</label>
-				<input type="text" className="smallPageField" name="title" 
-					value={this.state.name} 
+			<div className='inputGroup'>
+				<label className='inputLabel' htmlFor='title'>Page Title:</label>
+				<input type='text' className='smallPageField' name='title' 
+					value={this.state.title} 
 					onChange={this.handleChange}/>
 			</div>
-			<div className="inputGroup">
-				<label className="inputLabel" htmlFor="description">Page Description:</label>
-				<textarea className="pageField" name="description" 
-					value={this.state.description} 
+			<div className='inputGroup'>
+				<label className='inputLabel' htmlFor='mainText'>Page Description:</label>
+				<textarea className='pageField' name='mainText' 
+					value={this.state.mainText} 
 					onChange={this.handleChange} />
 			</div>
-			<div className="editSubmitButtons">
-				<button type="button" className="editSubmitButton" onClick={this.onSubmit}> Create </button>
-				<button type="button" className="editSubmitButton" onClick={this.props.backPage}> Cancel </button>
+			<div className='editSubmitButtons'>
+				<button type='button' className='editSubmitButton' onClick={this.onSubmit}> Create </button>
+				<button type='button' className='editSubmitButton' onClick={this.props.backPage}> Cancel </button>
 			</div>
 		</div>)
 	}
@@ -220,11 +212,11 @@ class OtherPageTemplate extends Component {
 
 OtherPageTemplate.propTypes={
 	image:PropTypes.string,
-	name:PropTypes.string,
-	description:PropTypes.string,
+	title:PropTypes.string,
+	mainText:PropTypes.string,
 	pageId:PropTypes.string,
 	createPage:PropTypes.bool,
-	backPage:PropTypes.string
+	backPage:PropTypes.func
 }
 
 

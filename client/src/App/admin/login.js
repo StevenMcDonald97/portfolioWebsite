@@ -8,7 +8,7 @@ export default class LoginPage extends Component {
 	constructor(props) {
         super(props);
 
-        // redirect to home if already logged in
+        // redirect to userpanel if already logged in
         if (authenticationService.currentUserValue) { 
             this.props.history.push('/userPanel');
         }
@@ -17,9 +17,7 @@ export default class LoginPage extends Component {
 	}
 
     onSubmit(email, password, setStatus, setSubmitting){
-        authenticationService.login(email, password);
-        const { from } = this.props.location.state || { from: { pathname: "/" } };
-        this.props.history.push(from);
+        authenticationService.login(email, password, ()=> this.props.history.push('/userPanel'));
     }
 	
 	render() {
@@ -38,7 +36,9 @@ export default class LoginPage extends Component {
                     onSubmit={({ email, password }, { setStatus, setSubmitting }) => {
                         this.onSubmit(email, password, setStatus, setSubmitting);
                     }}
-                    render={({ errors, status, touched, isSubmitting }) => (
+                    
+                >
+                    {({ errors, status, touched, isSubmitting }) => (
                         <Form>
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
@@ -58,7 +58,7 @@ export default class LoginPage extends Component {
                             </div>
                         </Form>
                     )}
-                />
+                </Formik>
             </div>
         )
     }

@@ -111,22 +111,31 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
 
   });
 
-  let pageData = {
-      "type":req.body.type,
-      "title":req.body.title,
-      "text":req.body.text,
-      "objectIds":objIds
-    };
+  // there should only be one of each type of list page (Events, Galleries, or Workshops)
+  ListPage.findOne({type:req.body.type}, function(err, page){
+    if (!page) {
+      let pageData = {
+        "type":req.body.type,
+        "title":req.body.title,
+        "text":req.body.text,
+        "objectIds":objIds
+      };
 
-  const newPage = new ListPage(pageData);
-  const pageLoaded = storePageInfo(newPage, "list", res);
-  if (pageLoaded) {newPage.save(function(err) {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error uploading page.");
-        } 
-    });
-  }
+      const newPage = new ListPage(pageData);
+      const pageLoaded = storePageInfo(newPage, "list", res);
+      if (pageLoaded) {newPage.save(function(err) {
+            if (err) {
+              console.error(err);
+              res.status(500).send("Error uploading page.");
+            } 
+        });
+      }
+    } else {
+      console.log("here");
+        res.status(200).send(`A ${req.body.type} page already exists!`);
+    }
+  })
+
 });
 
 

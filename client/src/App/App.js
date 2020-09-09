@@ -28,8 +28,9 @@ import Contact from 'App/pages/contact';
 import HomePage from 'App/pages/homePage';
 import Modal from 'App/pages/modal';
 
-import Login from 'App/admin/login'
-import Register from 'App/admin/register'
+import Login from 'App/admin/login';
+import Register from 'App/admin/register';
+import EditProfile from 'App/admin/editProfile';
 
 import UploadImages from 'App/admin/uploadImages';
 import EditStyle from 'App/admin/editStyle';
@@ -78,8 +79,6 @@ export default class App extends Component {
     axios.get('/api/getPageInfo').then((response) => {
       this.setState({pageInfo:response.data});
     });
-
-
   }
 
   logout() {
@@ -126,6 +125,7 @@ export default class App extends Component {
               <Switch>
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/register' component={Register} />
+                <PrivateRoute exact path='/editProfile' component={EditProfile} />
                 <PrivateRoute exact path='/uploadImages' component={UploadImages} />
                 <PrivateRoute exact path='/styleEditor' component={EditStyle} />
                 <PrivateRoute exact path='/userPanel' component={UserPanel} />

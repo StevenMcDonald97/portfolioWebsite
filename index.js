@@ -11,10 +11,6 @@ const cors = require('cors');
 const port = process.env.PORT || 5000;
 const app = express();
 
-// mongoose model
-// const User = require('./models/User.js');
-// const Image = require('./models/Image.js');
-
 const imageRoutes = require('./routes/image');
 const userRoutes = require('./routes/user');
 const styleRoutes = require('./routes/style');
@@ -26,9 +22,9 @@ const removeRoutes = require('./routes/remove');
 const errorHandler = require('./middleware/globalError');
 
 const page = require("./models/Page")
-const homePage = require("./home.json")
+const HomePage = require('./models/HomePage');
 const textPage = require('./models/TextPage');
-const  {listPage, listObject} = require('./models/ListPage');
+const  {ListPage, ListObject} = require('./models/ListPage');
 const portfolio = require('./models/Portfolio');
 const Image = require('./models/image');
 
@@ -74,9 +70,21 @@ app.get('/api/getPage', (req,res) => {
           res.send(textPage);
       }); 
   } else if (pageType==="list"){
-    listPage.findById(pageId).lean().exec(
-      function (err, listPage) {         
-          res.send(listPage);
+    ListPage.findById(pageId).lean().exec(
+      function (err, listPage) {  
+        ListObject.find({_id: {$in: listPage.objectIds}}, function (err, array) {
+          if (err) {
+            console.log(err);
+            throw(err);
+          } else {
+            let pageData ={
+              type:listPage.type,
+              title:listPage.title,
+              childObjects:array
+            }
+            res.send(pageData);
+          }
+        });
       }); 
   } else if (pageType==="portfolio"){
     portfolio.findById(pageId).lean().exec(
@@ -94,6 +102,18 @@ app.get('/api/getPageInfo', (req,res) => {
           res.send(pages);
       });     
 });
+
+app.get('/api/getHomePage', (req,res) => {
+  HomePage.findOne({}, function(err, page) {
+      if (err) return res.send(500, {error: err});
+      if(!page){
+        page = new HomePage({name:'', image:'', subHeader:'', });
+        page.save(function(err){console.log(err)});
+      }
+      return res.send(page);
+  });
+});
+
 
 app.get('/api/getPortfolioImages', (req, res)=>{
   let images = [];
