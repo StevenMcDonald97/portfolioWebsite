@@ -18,6 +18,7 @@ class UserPanel extends Component{
         this.logout=this.logout.bind(this);
     }
 
+
     logout(){
     	console.log("Logout");
     	authenticationService.logout();
@@ -26,30 +27,23 @@ class UserPanel extends Component{
 	render(){
 		const { currentUser } = this.state;
 		return(
-			<div className='userpanel'>
-					<div className='navbar'>
+			<div className='userpanel pageEditor'>
+					<div className='user-navbar'>
 						<ul className='user-navbar-links'>
-							<li key='editInfo' className='user-navbar-link'><div className='user-navbar-link'>Personal Info</div></li>
+							<li key='editInfo' className='user-navbar-link'><Link to="/editProfile" className='user-navbar-link'>My Profile Info</Link></li>
 							<li key='editImages' className='user-navbar-link dropdown'>
 								<div className='user-navbar-link dropbtn'>Images <FaAngleDown /></div>
 								<div className='dropdown-content'>
-									<Link to='/uploadImages'>Upload Images</Link>
-									<Link to='/editImages'>Edit/Remove Images</Link>
+									<Link className="user-dropwdown-link" to='/uploadImages'>Upload Images</Link>
+									<Link className="user-dropwdown-link" to='/editImages'>Edit/Remove Images</Link>
 								</div>
 							</li>
 							<li key='editPages' className='user-navbar-link dropdown'>
-								<div className='user-navbar-link dropbtn'>Pages</div>
+								<div className='user-navbar-link dropbtn'>Pages <FaAngleDown /></div>
 								<div className='dropdown-content'>
-									<Link to='/addPages'>Create New Page(s)</Link>
-									<Link to='/editPages'>Edit/Remove Pages</Link>
+									<Link className="user-dropwdown-link" to='/addPages'>Create New Page(s)</Link>
+									<Link className="user-dropwdown-link" to='/editPages'>Edit/Remove Pages</Link>
 								</div>
-							</li>
-							<li key='editPortfolios' className='user-navbar-link dropdown'>
-								<div className='user-navbar-link dropbtn'>Portfolios</div>
-								<div className='dropdown-content'>
-									<Link to='/addPortfolios'>Create Portfolio</Link>
-									<Link to='/editPortfolios'>Edit/Remove</Link>
-								</div>							
 							</li>
 							<li key='editStyle' className='user-navbar-link'>
 								<Link to='/styleEditor' className='user-navbar-link'>Edit Style</Link>
@@ -60,7 +54,7 @@ class UserPanel extends Component{
 						</ul>
 					</div>
 			
-				<h2>Welcome! You can edit your site using the options above</h2>
+				<h2 className="pageHeader">Welcome! You can edit your site using the options above</h2>
 			</div>
 		);
 	}

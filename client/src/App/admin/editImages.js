@@ -2,6 +2,9 @@ import React, { Component} from 'react';
 import axios from 'axios';
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
 import ImageEditor from "App/admin/imageEditor";
+import ErrorBoundary from 'App/errorBoundary';
+import { BackButton } from 'App/admin/helperComponents';
+
 const images = require.context('App/upload', true);
 
 export default class Contact extends Component {
@@ -16,6 +19,7 @@ export default class Contact extends Component {
 		this.loadImages = this.loadImages.bind(this);
 		this.removeImage=this.removeImage.bind(this);
 		this.onSubmit=this.onSubmit.bind(this);
+        this.returnToUserPanel=this.returnToUserPanel.bind(this);
 
    	}
 
@@ -26,6 +30,10 @@ export default class Contact extends Component {
 	componentDidMount(){
 		this.loadImages();
 	}
+
+    returnToUserPanel(){
+        this.props.history.push('/userPanel');
+    }
 
 	loadImages(){
 		/* fetch all images from database */
@@ -65,11 +73,16 @@ export default class Contact extends Component {
 	render(){
 		if (this.state.images.length>0){
 			return(
-		    	<ImageEditor imageURLs={this.state.imgURLs} 
-		    		images={this.state.images} 
-		    		removeImageFromParent={this.removeImage} 
-		    		onSubmit={this.onSubmit}/>
-			)	
+	    		<ErrorBoundary>
+	    			<div className="pageEditor">
+	               		<BackButton backPage={this.returnToUserPanel}/>
+			    		<ImageEditor imageURLs={this.state.imgURLs} 
+				    		images={this.state.images} 
+				    		removeImageFromParent={this.removeImage} 
+				    		onSubmit={this.onSubmit}/>
+				    </div>
+			    </ErrorBoundary>
+				)	
 		} else {
 			return <h3> No Images to Edit </h3>;
 		}

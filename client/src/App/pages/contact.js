@@ -109,7 +109,8 @@ export default class Contact extends Component {
                   <span className="formError" >{this.state.errors["message"]}</span>
               </div>
           </div>
-          <div className="modal-footer">
+          <div className="contact-footer">
+            <button type="button" className="submitButton" onClick={this.props.cancel}>Cancel</button>
             <button type="submit" className="submitButton">Send</button>
           </div>
         </form>

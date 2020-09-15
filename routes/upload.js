@@ -131,7 +131,6 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
         });
       }
     } else {
-      console.log("here");
         res.status(200).send(`A ${req.body.type} page already exists!`);
     }
   })
@@ -187,7 +186,6 @@ UploadRouter.route('/uploadPortfolio').post(function(req, res) {
 
               if(img){
                 let oldPortfolio=img.portfolio;
-                console.log(`The Old Portfolio is: ${oldPortfolio}`)
                 Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:name} }, { 'new': true }, (err, info) => {
                     if (err) {
                         return err;

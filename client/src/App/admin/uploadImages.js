@@ -4,6 +4,8 @@ import axios from 'axios';
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
 import ImageEditor from "App/admin/imageEditor";
 import ErrorBoundary from 'App/errorBoundary';
+import { BackButton, UploadImage } from 'App/admin/helperComponents';
+import {FaArrowDown} from "react-icons/fa";
 
 export default class Contact extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ export default class Contact extends Component {
     this.createImages = this.createImages.bind(this);
     this.removeImage = this.removeImage.bind(this);
     this.uploadImages = this.uploadImages.bind(this);
+    this.returnToUserPanel=this.returnToUserPanel.bind(this);
   }
 
   shouldComponentUpdate () {
@@ -25,6 +28,10 @@ export default class Contact extends Component {
     } else {
       return true
     }
+  }
+
+  returnToUserPanel(){
+    this.props.history.push('/userPanel');
   }
 
   createImages(e) {
@@ -99,10 +106,14 @@ export default class Contact extends Component {
       )
     } else {
       return(
-        <div className="main-upload-container"> 
-          <h3 className="main-heading"> Upload an Image </h3>
-          <div className="form-group">
-              <input type="file" className="form-control" onChange={this.createImages} multiple />
+        <div className="pageEditor main-upload-container"> 
+          <BackButton backPage={this.returnToUserPanel}/>
+          <div className="imageUploadContainer">
+            <h3 className="pageHeader"> Upload Image(s) </h3>
+            <div name="imageUploader" className="imageUploader">
+                <input type="file" className="form-control" onChange={this.createImages} multiple />
+            </div>
+            <label for="imageUploader"> <FaArrowDown className="uploadArrow"/></label>
           </div>
         </div>
       )

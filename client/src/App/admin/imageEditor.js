@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';  // Font Awesome
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'App/errorBoundary';
+import { BackButton } from 'App/admin/helperComponents';
 
 export default class ImageEditor extends Component {
 	constructor(props) {
@@ -28,6 +29,10 @@ export default class ImageEditor extends Component {
 		  	this.setState({portfolios:response.data});
 		  });
 	}
+
+    returnToUserPanel(){
+        this.props.history.push('/userPanel');
+    }
 
 	removeImage = (index) => {
 		console.log(index);
@@ -60,6 +65,7 @@ export default class ImageEditor extends Component {
 	    	return(
 	    		<div>
 	    			<ErrorBoundary>
+						<h3 className='editingTitle'>Edit Images</h3>
 						{(this.state.images).map((img, index) => (
 				            <div className='editImageTag' key={img.fileName}>
 				              <img src={this.state.imageURLs[index]} className='editImageTag uploadImage' alt='...'/>

@@ -10,14 +10,13 @@
   line-height:100%;
   overflow: hidden; /* scrolling is currently disabled*/
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,.85); /* Black w/ opacity */
+  background-color: rgba(0,0,0,.9); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
   /*background-color: #fefefe;*/
-  margin-left: auto;
-  margin-right: auto;
+  margin:auto;
   /*padding: 20px;*/
   /*border: 1px solid #888;*/
   max-width: 70vw;
@@ -41,10 +40,9 @@
 }
 
 .arrow {
-  color:#777;
+  color: #bbb;
   font-size:2.5em;
   cursor: pointer;
-  margin-left: 3vw;
   margin-right: 3vw;
   height:0;
   width:8vw;
@@ -60,9 +58,10 @@
 }
 
 .arrow-container{
-  line-height: 100vh;
   height: 100vh;
+  padding-top:42vh;
   width:8vw;
+
 }
 
 .hand-pointer {
@@ -81,7 +80,7 @@
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
+  color: #bbb;
   float: right;
   font-size: 2.2em;
   font-weight: bold;

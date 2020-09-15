@@ -199,7 +199,7 @@ const StyleVisualization = (props) => {
 };
 
 StyleVisualization.propTypes = {
-	values:PropTypes.array.isRequired
+	values:PropTypes.object.isRequired
 };
 
 

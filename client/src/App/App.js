@@ -43,9 +43,6 @@ import { history } from 'App/admin/authentication/history'
 import { authenticationService } from 'App/admin/authentication/authenticationService';
 import { PrivateRoute } from 'App/admin/authentication/privateRoute';
 
-// profile information
-import profile from 'App/profile.json';
-
 
 // import Modal from './components/test-modal';
 // import Portfolio from './components/portfolioPage';
@@ -65,6 +62,8 @@ export default class App extends Component {
       isLoading: false,
       pageInfo: [],   
       showContact: false,
+      title:"",
+      subTitle:""
     };
     this.setState = this.setState.bind(this);
   }
@@ -79,12 +78,16 @@ export default class App extends Component {
     axios.get('/api/getPageInfo').then((response) => {
       this.setState({pageInfo:response.data});
     });
+    axios.get('/api/getHomePage').then((response)=>{
+      this.setState({title:response.data.name, subTitle:response.data.subHeader})
+    })
   }
 
   logout() {
     authenticationService.logout();
     history.push('/login');
   }
+
 
 
   render(){
@@ -94,10 +97,10 @@ export default class App extends Component {
     );
 
     const createRoutes = this.state.pageInfo.map((page) => (
-      <Route key={page.title} exact path={`/${page.title.replace(/\s+/g, '')}`} render={() => {return <NewPage pageId={`${page._id}`} pageType={page.type}/>} } />
+      <Route key={page.title} exact path={`/${page.title.replace(/\s+/g, '')}`} render={() => {return <NewPage pageId={`${page._id}`} pageType={page.type}/>}} />
     ));
-
-    const ContactElement = <Contact />;
+  
+    const ContactElement = <Contact cancel={ this.showContact }/>;
 
     return (
       <React.StrictMode>
@@ -107,16 +110,13 @@ export default class App extends Component {
           <Router>
             <div>
               <div className='header'>
-                <h1 className='page-title'><Link to ='/' className='pageTitle'>{profile.Name}</Link></h1>
+                <h1 className='page-title'><Link to ='/' className='pageTitle'>{this.state.title}</Link></h1>
                 <ErrorBoundary>
                   <div className='navbar'>
                     <ul className='navbar-links'>
+                      <li className='navbar-link'><Link to={'/'} className='navbar-link'>Home</Link></li>
                       { createLinks }
                       <li key='contact' className='navbar-link'><div className='navbar-link' onClick={ this.showContact } >Contact</div></li>
-                      <li key='login' className='navbar-link'><Link to ='/contact' className='navbar-link'>Login</Link></li>
-                      <li key='user' className='navbar-link'><Link to='/userPanel' className='navbar-link'>User Panel</Link></li>
-                      <li key='upload' className='navbar-link'><Link to='/uploadImages' className='navbar-link'>Upload</Link></li>
-
                     </ul>
                   </div>
                 </ErrorBoundary >
@@ -133,7 +133,7 @@ export default class App extends Component {
                 <PrivateRoute exact path='/editPages' component={EditPages} />
                 <PrivateRoute exact path='/editImages' component={EditImages} />
                 { createRoutes }
-                <Route path='/' component={NewPage} />
+                <Route path='/' render={() => {return <NewPage title={this.state.title} subTitle={this.state.subTitle}/>}} />
               </Switch>
             </div>
           </Router>
@@ -166,7 +166,7 @@ const NewPage =(props)=> {
   } else {
     return (
       <ErrorBoundary >
-       <HomePage heading={profile.name}  homeText={profile.HomeText} imgDescription={profile.HomeImageText}></HomePage>;
+       <HomePage heading={props.title}  homeText={props.subTitle} imgDescription="Home page artwork"></HomePage>;
       </ErrorBoundary>
     );
   }

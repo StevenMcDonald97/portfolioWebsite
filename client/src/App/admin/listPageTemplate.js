@@ -48,10 +48,8 @@ export default class ListPageTemplate extends Component {
 
 	addPageObject(event){
 	    const values = [...this.state.listObjects];
-	    console.log(values);
-	    console.log(this.state.numObjs);
-		values.push({"title":"","img":defaultImage, "description":"", 
-			num:this.state.numObjs});
+		values.push({"title":"", "blurb":"", "img":defaultImage, "description":"", 
+			keyValue:new Date().getTime(), num:this.state.numObjs});
 		this.setState({listObjects:values}, 
 			()=>this.setState({numObjs:this.state.numObjs+1}));
 	}
@@ -64,11 +62,8 @@ export default class ListPageTemplate extends Component {
 
 	removePageObject(index){
 	    const values = [...this.state.listObjects];
-	    const deletedObjs = this.state.deleted;
-	   	console.log(values);
-	   	console.log(index);
-
-	    deletedObjs.push(values[index].id);
+	    const deletedObjs = [...this.state.deleted];
+	    deletedObjs.push(values[index]._id);
 
 	    values.splice(index, 1);
 	    for (var i=index; i<values.length; i++)	{
@@ -82,7 +77,7 @@ export default class ListPageTemplate extends Component {
 	onSubmit(){
 		const PageData={"type":this.state.type, "title":this.state.type, "text":"",
 			"objs":this.state.listObjects, "deleted":this.state.deleted, "id":this.props.pageId};
-
+			console.log(PageData);
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadListPage', PageData).then((response)=>alert(response.data))
 		} else {
@@ -93,8 +88,9 @@ export default class ListPageTemplate extends Component {
 	render(){
 
 		const create_inputs = this.state.listObjects.map((obj, index) =>  
-	     	<ListObjectEditor key={index} img={obj.img} num={obj.num} 
+	     	<ListObjectEditor key={obj._id ? obj._id : obj.keyValue} img={obj.img} num={obj.num} 
 	     		title={this.state.listObjects[index].title} 
+	     		blurb={this.state.listObjects[index].blurb}
 	     		description={this.state.listObjects[index].description}
 	     		updatePageObject={this.updatePageObject}
 	     		removePageObject={this.removePageObject}
@@ -134,6 +130,7 @@ class ListObjectEditor extends Component {
 		this.state={
 			image:'',
 			title:this.props.title,
+			blurb:this.props.blurb,
 			description:this.props.description
 		}
 		this.updateImage=this.updateImage.bind(this);
@@ -160,14 +157,18 @@ class ListObjectEditor extends Component {
 					<UploadImage changeImage={this.updateImage}/>
 				</div>
 				<div className="inputGroup">
-					<input type="text" name="title" value={this.state.title} placeholder="Title" 
+					<input type="text" name="title" className="editingInput" value={this.state.title} placeholder="Title" 
 						onChange={this.updateObject}/>
 				</div>
 				<div className="inputGroup">
-					<input type="text" name="description" value={this.state.description} placeholder="Description" 
+					<input type="text" name="blurb" className="editingInput" value={this.state.blurb} placeholder="SubTitle" 
+						onChange={this.updateObject}/>
+				</div>				
+				<div className="inputGroup">
+					<textarea name="description" className="editingInput descriptionInput" value={this.state.description} placeholder="Description" 
 						onChange={this.updateObject}/>
 				</div>
-				<button type="button" name={this.props.num} className="tooltip btn" 
+				<button type="button" name={this.props.num} className="tooltip trashButton" 
 					onClick={index=>this.props.removePageObject(this.props.num)}>
 			    	<FaTrashAlt />
 				    <span className="tooltiptext">Remove this</span>
@@ -179,6 +180,8 @@ class ListObjectEditor extends Component {
 
 ListObjectEditor.propTypes = {
 	num:PropTypes.number,
+	title:PropTypes.string,
+	blurb:PropTypes.string,
 	description:PropTypes.string,
 	removePageObject:PropTypes.func
 }

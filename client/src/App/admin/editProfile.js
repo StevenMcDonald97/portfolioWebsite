@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { BackButton, UploadImage } from 'App/admin/helperComponents';
 
 import { authenticationService } from 'App/admin/authentication/authenticationService'
 
@@ -14,6 +15,7 @@ export default class EditProfile extends Component {
             pswd:'',
             confirm:''
         }
+        this.returnToUserPanel=this.returnToUserPanel.bind(this);
 	}
 
     componentDidMount(){
@@ -21,10 +23,15 @@ export default class EditProfile extends Component {
             this.setState({name:response.data.name, email:response.data.email});
         });
     }
+
+    returnToUserPanel(){
+        this.props.history.push('/userPanel');
+    }
 	
 	render() {
         return (
-            <div>
+            <div className="pageEditor">
+                <BackButton backPage={this.returnToUserPanel}/>
                 <h2>Create Your Profile</h2>
                 <Formik
                     initialValues={{

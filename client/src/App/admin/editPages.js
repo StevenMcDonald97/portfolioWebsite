@@ -7,6 +7,7 @@ import {TextPageTemplate } from 'App/admin/textPageTemplate';
 import ListPageTemplate from 'App/admin/listPageTemplate';
 import PortfolioTemplate from 'App/admin/portfolioTemplate';
 import ErrorBoundary from 'App/errorBoundary';
+import { BackButton } from 'App/admin/helperComponents';
 
 export default class EditPages extends Component {
 	constructor(props){
@@ -90,7 +91,7 @@ export default class EditPages extends Component {
 
 		if (this.state.currentPageStyle==='none'){
 			return(
-				<div>
+				<div className="pageEditor">
 					<h3 className='editingTitle'>Select a Page to Edit</h3>
 					<ErrorBoundary>
 						<div className='pageEditElement'> 

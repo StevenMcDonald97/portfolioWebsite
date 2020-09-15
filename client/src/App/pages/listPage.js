@@ -6,27 +6,31 @@ export default class ListPage extends Component {
     constructor(props){
         super(props);
         this.state={
+            title:"",
             listObjectsData:[]
         }
-        this.fetchListObjects=this.fetchListObjects.bind(this);
+        this.loadPage = this.loadPage.bind(this);
         this.createListObjects=this.createListObjects.bind(this);
     }
 
     componentDidMount(){
-        this.fetchListObjects();
+        this.loadPage();
     }
 
-    fetchListObjects = () =>{
+    loadPage = () =>{
+        console.log(this.props);
         var self = this;
-        axios.get('/api/getListObjects', {
+        axios.get('/api/getPage', {
             params: {
-              Ids: this.props.objectIds
+                pageId:this.props.pageId,
+                pageType:"list"
             }
-          }).then(function (response) {
-            console.log(response);
-            self.setState({ listObjectsData:response.data})
-          })
-        .catch(function (error) {
+        }).then(function(response){
+            self.setState({
+                title:response.data.title,
+                listObjectsData:response.data.childObjects
+            });
+        }).catch(function (error) {
             console.log(error);
         });
     }
@@ -34,7 +38,7 @@ export default class ListPage extends Component {
     createListObjects = () =>{
         return(
             this.state.listObjectsData.map((object)=>
-                <ListObject img={object.img} title={object.title} text={object.description} />
+                <ListObject key={object._id} img={object.img} title={object.title} text={object.description} />
             )
         )
     }
@@ -57,10 +61,11 @@ export default class ListPage extends Component {
 
 const ListObject = (props) => {
     return(
-        <div class="pageObject">
-            <img class="objectImage" src={props.img}/>
-            <h4 class="objectTitle">{props.title}</h4>
-            <p class="objectText">{props.text}</p>
+        <div className="pageObject">
+            <img className="objectImage" src={props.img}/>
+            <h4 className="objectTitle">{props.title}</h4>
+            <h5 className="objectBlurb">{props.blurb}</h5>
+            <p className="objectText">{props.text}</p>
         </div>
     )
 

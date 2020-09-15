@@ -2,14 +2,16 @@ const express = require('express');
 const EmailRouter = express.Router();
 const nodemailer = require('nodemailer');
 const creds = require('./emailConfig');
+var password = "monetTurnerSargent"
+var email="myArtistWebsiteMailer@gmail.com"
 
 var transport = {
-    host: 'smtp.example.com', // Don’t forget to replace with the SMTP host of your provider
+    host: 'smtp.gmail.com', // Don’t forget to replace with the SMTP host of your provider
     port: 587,
     auth: {
-    user: creds.USER,
-    pass: creds.PASS
-  }
+      user: creds.USER,
+      pass: creds.PASS
+    }
 }
 
 var transporter = nodemailer.createTransport(transport)

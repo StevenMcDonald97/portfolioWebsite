@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import HomeImage from "App/testimages/home.jpg";
 
 export default class HomePage extends Component {
-
 		render() {
 			return(
 				<div>

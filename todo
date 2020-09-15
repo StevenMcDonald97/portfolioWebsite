@@ -2,44 +2,18 @@ PRIORITY:
 
 Login causing error with "isCorrectPassword" - user object is not a user schema object
 
-
-Need to be able to log user out
-
 let users control order of links
-
-create User panel page
-	title /optional subtitle, links - control color and font on all of them
-	edit images / portfolios / about pages / text pages 
-
-have back button to easily navigate back to pages! (i.e. <- Back)
 
 home page style
 	can have carousel of images or static image
 
-edit images (keep in MongoDB)
-	-existing images: from database, load thumbnail, title, size, medium, date, price, 	portfolio
-	-add button to add new artwork
-	-delete option for each (create alert "are you sure? This will remove this image(s) from everywhere on your website" before deleting) 
-	-can select multiple and click "delete selected images"
-	-drop down option for choosing a portfolio for works from the existing portfolios
+delta images and pages- create alert "are you sure? This will remove this image(s) from everywhere on your website" before deleting) 
+	-can select multiple and click "delete selected images"?
 	-on save or cancel redirect to user home panel
-	-have images save in a mongoldb database
-	-issue with uploading one set, then uploading more images before submitting- old 		images get readied because they're still in the file input element's list
-	
+
 edit portfolios:
-	-option to create a new portfolio or delete existing portfolio 
 	-can either choose existing images or upload new ones
-	-should be able to easily upload a bunch at once
 
-add and remove pages (keep in mongoDb)
-	-page types the can be created: about, portfolio, galleries, generic, blog
-	-about:
-		have set format, area for name, artist statement, resume 
-	-portfolio: should just generate from existing portfolio of images
-	-update pages.json with new page routing information 
-
-edit text page:
-	just load text into textures to edit, have place for profile image 
 
 Need to be able to edit style
 	-have split screen if wide enough, or button to pop up modal (i.e. if not roughly 2:3 		ratio)  with selection tools and preview

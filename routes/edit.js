@@ -50,17 +50,17 @@ EditRouter.route('/editTextPage').post(function(req, res) {
 EditRouter.route('/editListPage').post(function(req, res) {
 	const page = req.body;
     const query = {_id: page.id};
-
-// delete objects which were removed
-    ListObjects.deleteMany({_id: {$in: req.body.deleted}}, function(err){console.log(err)});
+	// delete objects which were removed
+    ListObject.deleteMany({ _id: {$in: req.body.deleted}}, function(err){console.log(err)});
 
 // ------------ upsert new objects----------
-	console.log(req.body.objs);
 	let objIds = [];
 	req.body.objs.forEach((obj, index) => {
-		var query = {_id:obj.id};
+		var {id, ...update}=obj;
+		var query = {_id:id};
+		var update =
 		ListObject.findOneAndUpdate(query, obj, {upsert: true}, function(err, doc) {
-		    if (err) return res.send(500, {error: err});
+		    if (err) {console.log(err); return res.status(500).send({error: err})};
 		    objIds.push(doc._id);
 		    console.log('Succesfully saved object.');
 		    if (objIds.length===req.body.objs.length){

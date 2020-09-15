@@ -21,8 +21,7 @@
 
 /* Create four equal columns that floats next to each other */
 .column {
-  float: left;
-  /*width: 25%;*/
+  display:inline-block;
 }
 
 /* Clear floats after rows */ 
@@ -33,16 +32,18 @@
 }
 
 .inline { float:left; }
-.clearBoth { clear:both; }
 
 
 .portfolioImage{
-  max-width:25vw;
+  width:20vw;
   max-height:35vh; 
+  min-width:10em;
+  vertical-align:top;
+  cursor:pointer;
 }
 
 .portfolioImage:hover{
-  cursor:pointer;
+  
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */

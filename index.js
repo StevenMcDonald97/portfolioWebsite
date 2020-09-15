@@ -70,6 +70,7 @@ app.get('/api/getPage', (req,res) => {
           res.send(textPage);
       }); 
   } else if (pageType==="list"){
+
     ListPage.findById(pageId).lean().exec(
       function (err, listPage) {  
         ListObject.find({_id: {$in: listPage.objectIds}}, function (err, array) {
@@ -141,6 +142,7 @@ app.get('/api/getPortfolioTitles', (req, res)=>{
     res.send(portfolioTitles);
   })
 })
+
 
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{

@@ -3,6 +3,7 @@ import { SketchPicker } from 'react-color';
 import StyleVisualization from 'App/admin/styleVisualization';
 import Modal from 'App/pages/modal';
 import ErrorBoundary from 'App/errorBoundary';
+import { BackButton } from 'App/admin/helperComponents';
 
 const axios = require('axios');
 const styleJson = require('App/style.json');
@@ -16,45 +17,49 @@ export default class EditStyle extends Component {
 		this.switchToCustomizing = this.switchToCustomizing.bind(this);
 		this.setState = this.setState.bind(this);
 		this.showColorSelector = this.showColorSelector.bind(this);
+    	this.returnToUserPanel=this.returnToUserPanel.bind(this);
+		// Note: State variables are listed this way to avoid nesting state
+		// and to allow a visualization of style changes to update for the user
+		// in real time without reloading json on every update
+		this.state = {
+			isCustomizing: false,
+			styleChoice:'presetStyle1',
+			showSelector: false,
+			selectedColor: '#fff',
+			currentComponent:'',
+			textAlignment:styleJson.textAlign,
+			headerStyle:styleJson.navigationStyle.alignment,
+			navOrientation:styleJson.navigationStyle.orientation,
+			navVisibility:styleJson.navigationStyle.visibility,
+			portfolioArrangement:styleJson.portfolioStyle.layout,
+			imageWidth:styleJson.portfolioStyle.imgWidth,
+			backgroundColor:styleJson.backgroundColor,
+			websiteTitleColor: styleJson.text.WebsiteTitle.color, 
+			websiteTitleSize: styleJson.text.WebsiteTitle.size, 
+			pageHeaderColor: styleJson.text.PageHeader.color,
+			pageHeaderSize: styleJson.text.PageHeader.size,
+			mediumHeaderColor: styleJson.text.MediumHeader.color,
+			mediumHeaderSize: styleJson.text.MediumHeader.size,
+			smallHeaderColor: styleJson.text.SmallHeader.color,
+			smallHeaderSize: styleJson.text.SmallHeader.size,
+			descriptionTextColor: styleJson.text.DescriptionText.color,
+			descriptionTextSize: styleJson.text.DescriptionText.size,
+			navigationLinkColor: styleJson.text.NavigationLink.color,
+			navigationLinkSize: styleJson.text.NavigationLink.size,
+			otherLinkColor: styleJson.text.OtherLink.color,
+			otherLinkSize: styleJson.text.OtherLink.size,
+			hoverOnLinkColor: styleJson.text.HoverOnLink.color,
+			hoverOnLinkSize: styleJson.text.HoverOnLink.size,
+			titleBackgroundColor: styleJson.backgroundColor.header,
+			navBackgroundColor: styleJson.backgroundColor.navigation,
+			contentBackgroundColor: styleJson.backgroundColor.content,
+			portfolioBackgroundColor: styleJson.backgroundColor.portfolio
+		}
 	}
 
-	// Note: State variables are listed this way to avoid nesting state
-	// and to allow a visualization of style changes to update for the user
-	// in real time without reloading json on every update
-	state = {
-		isCustomizing: false,
-		styleChoice:'presetStyle1',
-		showSelector: false,
-		selectedColor: '#fff',
-		currentComponent:'',
-		textAlignment:styleJson.textAlign,
-		headerStyle:styleJson.navigationStyle.alignment,
-		navOrientation:styleJson.navigationStyle.orientation,
-		navVisibility:styleJson.navigationStyle.visibility,
-		portfolioArrangement:styleJson.portfolioStyle.layout,
-		imageWidth:styleJson.portfolioStyle.imgWidth,
-		backgroundColor:styleJson.backgroundColor,
-		websiteTitleColor: styleJson.text.WebsiteTitle.color, 
-		websiteTitleSize: styleJson.text.WebsiteTitle.size, 
-		pageHeaderColor: styleJson.text.PageHeader.color,
-		pageHeaderSize: styleJson.text.PageHeader.size,
-		mediumHeaderColor: styleJson.text.MediumHeader.color,
-		mediumHeaderSize: styleJson.text.MediumHeader.size,
-		smallHeaderColor: styleJson.text.SmallHeader.color,
-		smallHeaderSize: styleJson.text.SmallHeader.size,
-		descriptionTextColor: styleJson.text.DescriptionText.color,
-		descriptionTextSize: styleJson.text.DescriptionText.size,
-		navigationLinkColor: styleJson.text.NavigationLink.color,
-		navigationLinkSize: styleJson.text.NavigationLink.size,
-		otherLinkColor: styleJson.text.OtherLink.color,
-		otherLinkSize: styleJson.text.OtherLink.size,
-		hoverOnLinkColor: styleJson.text.HoverOnLink.color,
-		hoverOnLinkSize: styleJson.text.HoverOnLink.size,
-		titleBackgroundColor: styleJson.backgroundColor.header,
-		navBackgroundColor: styleJson.backgroundColor.navigation,
-		contentBackgroundColor: styleJson.backgroundColor.content,
-		portfolioBackgroundColor: styleJson.backgroundColor.portfolio
-	}
+	returnToUserPanel(){
+        this.props.history.push('/userPanel');
+    }
 
 	resetState = (jsonStyle) => {
 		this.setState({
@@ -191,24 +196,28 @@ export default class EditStyle extends Component {
 		if (!this.state.isCustomizing) {
 			return(
 				<ErrorBoundary>
-					<div className='Editor'>
-						<form className='pickSampleStyle'>
-							<label htmlFor='presetStyles'>You may choose a preset style from the examples below:  </label>
-							<select id='presetStyles' name='styleChoice' value={this.state.styleChoice} onChange={this.useNewStyle}>
-								<option value='none'>None</option>
-								<option value='presetStyle1'>Greyscale Sleek</option>
-							</select>
-							<label htmlFor='customStylesButton'>Or you may customize your own style: </label>
-							<button type='button' id='customizingStylesButton' onClick={this.switchToCustomizing}> Customize </button>
-						</form>
-						<br/>
-						<StyleVisualization values={this.state}/>
+					<div className="pageEditor">
+	          			<BackButton backPage={this.returnToUserPanel}/>
+						<div className='Editor'>
+							<form className='pickSampleStyle'>
+								<label htmlFor='presetStyles'>You may choose a preset style from the examples below:  </label>
+								<select id='presetStyles' name='styleChoice' value={this.state.styleChoice} onChange={this.useNewStyle}>
+									<option value='none'>None</option>
+									<option value='presetStyle1'>Greyscale Sleek</option>
+								</select>
+								<label htmlFor='customStylesButton'>Or you may customize your own style: </label>
+								<button type='button' id='customizingStylesButton' onClick={this.switchToCustomizing}> Customize </button>
+							</form>
+							<br/>
+							<StyleVisualization values={this.state}/>
+						</div>
 					</div>
 				</ErrorBoundary>
 			)
 		} else {
 			return(
 				<div className='Editor'>
+				    <BackButton backPage={this.returnToUserPanel}/>
 					<button type='button' id='customizingStylesButton' onClick={this.switchToCustomizing}> Return to Preset Styles </button>
 					<ErrorBoundary>
 
