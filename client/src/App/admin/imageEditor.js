@@ -50,25 +50,36 @@ export default class ImageEditor extends Component {
 
 	handleInputChange = (index, event) => {
 	    const values = [...this.state.images];
+	    if (event.target.name==="portfolio" && event.target.value != "No Portfolio"){
+	    	values[index]["oldPortfolio"]=values[index]["portfolio"];
+	    }
 	    values[index][event.target.name]=event.target.value;
+	    values[index]["isChanged"]=true;
 	    this.setState({images:values});
 	};
 
 
 	onSubmit() {
-		this.props.onSubmit(this.state.images);
+		let changedImages = [];
+		for (let i =0; i<this.state.images.length; i++){
+					console.log(this.state.images[i]);
+
+			if (this.state.images[i]['isChanged']){
+				changedImages.push(this.state.images[i]);
+			}
+		};
+		this.props.onSubmit(changedImages);
 	}
 
     render(){
     	if (this.state.imageURLs.length>0){
-
 	    	return(
 	    		<div>
 	    			<ErrorBoundary>
 						<h3 className='editingTitle'>Edit Images</h3>
 						{(this.state.images).map((img, index) => (
 				            <div className='editImageTag' key={img.fileName}>
-				              <img src={this.state.imageURLs[index]} className='editImageTag uploadImage' alt='...'/>
+				              <img src={this.state.imageURLs[index]} className='editImageTag uploadImage' alt={`Image titled ${img.title} in portfolio ${img.portfolio}`}/>
 				              <input type='text' className='imageField' name='title' value={ img.title } placeholder='Title' onChange={event => this.handleInputChange(index, event)} />
 				              <input type='text' className='imageSmallField' name='date' value={ img.date } placeholder='Date' onChange={event => this.handleInputChange(index, event)} />
 				              <input type='text' className='imageSmallField' name='medium' value={ img.medium } placeholder='Medium' onChange={event => this.handleInputChange(index, event)} />
@@ -84,11 +95,11 @@ export default class ImageEditor extends Component {
 				                <option value='none'>No Portfolio</option>
 				                { 
 				                	this.state.portfolios.map((portfolio)=>
-				                		<option key={portfolio} value={portfolio}>{portfolio}</option>
+				                		<option key={img.title+portfolio} value={portfolio}>{portfolio}</option>
 				                	)
 				                }
 				              </select>
-				              <button type='button' className='tooltip btn' onClick={()=>this.removeImage(index)}>
+				              <button key={'button'+img.fileName} type='button' className='tooltip btn' onClick={()=>this.removeImage(index)}>
 				                <FaTrashAlt />
 				                <span className='tooltiptext'>Remove this Image</span>
 				              </button>

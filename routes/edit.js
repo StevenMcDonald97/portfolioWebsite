@@ -8,22 +8,45 @@ const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
 const Page = require("../models/Page");
 
+EditRouter.route('/edit/pageOrder').post(function(req,res){
+	for (let i=0; i++; i<req.body.length){
+		Page.findOneAndUpdate({_id: req.body[i]._id}, {$set:{index:i}},function(err, doc){
+		    if(err){
+		        console.log("Something wrong when updating data!");
+		    }
+		});
+	}
+});
+
 EditRouter.route('/editImages').post(function(req, res) {
  	req.body.forEach((img)=>{
-	 	const update={
-			title: page.title,
-			fileName: page.fileName,
-			size: page.size,
-			medium: page.medium,
-			price: page.price,
-			availability: page.availability,
-			portfolio: page.portfolio
-	    }
+    	let {oldPortfolio, ...update}=img;
     	const query = {'fileName': img.fileName};
 	    Image.findOneAndUpdate(query, update,
-			{new: true }, (err, obj) => console.log(obj));
-	})
+			{new: true }, (err, obj) => console.log("editing image: "+obj));
+		if (oldPortfolio && oldPortfolio!=update.portfolio){
+			console.log("portfolio for "+img.title+" is changed");
 
+			Portfolio.findOneAndUpdate({title: update.portfolio}, {"$push": {imageFileNames: update.fileName}},{ 'new': true }, (err, info) => {
+				if (err) {
+					console.log(err);
+					return err;
+				} 
+			});
+            Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:update.fileName} }, { 'new': true }, (err, info) => {
+                if (err) {
+                    return err;
+                } else {
+                    if (!info) {
+                        console.log('no portfolio found');
+                    } else {
+                      console.log(info);
+                    }
+                }
+            });
+   		}
+
+	});
 });
 
 EditRouter.route('/editHomePage').post(function(req, res) {
@@ -44,7 +67,7 @@ EditRouter.route('/editTextPage').post(function(req, res) {
 		subText: page.subText
     }
 	TextPage.findOneAndUpdate(query, update,
-		{new: true }, (err, obj) => console.log(obj));
+		{new: true }, (err, obj) => console.log("editing textPage: "+obj));
 });
 
 EditRouter.route('/editListPage').post(function(req, res) {
@@ -62,7 +85,7 @@ EditRouter.route('/editListPage').post(function(req, res) {
 		ListObject.findOneAndUpdate(query, obj, {upsert: true}, function(err, doc) {
 		    if (err) {console.log(err); return res.status(500).send({error: err})};
 		    objIds.push(doc._id);
-		    console.log('Succesfully saved object.');
+		    console.log('Succesfully saved list object.');
 		    if (objIds.length===req.body.objs.length){
 		    	const update={
 					type: page.type,
@@ -71,7 +94,7 @@ EditRouter.route('/editListPage').post(function(req, res) {
 					objectIds: objIds
 			    }	
 			    ListPage.findOneAndUpdate(query, update,
-					{new: true }, (err, obj) => console.log(obj));
+					{new: true }, (err, obj) => console.log("listPage: "+ obj));
 		    }
 		});
 
@@ -121,9 +144,9 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 						console.log(`Error updating image ${name}`);
 			            return done(err);
 			        }  
-			        if(img){
+			        if(img && page.title !== img.portfolio){
 			        	let oldPortfolio=img.portfolio;
-			        	console.log(`The Old Portfolio is: ${oldPortfolio}`)
+			        	console.log(`The Old Portfolio for $[img.filename} is: ${oldPortfolio}`)
 		                Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:name} }, { 'new': true }, (err, info) => {
 		                    if (err) {
 		                        return err;

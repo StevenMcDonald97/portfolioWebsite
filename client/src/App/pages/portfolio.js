@@ -48,7 +48,6 @@ export default class Portfolio extends Component {
     }
 
 
-
     changeModalStateInfo(modalImage, modalKey) {
         this.setState({
             modalImage: modalImage,

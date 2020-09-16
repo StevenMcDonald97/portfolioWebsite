@@ -30,9 +30,10 @@ UploadRouter.route('/uploadImages').post(function(req, res) {
     });
 });
 
-UploadRouter.route('/storeImagesInDB').post(function(req, res) {
- 	req.body.forEach((img)=>{
- 		const newImage = new Image(img);
+UploadRouter.route('/storeImagesInDB').post(async function(req, res) {
+ 	await req.body.forEach((img)=>{
+    [oldPortfolio, ...newImg] =img;
+ 		const newImage = new Image(newImg);
  		newImage.save(function(err) {
 		    if (err) {
 		      console.error(err);
@@ -40,45 +41,45 @@ UploadRouter.route('/storeImagesInDB').post(function(req, res) {
 		    } 
 		});
 
-    var query = {'title': img.portfolio};
-    Portfolio.findOneAndUpdate(query, {"$push": {"imageFileNames": img.fileName}},{ 'new': true }, (err, info) => {
-            if (err) {
-                return err;
-            } else {
-                if (!info) {
-                    console.log('no portfolio found');
-                }
-            }
-        });
+    var query = {'title': newImg.portfolio};
+    Portfolio.findOneAndUpdate(query, {"$push": {"imageFileNames": newImg.fileName}},{ 'new': true }, (err, info) => {
+          if (err) {
+            console.log(err);
+              return err;
+          } 
+      });
   });
+  return res.status(200).send("Success uploading image(s).");
+
 });
 
 // create a record pointing to a page's data
-function storePageInfo(page, type, res){
-  let pageInformation = {
-    "title":page.title,
-    "type":type,
-    "_id":page._id
-  }
-  let result=true;
-  const pageInfo = new Page(pageInformation);
-  Page.find({title: pageInfo.title}, function (err, docs) {
-        if (docs.length){
-            res.send("Title Already Exists");
-            result=false;
-        }else{
-            pageInfo.save(function(err) {
-            if (err) {
-              console.error(err);
-              res.status(500).send("Error adding to list of pages.");
-              result= false;
-            }
-          });
-        }
-    });
-
-  return result;
-
+async function storePageInfo(page, type, res){
+  await Page.countDocuments({}, async function (err, count) {
+    let pageInformation = {
+      "title":page.title,
+      "type":type,
+      "_id":page._id,
+      "index":count
+    }
+    let result=true;
+    const pageInfo = new Page(pageInformation);
+    await Page.find({title: pageInfo.title}, function (err, docs) {
+          if (docs.length){
+              res.send("Title Already Exists");
+              result=false;
+          }else{
+              pageInfo.save(function(err) {
+              if (err) {
+                console.error(err);
+                res.status(500).send("Error adding to list of pages.");
+                result= false;
+              }
+            });
+          }
+      });
+    return result;
+  });
 }
 
 UploadRouter.route('/uploadTextPage').post(function(req, res) {
@@ -141,7 +142,6 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
 UploadRouter.route('/uploadPortfolio').post(function(req, res) {
   const newPortfolio = new Portfolio(req.body);
   const pageLoaded = storePageInfo(newPortfolio, "portfolio", res);
-
   if (pageLoaded) {newPortfolio.save(function(err) {
         if (err) {
           console.error(err);

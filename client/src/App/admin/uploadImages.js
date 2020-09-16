@@ -57,7 +57,8 @@ export default class Contact extends Component {
           medium:'',
           availability:'',
           price:'',
-          portfolio:''
+          portfolio:'',
+          isChanged:true,
         });
 
       this.setState({imageData:values}, ()=>{
@@ -76,9 +77,9 @@ export default class Contact extends Component {
   uploadImages(images) {
     const data = new FormData();
     for(var x = 0; x<this.state.selectedFiles.length; x++) {
-           data.append('file', this.state.selectedFiles[x])
+        data.append('file', this.state.selectedFiles[x])
     }
-    console.log(data);
+
     axios.post("/upload/uploadImages", data, { 
           // receive two    parameter endpoint url ,form data
     }).then(res => { // then print response status
@@ -113,7 +114,7 @@ export default class Contact extends Component {
             <div name="imageUploader" className="imageUploader">
                 <input type="file" className="form-control" onChange={this.createImages} multiple />
             </div>
-            <label for="imageUploader"> <FaArrowDown className="uploadArrow"/></label>
+            <label htmlFor="imageUploader"> <FaArrowDown className="uploadArrow"/></label>
           </div>
         </div>
       )
