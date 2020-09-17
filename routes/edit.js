@@ -23,7 +23,7 @@ EditRouter.route('/editImages').post(function(req, res) {
     	let {oldPortfolio, ...update}=img;
     	const query = {'fileName': img.fileName};
 	    Image.findOneAndUpdate(query, update,
-			{new: true }, (err, obj) => console.log("editing image: "+obj));
+			{new: true }, (err, obj) => console.log("editing image: "+obj.title));
 		if (oldPortfolio && oldPortfolio!=update.portfolio){
 			console.log("portfolio for "+img.title+" is changed");
 
@@ -39,8 +39,6 @@ EditRouter.route('/editImages').post(function(req, res) {
                 } else {
                     if (!info) {
                         console.log('no portfolio found');
-                    } else {
-                      console.log(info);
                     }
                 }
             });
@@ -67,7 +65,7 @@ EditRouter.route('/editTextPage').post(function(req, res) {
 		subText: page.subText
     }
 	TextPage.findOneAndUpdate(query, update,
-		{new: true }, (err, obj) => console.log("editing textPage: "+obj));
+		{new: true }, (err, obj) => console.log("editing textPage: "+obj.title));
 });
 
 EditRouter.route('/editListPage').post(function(req, res) {
@@ -94,7 +92,7 @@ EditRouter.route('/editListPage').post(function(req, res) {
 					objectIds: objIds
 			    }	
 			    ListPage.findOneAndUpdate(query, update,
-					{new: true }, (err, obj) => console.log("listPage: "+ obj));
+					{new: true }, (err, obj) => console.log("listPage: "+ obj.title));
 		    }
 		});
 
@@ -112,6 +110,7 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 		mainImageUrl: page.mainImageUrl,
 		imageFileNames: page.imageFileNames
     }
+    console.log(page.imageFileNames);
 
 	// Portfolio.findOneAndUpdate(query, update,  
 	// 	{new: true }, (response) => console.log(response));
@@ -153,8 +152,6 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 		                    } else {
 		                        if (!info) {
 		                            console.log('no portfolio found');
-		                        } else {
-		                          console.log(info);
 		                        }
 		                    }
 		                });			        

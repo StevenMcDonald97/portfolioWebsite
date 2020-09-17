@@ -6,9 +6,11 @@ const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
 const Page = require("../models/Page")
+const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+const path = require('path');
 
 var storage = multer.diskStorage({
-      destination: function (req, file, cb) {
+    destination: function (req, file, cb) {
       cb(null, './client/src/App/upload')
     },
     filename: function (req, file, cb) {
@@ -16,8 +18,55 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ storage: storage }).array('file', 10)
+var upload = multer({ 
+  storage: storage,
+  limits: {
+      fieldNameSize: 200, 
+      fieldSize: 20000, 
+      fileSize: 150000000
+  },
+  fileFilter: function(_req, file, cb){
+      checkFileType(file, cb);
+  } 
+}).array('file', 15);
 
+var uploadSingleImage = multer({ 
+  storage: storage,
+  limits: {
+      fieldNameSize: 200, 
+      fieldSize: 20000, 
+      fileSize: 150000000
+  },
+  fileFilter: function(_req, file, cb){
+      checkFileType(file, cb);
+  } 
+}).single('file');
+
+const checkFileType = (file, cb)=>{
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if(mimetype && extname){
+    return cb(null,true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}
+
+UploadRouter.route('/uploadSingleImage').post(function(req, res) {
+    uploadSingle(req, res, function (err) {
+       if (err instanceof multer.MulterError) {
+           return res.status(500).json(err)
+       } else if (err) {
+           return res.status(500).json(err)
+       }
+      return res.status(200).send(req.file)
+    });
+});
 
 UploadRouter.route('/uploadImages').post(function(req, res) {
     upload(req, res, function (err) {
@@ -32,7 +81,7 @@ UploadRouter.route('/uploadImages').post(function(req, res) {
 
 UploadRouter.route('/storeImagesInDB').post(async function(req, res) {
  	await req.body.forEach((img)=>{
-    [oldPortfolio, ...newImg] =img;
+    let {oldPortfolio, ...newImg} =img;
  		const newImage = new Image(newImg);
  		newImage.save(function(err) {
 		    if (err) {

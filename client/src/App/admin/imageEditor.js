@@ -15,6 +15,7 @@ export default class ImageEditor extends Component {
 		};
 		this.getPortfolioTitles=this.getPortfolioTitles.bind(this);
 		this.removeImage = this.removeImage.bind(this);
+		this.onCancel=this.onCancel.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
    	}
 
@@ -29,10 +30,6 @@ export default class ImageEditor extends Component {
 		  	this.setState({portfolios:response.data});
 		  });
 	}
-
-    returnToUserPanel(){
-        this.props.history.push('/userPanel');
-    }
 
 	removeImage = (index) => {
 		console.log(index);
@@ -58,6 +55,9 @@ export default class ImageEditor extends Component {
 	    this.setState({images:values});
 	};
 
+	onCancel = () =>{
+		this.props.history.push('/userPanel');
+	}
 
 	onSubmit() {
 		let changedImages = [];
@@ -69,17 +69,19 @@ export default class ImageEditor extends Component {
 			}
 		};
 		this.props.onSubmit(changedImages);
+		this.props.history.push('/userPanel');
 	}
 
     render(){
     	if (this.state.imageURLs.length>0){
 	    	return(
-	    		<div>
+	    		<div className="pageEditor">
 	    			<ErrorBoundary>
+          				<BackButton backPage={this.props.backPage}/>
 						<h3 className='editingTitle'>Edit Images</h3>
 						{(this.state.images).map((img, index) => (
 				            <div className='editImageTag' key={img.fileName}>
-				              <img src={this.state.imageURLs[index]} className='editImageTag uploadImage' alt={`Image titled ${img.title} in portfolio ${img.portfolio}`}/>
+				              <ImageErrorBoundary src={this.state.imageURLs[index]} title={img.title} portfolio={img.portfolio}/>
 				              <input type='text' className='imageField' name='title' value={ img.title } placeholder='Title' onChange={event => this.handleInputChange(index, event)} />
 				              <input type='text' className='imageSmallField' name='date' value={ img.date } placeholder='Date' onChange={event => this.handleInputChange(index, event)} />
 				              <input type='text' className='imageSmallField' name='medium' value={ img.medium } placeholder='Medium' onChange={event => this.handleInputChange(index, event)} />
@@ -106,7 +108,7 @@ export default class ImageEditor extends Component {
 				            </div>
 				        ))}
 				    </ErrorBoundary>
-			        <button type='button' className='btn'>Cancel</button>
+			        <button type='button' className='btn' onClick={this.props.backPage}>Cancel</button>
 			        <button type='button' className='btn' onClick={this.onSubmit}>Upload</button>
 
 			    </div>
@@ -115,6 +117,30 @@ export default class ImageEditor extends Component {
 			return <h3> No Images to Edit </h3>;
 		}
     }
+}
+
+class ImageErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return (
+      	<img src="App/upload/defaultImage.png" className='editImageTag uploadImage' alt="This image did not load"/>
+      )
+    }
+    return (
+		<img src={this.props.src} className='editImageTag uploadImage' alt={`Image titled ${this.props.title} in portfolio ${this.props.portfolio}`}/>
+    )
+  }
 }
 
 ImageEditor.propTypes={

@@ -40,7 +40,6 @@ app.use('/email', emailRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/edit', editRoutes);
 app.use('/remove', removeRoutes);
-app.use('/users', userRoutes);
 app.use(errorHandler);
 app.use(cors());
 
@@ -66,7 +65,6 @@ app.get('/api/getPage', (req,res) => {
   if (pageType==="text"){
       textPage.findById(pageId).lean().exec(
       function (err, textPage) {  
-
           res.send(textPage);
       }); 
   } else if (pageType==="list"){

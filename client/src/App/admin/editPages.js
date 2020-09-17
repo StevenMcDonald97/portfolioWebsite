@@ -23,12 +23,13 @@ export default class EditPages extends Component {
 		this.getPageList=this.getPageList.bind(this);
 		this.selectPage=this.selectPage.bind(this);
 		this.returnToPageSelection=this.returnToPageSelection.bind(this);
-
+		this.returnToUserPanel=this.returnToUserPanel.bind(this);
 	}
 
 	componentDidMount() {
 		this.getPageList();
 	}
+
 
 	getPageList = () =>{
 		axios.get('/api/getPageInfo').then((response) => {
@@ -72,6 +73,10 @@ export default class EditPages extends Component {
 		this.setState({currentPageStyle:'none'});
 	}
 	
+	returnToUserPanel(){
+		this.props.history.push('/userPanel');
+	}
+
 
 	render() {
 		const PageList = this.state.pages.map((page) =>
@@ -92,6 +97,7 @@ export default class EditPages extends Component {
 		if (this.state.currentPageStyle==='none'){
 			return(
 				<div className="pageEditor">
+          			<BackButton backPage={this.returnToUserPanel}/>
 					<h3 className='editingTitle'>Select a Page to Edit</h3>
 					<ErrorBoundary>
 						<div className='pageEditElement'> 

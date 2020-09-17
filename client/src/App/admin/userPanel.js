@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import {FaAngleDown} from 'react-icons/fa';
 import { authenticationService } from 'App/admin/authentication/authenticationService';
 
-
 import {
   Link,
 } from 'react-router-dom';
-
 
 class UserPanel extends Component{
     constructor(props) {

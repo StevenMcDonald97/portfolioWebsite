@@ -19,8 +19,6 @@ export default class Contact extends Component {
 		this.loadImages = this.loadImages.bind(this);
 		this.removeImage=this.removeImage.bind(this);
 		this.onSubmit=this.onSubmit.bind(this);
-        this.returnToUserPanel=this.returnToUserPanel.bind(this);
-
    	}
 
    	shouldComponentUpdate () {
@@ -31,10 +29,6 @@ export default class Contact extends Component {
 		this.loadImages();
 	}
 
-    returnToUserPanel(){
-        this.props.history.push('/userPanel');
-    }
-
 	loadImages(){
 		/* fetch all images from database */
 		axios.get('/image/getAll')
@@ -42,7 +36,12 @@ export default class Contact extends Component {
 		  	this.setState({images:response.data});
 		  	let values=this.state.imgURLs;
 		  	response.data.forEach((image, index)=>{
-		  		values.push(images(`./${image.fileName}`));
+		  		try{
+		  			values.push(images(`./${image.fileName}`));
+		  		} catch {
+					values.push(images("./defaultImage.png"));
+		  			console.log("Could not load image "+image.fileName)
+		  		}
 		  	})
 		  	this.setState({imgURLs:values, finishedLoadingImages:true})
 		});
@@ -59,6 +58,7 @@ export default class Contact extends Component {
 	};
 
 	onSubmit(images){
+		console.log(images);
 		axios.post("/edit/editImages", images, { 
 	          // receive two    parameter endpoint url ,form data
 	    }).then(res => { // then print response status
@@ -75,10 +75,10 @@ export default class Contact extends Component {
 			return(
 	    		<ErrorBoundary>
 	    			<div className="pageEditor">
-	               		<BackButton backPage={this.returnToUserPanel}/>
 			    		<ImageEditor imageURLs={this.state.imgURLs} 
 				    		images={this.state.images} 
 				    		removeImageFromParent={this.removeImage} 
+				    		backPage={()=>this.props.history.push('/userPanel')}
 				    		onSubmit={this.onSubmit}/>
 				    </div>
 			    </ErrorBoundary>

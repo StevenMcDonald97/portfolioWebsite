@@ -176,6 +176,7 @@ export default class EditStyle extends Component {
 		axios(options)
 		  .then(response => {
 		    console.log(response.status);
+		    this.props.history.push('/userPanel');
 		  });
 
 	}
@@ -183,7 +184,8 @@ export default class EditStyle extends Component {
 	onCancel = (event) =>{
 		alert('Style values were not saved');
 		this.resetState(styleJson);
-		// REDIRECT BACK TO MAIN PANEL
+		this.props.history.push('/userPanel');
+
 	}
 
 	
@@ -291,8 +293,6 @@ export default class EditStyle extends Component {
 						        <option value='Vertical'>Vertical List</option>
 						    </select>
 						    <br/>
-
-							<button type='submit' value='Update'>Update</button>
 							<button type='submit' value='Save' onClick={this.onSubmit}>Save</button>
 							<button type='reset' value='Cancel' onClick={this.onCancel}>Cancel</button>
 						</form>

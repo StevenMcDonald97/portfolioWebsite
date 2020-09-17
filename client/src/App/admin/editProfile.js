@@ -32,7 +32,7 @@ export default class EditProfile extends Component {
         return (
             <div className="pageEditor">
                 <BackButton backPage={this.returnToUserPanel}/>
-                <h2>Create Your Profile</h2>
+                <h2 className="editingTitle">Modify Your Profile</h2>
                 <Formik
                     initialValues={{
                         username: this.state.name,
@@ -63,33 +63,34 @@ export default class EditProfile extends Component {
                     }
                 >
                     {({ errors, status, touched, isSubmitting }) => (
-                            <Form>
-                                <div className="form-group">
-                                    <label htmlFor="username">Your Name</label>
+                            <Form className="editProfileForm">
+                                <div className="editingFormGroup">
+                                    <label htmlFor="username">Your Name </label>
                                     <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
                                     <ErrorMessage name="username" component="div" className="invalid-feedback" />
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email</label>
+                                <div className="editingFormGroup">
+                                    <label htmlFor="email">Email </label>
                                     <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                                     <ErrorMessage name="emaile" component="div" className="invalid-feedback" />
                                 </div>                            
-                                <div className="form-group">
-                                    <label htmlFor="oldPassword">Old Password</label>
+                                <div className="editingFormGroup">
+                                    <label htmlFor="oldPassword">Old Password </label>
                                     <Field name="oldPassword" type="password" className={'form-control' + (errors.oldPassword && touched.oldPassword ? ' is-invalid' : '')} />
                                     <ErrorMessage name="oldPassword" component="div" className="invalid-feedback" />
                                 </div>    
-                                <div className="form-group">
-                                    <label htmlFor="password">New Password</label>
+                                <div className="editingFormGroup">
+                                    <label htmlFor="password">New Password </label>
                                     <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
                                     <ErrorMessage name="password" component="div" className="invalid-feedback" />
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="confirm">Confirm Password</label>
+                                <div className="editingFormGroup">
+                                    <label htmlFor="confirm">Confirm Password </label>
                                     <Field name="confirm" type="password" className={'form-control' + (errors.confirm && touched.confirm ? ' is-invalid' : '')} />
                                     <ErrorMessage name="confirm" component="div" className="invalid-feedback" />
-                                </div>                            <div className="form-group">
-                                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Register</button>
+                                </div>                            
+                                <div className="editingFormGroup">
+                                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Update</button>
                                     {isSubmitting &&
                                         <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                                     }

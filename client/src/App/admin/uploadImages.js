@@ -102,6 +102,7 @@ export default class Contact extends Component {
           <ImageEditor imageURLs={this.state.imgURLs} 
             images={this.state.imageData} 
             removeImageFromParent={this.removeImage} 
+            backPage={()=>this.props.history.push('/userPanel')}
             onSubmit={this.uploadImages}/>
         </ErrorBoundary>
       )

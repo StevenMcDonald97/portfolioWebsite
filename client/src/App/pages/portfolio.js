@@ -48,6 +48,7 @@ export default class Portfolio extends Component {
     }
 
 
+
     changeModalStateInfo(modalImage, modalKey) {
         this.setState({
             modalImage: modalImage,
@@ -95,7 +96,7 @@ class Image extends Component {
         return (
             <div className="column">
                 <div className="content">
-                    <img className="portfolioImage" src={images(`./${this.props.img.fileName}`)} alt={this.props.description} onClick = {this.clickImage}/>
+                    <ImageErrorCatch src={`${this.props.img.fileName}`} description={this.props.description} clickImage={this.clickImage}/>
                 </div>
             </div>
         );
@@ -108,6 +109,22 @@ Image.propTypes = {
     imgKey:PropTypes.number,
     description:PropTypes.string,
     img:PropTypes.object
+}
+
+class ImageErrorCatch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  render() {
+    try{
+        return <img className="portfolioImage" src={images(`./${this.props.src}`)} alt={this.props.description} onClick = {this.props.clickImage}/>
+    } catch (e){
+        console.log(e);
+        return <img className="portfolioImage" src={images('./defaultImage.png')} alt={this.props.description} onClick = {this.props.clickImage}/>
+    }
+  }
 }
 
 // a different modal component is used here because it needs to be able to 

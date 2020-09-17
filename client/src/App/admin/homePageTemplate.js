@@ -9,7 +9,8 @@ export default class HomePageTemplate extends Component{
 		this.state ={
 			image:'',
 			name:'',
-			subHeader:''
+			subHeader:'',
+			imageFile:''
 		}
 		this.updateImage=this.updateImage.bind(this);
 		this.onSubmit=this.onSubmit.bind(this);
@@ -20,7 +21,8 @@ export default class HomePageTemplate extends Component{
         .then((response) => {
           this.setState({
             name:response.data.name, 
-            image:response.data.image, 
+            imgName:response.data.image, 
+            imageFile:'',
             subHeader:response.data.subHeader, 
             });
         });
@@ -31,14 +33,20 @@ export default class HomePageTemplate extends Component{
 		this.setState({[event.target.name]:event.target.value})
 	}
 
-	updateImage(file){
-		this.setState({mainImage:URL.createObjectURL(file)})
-		this.setState({mainImageName:(file.name)})
+	updateImage(file, name){
+		console.log(name);
+		this.setState({image:name, imageFile:file})
 	}
 
 	onSubmit(){
-		const PageData=this.state;
+		const {imageFile, ...PageData}=this.state;
+		const imageData = new FormData();
+	    imageData.append('file', imageFile);
+	    axios.post("/upload/uploadImages", imageData).then(res => { // then print response status
+	        console.log(`Image upload returned: ${res.statusText}`)
+	    }).catch(err => console.log(err));
 		axios.post('/edit/editHomePage', PageData).then((response)=>console.log(response));
+		this.props.history.push('/userPanel');
 	}
 
 
@@ -49,7 +57,6 @@ export default class HomePageTemplate extends Component{
 					<BackButton backPage={this.props.backPage}/>
 					<div className='inputGroup'>
 						<label className='inputLabel'>Home Page Picture:</label>
-						<img className='pageImage' name='aboutImage' src={this.state.mainImage}/>
 						<UploadImage changeImage={this.updateImage} />
 					</div>
 					<div className='inputGroup'>

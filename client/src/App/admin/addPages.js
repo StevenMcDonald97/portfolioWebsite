@@ -17,7 +17,7 @@ export default class AddPages extends Component {
 		this.changePageType=this.changePageType.bind(this);
 		this.setPageData=this.setPageData.bind(this);
 		this.returnToPageSelection=this.returnToPageSelection.bind(this);
-
+		this.returnToUserPanel=this.returnToUserPanel.bind(this);
 	}
 
 	changePageType(event){
@@ -31,12 +31,14 @@ export default class AddPages extends Component {
 	returnToPageSelection(){
 		this.setState({pageType:'none'});
 	}
-	
+	returnToUserPanel(){
+		this.props.history.push('/userPanel');
+	}
 
 	render() {
 		const PageContents = () => {
 			if (this.state.pageType==='none'){
-				return(<ChoosePage changePageType={this.changePageType}/>);
+				return(<ChoosePage changePageType={this.changePageType} returnToPage={this.returnToUserPanel}/>);
 			} else if (this.state.pageType==='about'){
 				return( 
 					<AboutPageTemplate 
@@ -77,20 +79,23 @@ export default class AddPages extends Component {
 
 const ChoosePage = (props) => {
 	return (
-		<div className='addPageMain pageEditor'>
-			<h3 className='editingTitle'>Select what type of page you want to add</h3>
-			<button type='button' className='pageEditButton' name='about' 
-				onClick={props.changePageType}>About Page</button>
-			<button type='button' className='pageEditButton' name='portfolio' 
-				onClick={props.changePageType}>Portfolio Page</button>
-			<button type='button' className='pageEditButton' name='gallery' 
-				onClick={props.changePageType}>Gallery Page</button>
-			<button type='button' className='pageEditButton' name='event' 
-				onClick={props.changePageType}>Events Page</button>
-			<button type='button' className='pageEditButton' name='workshop' 
-				onClick={props.changePageType}>Workshop Page</button>
-			<button type='button'  className='pageEditButton' name='other' 
-				onClick={props.changePageType}>Other Page</button>
+		<div>
+			<div className='addPageMain pageEditor'>
+		    	<BackButton backPage={props.returnToPage}/>
+				<h3 className='editingTitle'>Select what type of page you want to add</h3>
+				<button type='button' className='pageEditButton' name='about' 
+					onClick={props.changePageType}>About Page</button>
+				<button type='button' className='pageEditButton' name='portfolio' 
+					onClick={props.changePageType}>Portfolio Page</button>
+				<button type='button' className='pageEditButton' name='gallery' 
+					onClick={props.changePageType}>Gallery Page</button>
+				<button type='button' className='pageEditButton' name='event' 
+					onClick={props.changePageType}>Events Page</button>
+				<button type='button' className='pageEditButton' name='workshop' 
+					onClick={props.changePageType}>Workshop Page</button>
+				<button type='button'  className='pageEditButton' name='other' 
+					onClick={props.changePageType}>Other Page</button>
+			</div>
 		</div>
 	);
 };

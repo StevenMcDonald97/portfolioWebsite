@@ -1,12 +1,13 @@
 const express = require('express');
 const EmailRouter = express.Router();
+const User = require('../models/User');
 const nodemailer = require('nodemailer');
 const creds = require('./emailConfig');
 var password = "monetTurnerSargent"
 var email="myArtistWebsiteMailer@gmail.com"
 
 var transport = {
-    host: 'smtp.gmail.com', // Don’t forget to replace with the SMTP host of your provider
+    service: 'gmail', 
     port: 587,
     auth: {
       user: creds.USER,
@@ -15,7 +16,7 @@ var transport = {
 }
 
 var transporter = nodemailer.createTransport(transport)
-
+  
 transporter.verify((error, success) => {
   if (error) {
     console.log(error);
@@ -28,25 +29,26 @@ EmailRouter.post('/send', (req, res, next) => {
   var name = req.body.name
   var email = req.body.email
   var message = req.body.message
-  var content = `name: ${name} \n email: ${email} \n message: ${message} `
+  var content = `${name} at: ${email} sent you the message: \n ${message} `
 
-  var mail = {
-    from: name,
-    to: 'RECEIVING_EMAIL_ADDRESS_GOES_HERE',  // Change to email address that you want to receive messages on
-    subject: 'New Message from Contact Form',
-    text: content
-  }
-
-  transporter.sendMail(mail, (err, data) => {
-    if (err) {
-      res.json({
-        status: 'fail'
-      })
-    } else {
-      res.json({
-       status: 'success'
-      })
+  User.findOne({}).exec(function(err, user) {
+    var mail = {
+      from: name,
+      to: user.email,  // Change to email address that you want to receive messages on
+      subject: 'A client messaged you',
+      text: content
     }
-  })
-})
+    transporter.sendMail(mail, (err, data) => {
+      if (err) {
+        res.json({
+          status: 'fail'
+        })
+      } else {
+        res.json({
+         status: 'success'
+        });
+      }
+    });
+  });
+});
 module.exports = EmailRouter;

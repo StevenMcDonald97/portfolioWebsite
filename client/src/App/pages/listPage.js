@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+const images = require.context('App/upload', true);
 
 export default class ListPage extends Component {
     constructor(props){

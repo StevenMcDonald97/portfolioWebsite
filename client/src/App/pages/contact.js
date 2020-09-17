@@ -13,7 +13,6 @@ export default class Contact extends Component {
       errors : {}
     }
   }
-
   
   resetForm(){
     this.setState({name: '', email:'', message:''})
@@ -67,11 +66,10 @@ export default class Contact extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.handleValidation();
-
     axios({
       method: "POST", 
       url:"/email/send/", 
-      data:  this.state
+      data:  this.state.fields
     }).then((response)=>{
       if (response.data.status === 'success'){
         alert("Message Sent."); 

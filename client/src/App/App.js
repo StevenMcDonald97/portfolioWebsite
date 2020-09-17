@@ -79,7 +79,7 @@ export default class App extends Component {
       this.setState({pageInfo:response.data});
     });
     axios.get('/api/getHomePage').then((response)=>{
-      this.setState({title:response.data.name, subTitle:response.data.subHeader})
+      this.setState({title:response.data.name})
     })
   }
 
@@ -91,8 +91,9 @@ export default class App extends Component {
 
 
   render(){
-    // render a link in the navbar for each route in the database
-    const createLinks = this.state.pageInfo.map((page) => 
+    // sort pages then render a link in the navbar for each route in the database
+    let pages=this.state.pageInfo;
+    const createLinks = pages.sort((a,b) => a.index - b.index).map((page) => 
       <li key={page._id} className='navbar-link'><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
     );
 
@@ -166,7 +167,7 @@ const NewPage =(props)=> {
   } else {
     return (
       <ErrorBoundary >
-       <HomePage heading={props.title}  homeText={props.subTitle} imgDescription="Home page artwork"></HomePage>;
+       <HomePage imgDescription="Home page artwork"></HomePage>;
       </ErrorBoundary>
     );
   }

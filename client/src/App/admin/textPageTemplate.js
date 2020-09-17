@@ -73,7 +73,8 @@ class AboutPageTemplate extends Component {
 		super(props)
 		this.state ={
 			type:'about',
-			img:this.props.image,
+			imgName:this.props.image,
+			imageFile:'',
 			title:'About the Artist',
 			mainText:this.props.mainText,
 			subText:this.props.subText,
@@ -88,13 +89,18 @@ class AboutPageTemplate extends Component {
 		this.setState({[event.target.name]:event.target.value})
 	}
 
-	updateImage(file){
-		this.setState({img:URL.createObjectURL(file)})
+	updateImage(file, name){
+		console.log(name);
+		this.setState({imgName:name, imageFile:file})
 	}
 
-
 	onSubmit(){
-		const {createPage, ...PageData} = this.state;
+		const {createPage, imageFile, ...PageData} = this.state;
+	    const imageData = new FormData();
+	    imageData.append('file', imageFile);
+	    axios.post("/upload/uploadImages", imageData).then(res => { // then print response status
+	        console.log(`Image upload returned: ${res.statusText}`)
+	    }).catch(err => console.log(err));
 
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
@@ -110,7 +116,6 @@ class AboutPageTemplate extends Component {
 					<BackButton backPage={this.props.backPage}/>
 					<div className='inputGroup'>
 						<label className='inputLabel'>Profile Picture:</label>
-						<img className='pageImage' name='aboutImage' src={this.state.img}/>
 						<UploadImage changeImage={this.updateImage} />
 					</div>
 					<div className='inputGroup'>
@@ -151,7 +156,8 @@ class OtherPageTemplate extends Component {
 		super(props)
 		this.state ={
 			type:'other',
-			img:this.props.image,
+			imgName:this.props.image,
+			imageFile:'',
 			title:this.props.title,
 			mainText:this.props.mainText,
 			createPage:this.props.createPage
@@ -165,14 +171,18 @@ class OtherPageTemplate extends Component {
 		this.setState({[event.target.name]:event.target.value})
 	}
 
-	updateImage(file){
-		let newUrl=URL.createObjectURL(file);
-		this.setState({img:newUrl})
+	updateImage(file, name){
+		this.setState({imgName:name, imageFile:file})
 	}
 
 	onSubmit(){
-		const {createPage, ...PageData} = this.state;
-		
+		const {createPage, imageFile, ...PageData} = this.state;
+	    const imageData = new FormData();
+	    imageData.append('file', imageFile);
+	    axios.post("/upload/uploadSingleImage", imageData).then(res => { // then print response status
+	        console.log(`Image upload returned: ${res.statusText}`)
+	    }).catch(err => console.log(err));
+
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
 		} else {
@@ -185,9 +195,7 @@ class OtherPageTemplate extends Component {
 		<div className='pageEditor'>
 			<BackButton backPage={this.props.backPage}/>
 			<div className='inputGroup'>
-
 				<label className='inputLabel' htmlFor='pageImage'>Main Image (optional):</label>
-				<img className='pageImage' src={this.state.img}/>
 				<UploadImage changeImage={this.updateImage} />
 			</div>
 			<div className='inputGroup'>

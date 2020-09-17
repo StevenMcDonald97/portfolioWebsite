@@ -41,7 +41,7 @@ export default class RegistrationPage extends Component {
 	render() {
         return (
             <div>
-                <h2>Create Your Profile</h2>
+                <h2>Update Your Profile</h2>
                 <Formik
                     initialValues={{
                         username: '',

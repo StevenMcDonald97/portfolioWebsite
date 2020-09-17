@@ -10,6 +10,7 @@ export default class PortfolioTemplate extends Component {
 		this.state ={
 			title:"",
 			mainImage:"",
+			imageFile:'',
 			description:"",
 			imageFileNames:[],
 			allImages:[],
@@ -48,8 +49,8 @@ export default class PortfolioTemplate extends Component {
 	    }
     }
 
-	updateImage(file){
-		this.setState({mainImage:URL.createObjectURL(file)})
+	updateImage(file, name){
+		this.setState({mainImage:name, imageFile:file})
 	}
 
 	loadImages(){
@@ -100,7 +101,6 @@ export default class PortfolioTemplate extends Component {
 			<form className="pageForm">
 				<div className="inputGroup">
 					<label className="inputLabel">Portfolio Thumbnail:</label>
-					<img name="mainImage" className="pageImage" src={this.state.mainImage}/>
 					<UploadImage changeImage={this.updateImage} />
 				</div>
 				<div className="inputGroup">
@@ -164,9 +164,36 @@ function ImageCheckBox(props) {
 		<div className="imageSelection">
 			<input type="checkbox" name={props.image.fileName} checked={checked} 
 				onChange={toggle}/>
-			<img className="checkImage" src={images(`./${props.image.fileName}`)}/>
+			<ImageErrorBoundary src={`./${props.image.fileName}`}/>
 			<div> {props.image.title} </div>
 		</div>
 	)
 	    
 }
+
+class ImageErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+  }
+
+  render() {
+    try{
+      return (
+		<img src={images(this.props.src)} className="checkImage" alt={"Artwork Image"}/>
+      )
+    } catch (e){
+    	console.log(e);
+	    return (
+      		<img src={images('./defaultImage.png')} className="checkImage" alt="This image did not load"/>
+	    )
+	}
+  }
+}
+
+
