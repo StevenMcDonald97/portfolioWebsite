@@ -1,7 +1,8 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import {FaArrowLeft} from "react-icons/fa";
 import PropTypes from "prop-types";
-const defaultImage = require("App/upload/defaultImage.png");
+const images = require.context('App/upload', true);
+const defaultImage = images("./defaultImage.png");
 
 const BackButton = (props) => {
 	// props.clearAllData
@@ -17,12 +18,13 @@ BackButton.propTypes = {
 class UploadImage extends Component {
   constructor(props) {
 		super(props);
-      this.state ={
-        selectedFile:null,
-        image:defaultImage
-      };
-      this.changeImage = this.changeImage.bind(this);
-   	}
+    var image = (this.props.currentImage ? images(`./${this.props.currentImage}`) : defaultImage);
+    this.state ={
+      selectedFile:null,
+      image:image
+    };
+    this.changeImage = this.changeImage.bind(this);
+ 	}
 
   changeImage(e) {
     const file = e.target.files[0];
@@ -38,7 +40,7 @@ class UploadImage extends Component {
       return(
         <div className="main-upload-container"> 
           <div className="form-group">
-            <img name="mainImage" className="pageImageUpload" src={this.state.image}/>
+            <img name="mainImage" className="pageImageUpload" src={this.state.image} alt=""/>
             <input type="file" name="image" className="fileInput" 
               	onChange={this.changeImage}/>
           </div>

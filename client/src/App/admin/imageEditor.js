@@ -47,7 +47,7 @@ export default class ImageEditor extends Component {
 
 	handleInputChange = (index, event) => {
 	    const values = [...this.state.images];
-	    if (event.target.name==="portfolio" && event.target.value != "No Portfolio"){
+	    if (event.target.name==="portfolio" && event.target.value !== "No Portfolio"){
 	    	values[index]["oldPortfolio"]=values[index]["portfolio"];
 	    }
 	    values[index][event.target.name]=event.target.value;
@@ -134,11 +134,11 @@ class ImageErrorBoundary extends Component {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-      	<img src="App/upload/defaultImage.png" className='editImageTag uploadImage' alt="This image did not load"/>
+      	<img src="App/upload/defaultImage.png" className='editImageTag uploadImage' alt="Error loading this"/>
       )
     }
     return (
-		<img src={this.props.src} className='editImageTag uploadImage' alt={`Image titled ${this.props.title} in portfolio ${this.props.portfolio}`}/>
+		<img src={this.props.src} className='editImageTag uploadImage' alt={`Work titled ${this.props.title} in portfolio ${this.props.portfolio}`}/>
     )
   }
 }

@@ -1,10 +1,9 @@
 // based on tutorial here: https://codeburst.io/image-uploading-using-react-and-node-to-get-the-images-up-c46ec11a7129
 import React, { Component} from 'react';
 import axios from 'axios';
-import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
 import ImageEditor from "App/admin/imageEditor";
 import ErrorBoundary from 'App/errorBoundary';
-import { BackButton, UploadImage } from 'App/admin/helperComponents';
+import { BackButton } from 'App/admin/helperComponents';
 import {FaArrowDown} from "react-icons/fa";
 
 export default class Contact extends Component {

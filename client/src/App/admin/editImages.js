@@ -1,9 +1,7 @@
 import React, { Component} from 'react';
 import axios from 'axios';
-import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
 import ImageEditor from "App/admin/imageEditor";
 import ErrorBoundary from 'App/errorBoundary';
-import { BackButton } from 'App/admin/helperComponents';
 
 const images = require.context('App/upload', true);
 

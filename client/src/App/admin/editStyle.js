@@ -309,42 +309,9 @@ export default class EditStyle extends Component {
 }       
 
 
-function BackgroundStyle(props){
-	const [fontSize, setFontSize] = useState(props.fontSize);
-	const [fontColor, setColor] = useState(props.color);
-	const componentState =`${props.id}Color`;
-
-	const handleFontChange = e => {
-	    setFontSize(e.target.value);
-		props.onChange(e);
-	};
-
-	const handleColorChange = e => {
-	    setColor(e.target.value);
-		props.onChange(e);
-	};
-
-	return(
-		<div>
-			<h2> {props.name} </h2>
-			<label htmlFor={componentState}> Change color</label>
-			<input type='text' name={componentState} defaultValue={props.color} 
-				onChange={props.onChange}/>
-			<div name={componentState} value='Choose Color' 
-				onClick={()=>props.showSelector(componentState)}>Choose Color</div>
-			<label htmlFor={`${props.id}Size`} > Change font size</label>
-			<input type='range' name={`${props.id}Size`} min='8' max='40' 
-				defaultValue={fontSize} onMouseUp={handleFontChange} className='sizeSlider'/>
-			<div>{fontSize}</div>
-
-		</div>
-	)
-} 
-
-
 function TextStyle(props){
 	const [fontSize, setFontSize] = useState(props.fontSize);
-	const [fontColor, setColor] = useState(props.color);
+	// const [fontColor, setColor] = useState(props.color);
 	const componentState =`${props.id}Color`;
 
 	const handleFontChange = e => {
@@ -352,10 +319,10 @@ function TextStyle(props){
 		props.onChange(e);
 	};
 
-	const handleColorChange = e => {
-	    setColor(e.target.value);
-		props.onChange(e);
-	};
+	// const handleColorChange = e => {
+	//     setColor(e.target.value);
+	// 	props.onChange(e);
+	// };
 
 	return(
 		<div>

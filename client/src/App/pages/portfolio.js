@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import axios from 'axios';
-import Modal from 'App/pages/modal'
-var listOfImages =[];
-const images = require.context('App/upload', true);
+import ImageErrorCatch from 'App/pages/ImageErrorCatch';
 
 export default class Portfolio extends Component {
 
@@ -83,10 +81,6 @@ Portfolio.propTypes = {
 };
 
 class Image extends Component {
-    constructor(props){
-        super(props);
-    }
-
     clickImage = () => {
         this.props.changeModalStateInfo(this.props.img, this.props.imgKey);
         this.props.showModal(); 
@@ -96,7 +90,7 @@ class Image extends Component {
         return (
             <div className="column">
                 <div className="content">
-                    <ImageErrorCatch src={`${this.props.img.fileName}`} description={this.props.description} clickImage={this.clickImage}/>
+                    <ImageErrorCatch imgClass="portfolioImage" src={`${this.props.img.fileName}`} description={this.props.description} clickImage={this.clickImage}/>
                 </div>
             </div>
         );
@@ -111,21 +105,7 @@ Image.propTypes = {
     img:PropTypes.object
 }
 
-class ImageErrorCatch extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
 
-  render() {
-    try{
-        return <img className="portfolioImage" src={images(`./${this.props.src}`)} alt={this.props.description} onClick = {this.props.clickImage}/>
-    } catch (e){
-        console.log(e);
-        return <img className="portfolioImage" src={images('./defaultImage.png')} alt={this.props.description} onClick = {this.props.clickImage}/>
-    }
-  }
-}
 
 // a different modal component is used here because it needs to be able to 
 // flip through images
@@ -165,13 +145,13 @@ class PortfolioModal extends Component {
                 <div className="modal-header">
                     <span className="close" onClick={this.onClose}>&times;</span>
                 </div>
-                <div className="inner-modal">
+                <div className="inner-portfolio-modal">
                     <div className="arrow-container inline">
                         <div className="arrow" onClick={()=>this.decrementImage()}>&larr;</div>
                     </div>
                     <div className="modal-content inline">
                         <div className="inline">
-                            <img className="zoomed-image" src={images(`./${this.props.img.fileName}`)} alt="artwork"/>
+                            <ImageErrorCatch imgClass="zoomed-image" src={this.props.img.fileName} description={"Artwork"} clickImage={()=>{}}/>
                             <h3 className="portfolioImgTitle">
                                 {this.props.img.title}
                             </h3>

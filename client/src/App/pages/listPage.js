@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-const images = require.context('App/upload', true);
+import Modal from 'App/pages/modal';
+import ImageErrorCatch from 'App/pages/ImageErrorCatch';
 
 export default class ListPage extends Component {
     constructor(props){
         super(props);
         this.state={
             title:"",
-            listObjectsData:[]
+            listObjectsData:[],
+            showModal:false,
+            modalImage:'',
+            modalTitle:'',
+            modalBlurb:'',
+            modalText:''
         }
+        this.showModal=this.showModal.bind(this);
         this.loadPage = this.loadPage.bind(this);
         this.createListObjects=this.createListObjects.bind(this);
+        this.changeModalStateInfo=this.changeModalStateInfo.bind(this);
     }
 
     componentDidMount(){
         this.loadPage();
     }
 
+    showModal = () => {
+        this.setState({
+            showModal: !this.state.showModal
+        });
+    };
+
     loadPage = () =>{
-        console.log(this.props);
         var self = this;
         axios.get('/api/getPage', {
             params: {
@@ -39,34 +52,60 @@ export default class ListPage extends Component {
     createListObjects = () =>{
         return(
             this.state.listObjectsData.map((object)=>
-                <ListObject key={object._id} img={object.img} title={object.title} text={object.description} />
+                <ListObject key={object._id} img={object.imgName} title={object.title} blurb={object.blurb} text={object.description} changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}/>
             )
         )
     }
 
+    changeModalStateInfo(image, title, blurb, text) {
+        this.setState({
+            modalImage: image,
+            modalTitle: title,
+            modalBlurb: blurb,
+            modalText: text
+        })
+    }
+
     render(){
+        var modalBody = <ListModalContent image={this.state.modalImage} title={this.state.modalTitle} blurb={this.state.modalBlurb} text={this.state.modalText}/>;
         return (
             <div className="page">
                 <div className="listPage">
                     <h2 className="pageHeader"> { this.props.title }</h2>
-                    <div className="contentMainText"> { this.props.mainText } </div>
+                    <div className="bodyText center"> { this.props.mainText } </div>
                     <div className="listObjects">
                         { this.createListObjects() }
                     </div>
+                    <Modal onClose={ this.showModal } show={ this.state.showModal} content={ modalBody }/>
                 </div>
             </div>
         );
     }
 }
 
+const ListModalContent = (props) =>{
+    return(
+        <div className="listObjectContainer">
+            <ImageErrorCatch imgClass="listModalImage" src={props.image} description={""}/>
+            <h2 className="mediumHeader">{props.title}</h2>
+            <div className="listModalTextContainer">
+                <p className="bodyText">{props.text}</p>
+            </div>
+        </div>
+    )
+}
 
 const ListObject = (props) => {
+    const clickObject = () => {
+        props.changeModalStateInfo(props.img, props.title, props.blurb, props.text);
+        props.showModal(); 
+    }
+
     return(
-        <div className="pageObject">
-            <img className="objectImage" src={props.img}/>
+        <div className="pageObject" onClick={clickObject}>
+            { props.img ? <ImageErrorCatch imgClass="objectImage small" src={props.img} description={""} clickImage={clickObject} /> : "" }
             <h4 className="objectTitle">{props.title}</h4>
             <h5 className="objectBlurb">{props.blurb}</h5>
-            <p className="objectText">{props.text}</p>
         </div>
     )
 

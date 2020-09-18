@@ -70,30 +70,31 @@ EditRouter.route('/editTextPage').post(function(req, res) {
 
 EditRouter.route('/editListPage').post(function(req, res) {
 	const page = req.body;
-    const query = {_id: page.id};
+    const pageQuery = {_id: page.id};
 	// delete objects which were removed
-    ListObject.deleteMany({ _id: {$in: req.body.deleted}}, function(err){console.log(err)});
-
+    if (req.body.deleted.length>0) ListObject.deleteMany({ _id: {$in: req.body.deleted}}, function(err){console.log(err)});
 // ------------ upsert new objects----------
-	let objIds = [];
-	req.body.objs.forEach((obj, index) => {
-		var {id, ...update}=obj;
-		var query = {_id:id};
-		var update =
-		ListObject.findOneAndUpdate(query, obj, {upsert: true}, function(err, doc) {
+	var objIds = [];
+	req.body.objs.forEach((obj) => {
+		var {_id, ...newUpdate}=obj;
+		var objectUpdate={title:newUpdate.title, blurb:newUpdate.blurb, imgName:newUpdate.imgName, description:newUpdate.description, num:newUpdate.num} 
+		var objectQuery = {_id:_id};
+
+		ListObject.findOneAndUpdate(objectQuery, objectUpdate, {upsert: true, new: true}, (err, doc)=> {
 		    if (err) {console.log(err); return res.status(500).send({error: err})};
 		    objIds.push(doc._id);
 		    console.log('Succesfully saved list object.');
 		    if (objIds.length===req.body.objs.length){
-		    	const update={
+		    	const pageUpdate={
 					type: page.type,
 					title: page.title,
 					text: page.text,
 					objectIds: objIds
 			    }	
-			    ListPage.findOneAndUpdate(query, update,
+			    ListPage.findOneAndUpdate(pageQuery, pageUpdate,
 					{new: true }, (err, obj) => console.log("listPage: "+ obj.title));
 		    }
+
 		});
 
 	});

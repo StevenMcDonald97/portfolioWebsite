@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from "prop-types";
-const images = require.context('App/upload', true);
+import ImageErrorCatch from 'App/pages/ImageErrorCatch';
 
 export default class TextPage extends Component {
     constructor(props){
@@ -33,14 +33,13 @@ export default class TextPage extends Component {
     }
 
     render(){
-        console.log("loading text page");
         return (
             <div className="page">
                 <div className="textPage">
                     <h2 className="pageHeader"> { this.state.title }</h2>
-                    <img src={images(`./${this.state.image}`)}/>
-                    <div className="contentMainText"> {this.state.mainText} </div>
-                    <div className="contentSecondaryText clearBoth"> {this.state.secondaryText} </div>
+                    <ImageErrorCatch imgClass="textPageImage" src={this.state.image} description={"Page Image"} clickImage={()=>{}}/>
+                    <div className="mainText bodyText"> {this.state.mainText} </div>
+                    <div className="secondaryText bodyText"> {this.state.secondaryText} </div>
                 </div>
             </div>
         );

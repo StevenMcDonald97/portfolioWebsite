@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import HomeImage from "App/testimages/home.jpg";
 import axios from 'axios';
-const images = require.context('App/upload', true);
+import ImageErrorCatch from 'App/pages/ImageErrorCatch';
 
 export default class HomePage extends Component {
 	constructor(props){
@@ -9,29 +8,48 @@ export default class HomePage extends Component {
 		this.state={
 			title:"",
 			img:'defaultImage.png',
-			subTitle:''
+			subTitle:'',
+			type:"static-box"
 		}	
 	}
 
 	componentDidMount(){
 		axios.get('/api/getHomePage').then((response)=>{
-	      console.log(response.data);
 	      this.setState({title:response.data.name, img:response.data.image, subTitle:response.data.subHeader})
 	    });
 	}
 
 	render() {
-		return(
-			<div>
+		if (this.state.type==="slideShow"){
+
+		} else if (this.state.type==="static-stretch"){
+			return(
 				<div>
-					<img className="landingImage" src={this.state.img ? images(`./${this.state.img}`) : images(`./defaultImage.png`)} alt={this.props.imgDescription}/>
-				</div>
-				<div className="homeText bodyText">
-					<div className="homeBodyText">
-						{this.state.subTitle}
+					<div>
+						<ImageErrorCatch imgClass="landingImage stretch" src={this.state.img} description={this.props.imgDescription} onClick={()=>{}}/>
+					</div>
+					<div className="homeText bodyText">
+						<div className="homeBodyText pageHeader">
+							{this.state.subTitle}
+						</div>
 					</div>
 				</div>
-			</div>
-		);
+			);
+		} else if (this.state.type==="fullscreen"){
+			
+		} else {
+			return(
+				<div>
+					<div>
+						<ImageErrorCatch imgClass="landingImage block" src={this.state.img} description={this.props.imgDescription} onClick={()=>{}}/>
+					</div>
+					<div className="homeText bodyText">
+						<div className="homeBodyText pageHeader">
+							{this.state.subTitle}
+						</div>
+					</div>
+				</div>
+			);
+		}
 	}
 }

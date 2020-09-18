@@ -185,12 +185,12 @@ class ImageErrorBoundary extends Component {
   render() {
     try{
       return (
-		<img src={images(this.props.src)} className="checkImage" alt={"Artwork Image"}/>
+		<img src={images(this.props.src)} className="checkImage" alt=""/>
       )
     } catch (e){
     	console.log(e);
 	    return (
-      		<img src={images('./defaultImage.png')} className="checkImage" alt="This image did not load"/>
+      		<img src={images('./defaultImage.png')} className="checkImage" alt=""/>
 	    )
 	}
   }

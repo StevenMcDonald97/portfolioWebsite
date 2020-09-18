@@ -179,9 +179,9 @@ const StyleVisualization = (props) => {
 				 				exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 				 			<h3 style={mediumHeaderStyle}>Images</h3>
 							<div style={imageListStyle}>
-				 				<img style={imageStyle} src={sampleImg1}/>
-				 				<img style={imageStyle} src={sampleImg2}/>
-				 				<img style={imageStyle} src={sampleImg3}/>
+				 				<img style={imageStyle} src={sampleImg1} alt="an Example by Van Gogh"/>
+				 				<img style={imageStyle} src={sampleImg2} alt="an Example by Van Gogh"/>
+				 				<img style={imageStyle} src={sampleImg3} alt="an Example by Van Gogh"/>
 				 			</div>
 				 			<div style={otherLinkStyle}> Example link</div>
 				 		</div>

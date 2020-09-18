@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { BackButton, UploadImage } from 'App/admin/helperComponents';
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
-import defaultImage from "App/admin/exampleImages/defaultImage.png";
 import PropTypes from "prop-types";
 
 export default class ListPageTemplate extends Component {
@@ -48,7 +47,7 @@ export default class ListPageTemplate extends Component {
 
 	addPageObject(event){
 	    const values = [...this.state.listObjects];
-		values.push({"title":"", "blurb":"", "img":defaultImage, "description":"", 
+		values.push({"title":"", "blurb":"", "imgName":"defaultImage.png", "description":"", 
 			keyValue:new Date().getTime(), num:this.state.numObjs});
 		this.setState({listObjects:values}, 
 			()=>this.setState({numObjs:this.state.numObjs+1}));
@@ -75,9 +74,19 @@ export default class ListPageTemplate extends Component {
 	}
 
 	onSubmit(){
+		var imageFiles = new FormData();
+		var listObjects = this.state.listObjects;
+		listObjects.forEach((obj, index, objects)=>{
+			imageFiles.append('file', obj.imageFile);
+			delete objects[index].imageFile;
+		});
+
+	    axios.post("/upload/uploadImages", imageFiles).then(res => { // then print response status
+	        console.log(`Image upload for page returned: ${res.statusText}`)
+	    }).catch(err => console.log(err));
+
 		const PageData={"type":this.state.type, "title":this.state.type, "text":"",
-			"objs":this.state.listObjects, "deleted":this.state.deleted, "id":this.props.pageId};
-			console.log(PageData);
+			"objs":listObjects, "deleted":this.state.deleted, "id":this.props.pageId};
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadListPage', PageData).then((response)=>alert(response.data))
 		} else {
@@ -86,15 +95,15 @@ export default class ListPageTemplate extends Component {
 	}
 
 	render(){
-
-		const create_inputs = this.state.listObjects.map((obj, index) =>  
-	     	<ListObjectEditor key={obj._id ? obj._id : obj.keyValue} img={obj.img} num={obj.num} 
-	     		title={this.state.listObjects[index].title} 
-	     		blurb={this.state.listObjects[index].blurb}
-	     		description={this.state.listObjects[index].description}
-	     		updatePageObject={this.updatePageObject}
-	     		removePageObject={this.removePageObject}
-	     	/>
+		const create_inputs = this.state.listObjects.map((obj, index) => 
+		     	<ListObjectEditor key={obj._id ? obj._id : obj.keyValue} image={obj.imgName} num={obj.num} 
+		     		title={this.state.listObjects[index].title} 
+		     		blurb={this.state.listObjects[index].blurb}
+		     		description={this.state.listObjects[index].description}
+		     		updatePageObject={this.updatePageObject}
+		     		removePageObject={this.removePageObject}
+		     	/>
+		     
 	    );
 
 		return(
@@ -128,7 +137,7 @@ class ListObjectEditor extends Component {
 	constructor(props){
 		super(props);
 		this.state={
-			image:'',
+			image:this.props.image,
 			title:this.props.title,
 			blurb:this.props.blurb,
 			description:this.props.description
@@ -137,9 +146,10 @@ class ListObjectEditor extends Component {
 		this.updateObject=this.updateObject.bind(this);
 	}
 
-	updateImage = (file) =>{
-		this.setState({image:file});
-		this.props.updatePageObject(this.props.num, "image", file);
+	updateImage = (file, name) =>{
+		this.setState({image:name});
+		this.props.updatePageObject(this.props.num, "imgName", name);
+		this.props.updatePageObject(this.props.num, "imageFile", file);
 	}
 
 	updateObject = (event) =>{
@@ -150,11 +160,11 @@ class ListObjectEditor extends Component {
 	}
 
 	render(){
+
 		return(
 	 		<li className="pageEditingObject">
 	 			<div className="inputGroup">
-					<img className="listObjectImage" src={this.state.image} />
-					<UploadImage changeImage={this.updateImage}/>
+					<UploadImage currentImage={this.state.image} changeImage={this.updateImage} />
 				</div>
 				<div className="inputGroup">
 					<input type="text" name="title" className="editingInput" value={this.state.title} placeholder="Title" 

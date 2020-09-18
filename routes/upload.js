@@ -150,6 +150,8 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
   let objIds = [];
   req.body.objs.forEach((obj, index) => {
     const newListObject = new ListObject(obj);
+    console.log("object information is: "+obj);
+    console.log("object is: "+newListObject);
 
     objIds.push(newListObject._id);
     newListObject.save(function(err) {

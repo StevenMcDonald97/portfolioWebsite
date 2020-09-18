@@ -9,10 +9,6 @@ import {
 class UserPanel extends Component{
     constructor(props) {
         super(props);
-
-        this.state = {
-            currentUser: authenticationService.currentUserValue._doc
-        };
         this.logout=this.logout.bind(this);
     }
 
@@ -23,7 +19,6 @@ class UserPanel extends Component{
     }
 
 	render(){
-		const { currentUser } = this.state;
 		return(
 			<div className='userpanel pageEditor'>
 					<div className='user-navbar'>
