@@ -56,7 +56,6 @@ export default class Contact extends Component {
 	};
 
 	onSubmit(images){
-		console.log(images);
 		axios.post("/edit/editImages", images, { 
 	          // receive two    parameter endpoint url ,form data
 	    }).then(res => { // then print response status
@@ -77,7 +76,8 @@ export default class Contact extends Component {
 				    		images={this.state.images} 
 				    		removeImageFromParent={this.removeImage} 
 				    		backPage={()=>this.props.history.push('/userPanel')}
-				    		onSubmit={this.onSubmit}/>
+				    		onSubmit={this.onSubmit}
+				    		{...this.props}/>
 				    </div>
 			    </ErrorBoundary>
 				)	

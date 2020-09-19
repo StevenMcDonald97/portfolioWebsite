@@ -102,7 +102,8 @@ export default class Contact extends Component {
             images={this.state.imageData} 
             removeImageFromParent={this.removeImage} 
             backPage={()=>this.props.history.push('/userPanel')}
-            onSubmit={this.uploadImages}/>
+            onSubmit={this.uploadImages}
+            {...this.props}/>
         </ErrorBoundary>
       )
     } else {

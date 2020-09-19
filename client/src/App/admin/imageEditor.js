@@ -4,6 +4,7 @@ import { FaTrashAlt } from 'react-icons/fa';  // Font Awesome
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'App/errorBoundary';
 import { BackButton } from 'App/admin/helperComponents';
+import { history } from 'App/admin/authentication/history';
 
 export default class ImageEditor extends Component {
 	constructor(props) {
@@ -32,7 +33,6 @@ export default class ImageEditor extends Component {
 	}
 
 	removeImage = (index) => {
-		console.log(index);
 		if(index > -1){
 			let values = [...this.state.images];
 			values.splice(index, 1);
@@ -47,7 +47,7 @@ export default class ImageEditor extends Component {
 
 	handleInputChange = (index, event) => {
 	    const values = [...this.state.images];
-	    if (event.target.name==="portfolio" && event.target.value !== "No Portfolio"){
+	    if (event.target.name==="portfolio" && event.target.value !== "No Portfolio" && !values[index]["oldPortfolio"]){
 	    	values[index]["oldPortfolio"]=values[index]["portfolio"];
 	    }
 	    values[index][event.target.name]=event.target.value;
@@ -62,14 +62,12 @@ export default class ImageEditor extends Component {
 	onSubmit() {
 		let changedImages = [];
 		for (let i =0; i<this.state.images.length; i++){
-					console.log(this.state.images[i]);
-
 			if (this.state.images[i]['isChanged']){
 				changedImages.push(this.state.images[i]);
 			}
 		};
-		this.props.onSubmit(changedImages);
 		this.props.history.push('/userPanel');
+		this.props.onSubmit(changedImages);
 	}
 
     render(){

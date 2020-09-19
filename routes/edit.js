@@ -22,8 +22,9 @@ EditRouter.route('/editImages').post(function(req, res) {
  	req.body.forEach((img)=>{
     	let {oldPortfolio, ...update}=img;
     	const query = {'fileName': img.fileName};
-	    Image.findOneAndUpdate(query, update,
-			{new: true }, (err, obj) => console.log("editing image: "+obj.title));
+
+	    Image.findOneAndUpdate(query, update, {new: true }, (err, obj) => console.log("editing image: "+obj.title));
+		
 		if (oldPortfolio && oldPortfolio!=update.portfolio){
 			console.log("portfolio for "+img.title+" is changed");
 
@@ -35,6 +36,7 @@ EditRouter.route('/editImages').post(function(req, res) {
 			});
             Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:update.fileName} }, { 'new': true }, (err, info) => {
                 if (err) {
+                	console.log(err);
                     return err;
                 } else {
                     if (!info) {

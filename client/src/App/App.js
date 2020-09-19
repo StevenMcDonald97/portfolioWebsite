@@ -14,7 +14,6 @@ import 'App/CSS/portfolio.css';
 import 'App/CSS/footer.css';
 import 'App/CSS/modal.css';
 import 'App/CSS/form.css';
-import 'App/CSS/contentPage.css';
 import 'App/CSS/editing.css';
 
 

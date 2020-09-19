@@ -33,24 +33,72 @@
 
 .inline { float:left; }
 
+.portfolioImageContainer {
+  position: relative;
+  max-height:20vw;
+  max-width:20vw;
+  min-width:10em;
+  min-height:10em;
+}
 
 .portfolioImage{
-  width:20vw;
-  max-height:35vh; 
+  display:block;
+  max-height:20vw;
+  max-width:20vw;
   min-width:10em;
+  min-height:10em;
   vertical-align:top;
-  cursor:pointer;
 }
 
 .portfolioImage:hover{
   
 }
 
+.portfolioOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  line-height:100%;
+  vertical-align:top;
+  cursor:pointer;
+  transition: .6s ease;
+  background-color: rgba(40,40,40,.7);
+}
+
+.portfolioImageContainer:hover .portfolioOverlay {
+  opacity: 1;
+}
+
+.portfolioImageText {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  line-height:1.6;
+  vertical-align:top;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+
 /* Responsive layout - makes a two column-layout instead of four columns */
 @media screen and (max-width: 900px) {
   .portfolioImage{
-    max-width:45vw;
-    max-height:45vh; 
+    max-width:40vw;
+    max-height:40vw; 
+  }
+
+  .portfolioImageContainer {
+    max-height:40vw;
+    max-width:40vw;
   }
 
   .column {
@@ -63,6 +111,12 @@
   .portfolioImage{
     max-width:80vw;
     max-height:80vh; 
+  }
+
+  .portfolioImageContainer {
+    position: relative;
+    max-height:80vw;
+    max-width:80vw;
   }
 
   .column {

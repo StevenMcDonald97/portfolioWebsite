@@ -35,11 +35,11 @@ export default class TextPage extends Component {
     render(){
         return (
             <div className="page">
+                <h2 className="pageHeader"> { this.state.title }</h2>
                 <div className="textPage">
-                    <h2 className="pageHeader"> { this.state.title }</h2>
+                    <div className="textPageMainText bodyText"> {this.state.mainText} </div>
                     <ImageErrorCatch imgClass="textPageImage" src={this.state.image} description={"Page Image"} clickImage={()=>{}}/>
-                    <div className="mainText bodyText"> {this.state.mainText} </div>
-                    <div className="secondaryText bodyText"> {this.state.secondaryText} </div>
+                    <div className="textPageSecondaryText bodyText"> {this.state.secondaryText} </div>
                 </div>
             </div>
         );

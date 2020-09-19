@@ -71,7 +71,7 @@ export default class ListPage extends Component {
         return (
             <div className="page">
                 <div className="listPage">
-                    <h2 className="pageHeader"> { this.props.title }</h2>
+                    <h2 className="pageHeader"> { this.state.title }</h2>
                     <div className="bodyText center"> { this.props.mainText } </div>
                     <div className="listObjects">
                         { this.createListObjects() }
@@ -86,10 +86,10 @@ export default class ListPage extends Component {
 const ListModalContent = (props) =>{
     return(
         <div className="listObjectContainer">
-            <ImageErrorCatch imgClass="listModalImage" src={props.image} description={""}/>
+            { props.image ? <ImageErrorCatch imgClass="listModalImage" src={props.image} description={""}/> : "" }
             <h2 className="mediumHeader">{props.title}</h2>
             <div className="listModalTextContainer">
-                <p className="bodyText">{props.text}</p>
+                <p className="bodyText modalText">{props.text}</p>
             </div>
         </div>
     )
@@ -103,7 +103,6 @@ const ListObject = (props) => {
 
     return(
         <div className="pageObject" onClick={clickObject}>
-            { props.img ? <ImageErrorCatch imgClass="objectImage small" src={props.img} description={""} clickImage={clickObject} /> : "" }
             <h4 className="objectTitle">{props.title}</h4>
             <h5 className="objectBlurb">{props.blurb}</h5>
         </div>
