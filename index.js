@@ -106,7 +106,7 @@ app.get('/api/getHomePage', (req,res) => {
   HomePage.findOne({}, function(err, page) {
       if (err) return res.send(500, {error: err});
       if(!page){
-        page = new HomePage({name:'', image:'', subHeader:'', });
+        page = new HomePage({type:'simpleImage', name:'', images:[], subHeader:'', imageLinks:[]});
         page.save(function(err){console.log(err)});
       }
       return res.send(page);

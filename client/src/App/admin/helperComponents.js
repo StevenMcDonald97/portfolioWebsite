@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {FaArrowLeft} from "react-icons/fa";
 import PropTypes from "prop-types";
+import ImageErrorCatch from "App/pages/ImageErrorCatch"
 const images = require.context('App/upload', true);
 const defaultImage = images("./defaultImage.png");
 
@@ -53,4 +54,27 @@ UploadImage.propTypes={
   changeImage:PropTypes.func.isRequired
 }
 
-export { BackButton, UploadImage };
+/*create a component for each image to enable adding and removing from a portfolio*/
+function ImageCheckBox(props) {
+  const [checked, setChecked] = useState(props.checked);
+    const toggle = React.useCallback(() => {
+      setChecked(!checked);
+      if (!checked) {
+        props.addToPage(props.image.fileName)
+      } else {
+        props.removeFromPage(props.image.fileName)
+      }
+    });
+
+
+  return (        
+    <div className="imageSelection">
+      <input type="checkbox" name={props.image.fileName} checked={checked} 
+        onChange={toggle}/>
+      <ImageErrorCatch imgClass="checkImage" src={props.image.fileName}/>
+    </div>
+  )
+      
+}
+
+export { BackButton, UploadImage, ImageCheckBox };

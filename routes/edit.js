@@ -106,7 +106,7 @@ EditRouter.route('/editListPage').post(function(req, res) {
 
 EditRouter.route('/editPortfolio').post(function(req, res) {
 	const page = req.body;
-    const query = {title: page.title};
+    const query = {title: page.oldTitle};
     const update={
     	title: page.title,
 		description: page.description,
@@ -127,6 +127,10 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
         if (err){
             return done(err);
         }  
+
+        if (!portfolio){
+        	console.log("NO PORTFOLIO WAS FOUND");
+        }
 
 		let oldFileNames = portfolio.imageFileNames;
 		Portfolio.updateOne(query, update).exec();

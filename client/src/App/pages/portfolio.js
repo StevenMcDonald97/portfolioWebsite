@@ -13,7 +13,7 @@ export default class Portfolio extends Component {
             imageNames:[],
             images:[],
             showMod: false,
-            modalImage:{},
+            modalImage:{fileName:'defaultImage.png', title:'Default'},
             imageKey:-1
           };
         this.changeModalStateInfo = this.changeModalStateInfo.bind(this);
@@ -45,10 +45,9 @@ export default class Portfolio extends Component {
         });
     }
 
-
-
     changeModalStateInfo(modalImage, modalKey) {
         this.setState({
+            showMod:true,
             modalImage: modalImage,
             imageKey:modalKey
         })
@@ -71,7 +70,7 @@ export default class Portfolio extends Component {
                             <Image key={index} imgKey={index} img={image} description="A painting" changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}></Image>
                     )
                   }
-                    <PortfolioModal onClose={this.showModal} images={this.state.images} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
+                    <PortfolioModal visible={this.state.showMod} onClose={this.showModal} images={this.state.images} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
 
                 </div>
             </div>
@@ -98,7 +97,7 @@ class Image extends Component {
                         <div className="portfolioImageText">
                             <strong> {this.props.img.title}</strong> <br/>
                             {this.props.img.medium} <br/>
-                            {this.props.img.price ? `\$${this.props.img.price}` : ""}
+                            {this.props.img.price ? `$${this.props.img.price}` : ""}
                         </div>
                     </div>
                 </div>
@@ -120,9 +119,24 @@ Image.propTypes = {
 // a different modal component is used here because it needs to be able to 
 // flip through images
 class PortfolioModal extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            isVisible:this.props.showMod
+        }
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.show !== this.props.show){
+            this.setState({          
+                isVisible: this.props.show
+            });
+        }
+    }
 
     onClose = e => {
         this.props.onClose && this.props.onClose(e);
+        this.setState({isVisible:false});
       };
 
     incrementImage = () => {
@@ -147,11 +161,8 @@ class PortfolioModal extends Component {
     }
   
     render() {
-        if (!this.props.show) {
-            return null;
-        }
         return (
-            <div className="modal" id="modal">
+            <div className={this.state.isVisible ? 'modal fadeIn':'modal fadeOut'} id="modal">
                 <div className="modal-header">
                     <span className="close" onClick={this.onClose}>&times;</span>
                 </div>

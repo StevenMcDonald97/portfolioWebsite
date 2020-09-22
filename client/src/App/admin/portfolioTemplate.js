@@ -1,17 +1,17 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton, UploadImage } from 'App/admin/helperComponents';
+import { BackButton, UploadImage, ImageCheckBox } from 'App/admin/helperComponents';
 import PropTypes from "prop-types";
-const images = require.context('App/upload', true);
 
 export default class PortfolioTemplate extends Component {
 	constructor(props){
 		super(props)
 		this.state ={
-			title:"",
-			mainImage:"",
+			title:'',
+			oldtitle:'',
+			mainImage:'',
 			imageFile:'',
-			description:"",
+			description:'',
 			imageFileNames:[],
 			allImages:[],
 			createPage:this.props.createPage
@@ -41,6 +41,7 @@ export default class PortfolioTemplate extends Component {
 	        .then((response) => {
 	          this.setState({
 	            title:response.data.title, 
+	            oldTitle:response.data.title, 
 	            mainImage:response.data.mainImage, 
 	            description:response.data.description, 
 	            imageFileNames:response.data.imageFileNames, 
@@ -81,7 +82,7 @@ export default class PortfolioTemplate extends Component {
 	}
 
 	onSubmit(){
-		const PageData={"title":this.state.title, "mainImage":this.state.mainImage, 
+		const PageData={"title":this.state.title, "oldTitle":this.state.oldTitle, "mainImage":this.state.mainImage, 
 			"description":this.state.description, "imageFileNames":this.state.imageFileNames,
 			"id":this.props.pageId};
 		if (this.state.createPage) { 
@@ -123,11 +124,11 @@ export default class PortfolioTemplate extends Component {
 						? this.state.allImages.map((image) =>(
 							<ImageCheckBox 
 								key={image._id}
+								checked={this.state.title===image.portfolio && this.state.title!==""}
 								image={image} 
 								title={this.state.title}
-								addToPortfolio={this.addImageToPortfolio}
-								removeFromPortfolio={this.removeImageFromPortfolio}
-								isInPortfolio={false}
+								addToPage={this.addImageToPortfolio}
+								removeFromPage={this.removeImageFromPortfolio}
 							/>
 						)
 					) : <div> Go to Add Images to upload images to your site </div>}
@@ -146,54 +147,3 @@ PortfolioTemplate.propTypes = {
 	cratePage:PropTypes.string,
 	backPage:PropTypes.func.isRequired
 }
-
-/*create a component for each image to enable adding and removing from a portfolio*/
-function ImageCheckBox(props) {
-	const [checked, setChecked] = useState(props.title===props.image.portfolio && props.title!=="");
-  	const toggle = React.useCallback(() => {
-  		setChecked(!checked);
-  		if (!checked) {
-  			props.addToPortfolio(props.image.fileName)
-  		} else {
-  			props.removeFromPortfolio(props.image.fileName)
-  		}
-  	});
-
-
-	return (			  
-		<div className="imageSelection">
-			<input type="checkbox" name={props.image.fileName} checked={checked} 
-				onChange={toggle}/>
-			<ImageErrorBoundary src={`./${props.image.fileName}`}/>
-			<div> {props.image.title} </div>
-		</div>
-	)
-	    
-}
-
-class ImageErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  componentDidCatch(error, info) {
-    // Display fallback UI
-    this.setState({ hasError: true });
-  }
-
-  render() {
-    try{
-      return (
-		<img src={images(this.props.src)} className="checkImage" alt=""/>
-      )
-    } catch (e){
-    	console.log(e);
-	    return (
-      		<img src={images('./defaultImage.png')} className="checkImage" alt=""/>
-	    )
-	}
-  }
-}
-
-

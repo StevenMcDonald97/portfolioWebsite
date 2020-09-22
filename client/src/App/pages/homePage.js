@@ -1,32 +1,62 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ImageErrorCatch from 'App/pages/ImageErrorCatch';
+import { Fade } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
+import { Link } from 'react-router-dom';
+import {FaAngleLeft, FaAngleRight} from 'react-icons/fa';
 
 export default class HomePage extends Component {
 	constructor(props){
 		super(props);
 		this.state={
 			title:"",
-			img:'defaultImage.png',
+			images:['defaultImage.png'],
+			imageLinks:[],
 			subTitle:'',
-			type:"static-box"
+			type:"simple"
 		}	
 	}
 
 	componentDidMount(){
 		axios.get('/api/getHomePage').then((response)=>{
-	      this.setState({title:response.data.name, img:response.data.image, subTitle:response.data.subHeader})
+	      this.setState({type:response.data.type, title:response.data.name, images:response.data.images, imageLinks:response.data.imageLinks, subTitle:response.data.subHeader })
 	    });
 	}
 
 	render() {
-		if (this.state.type==="slideShow"){
+		const prevArrow = <div className="homeSlideControl left"><FaAngleLeft /></div>;
+		const nextArrow = <div className="homeSlideControl right"><FaAngleRight /></div>;
 
-		} else if (this.state.type==="static-stretch"){
+		if (this.state.type==="slideShow"){
+			return (
+				<div>
+				    <div className="slide-container">
+				    	<Fade duration={4000} prevArrow={prevArrow} nextArrow={nextArrow}>
+					      	{ this.state.images.map((image)=>
+								<div key={image} className="each-fade">
+								  <div className="image-container">
+								    <ImageErrorCatch imgClass="homeSlideImage" src={image} />
+								  </div>
+								</div>
+					      	)}
+						</Fade>
+					</div>
+					<div className="homeText bodyText">
+						<div className="homeBodyText pageHeader">
+							{this.state.subTitle}
+						</div>
+					</div>
+				</div>
+			)
+		} else if (this.state.type==="options"){
 			return(
 				<div>
-					<div>
-						<ImageErrorCatch imgClass="landingImage stretch" src={this.state.img} description={this.props.imgDescription} onClick={()=>{}}/>
+					<div className="homeObjectContainer">
+						{this.state.images.map((image, index)=>
+							<HomeObject key={image} image={image} link={this.state.imageLinks[index]}/>
+						)}
+
 					</div>
 					<div className="homeText bodyText">
 						<div className="homeBodyText pageHeader">
@@ -35,13 +65,24 @@ export default class HomePage extends Component {
 					</div>
 				</div>
 			);
-		} else if (this.state.type==="fullscreen"){
-			
+		} else if (this.state.type==="fullScreen"){
+			return(
+				<div>
+					<div>
+						<ImageErrorCatch imgClass="landingImage block fullScreen" src={this.state.images[0]} description={this.props.imgDescription} onClick={()=>{}}/>
+					</div>
+					<div className="homeText bodyText">
+						<div className="homeBodyText pageHeader">
+							{this.state.subTitle}
+						</div>
+					</div>
+				</div>
+			);	
 		} else {
 			return(
 				<div>
 					<div>
-						<ImageErrorCatch imgClass="landingImage block" src={this.state.img} description={this.props.imgDescription} onClick={()=>{}}/>
+						<ImageErrorCatch imgClass={`landingImage block ${this.state.type}`} src={this.state.images[0]} description={this.props.imgDescription} onClick={()=>{}}/>
 					</div>
 					<div className="homeText bodyText">
 						<div className="homeBodyText pageHeader">
@@ -53,3 +94,16 @@ export default class HomePage extends Component {
 		}
 	}
 }
+
+const HomeObject = (props) => {
+    return(
+        <Link to={`/${props.link}`} className="homeObject">
+            <ImageErrorCatch imgClass="homeObjectImage" src={props.image}/>
+            <h3 className="homeObjectLink">{props.link}</h3>
+        </Link>
+    )
+}
+
+
+
+

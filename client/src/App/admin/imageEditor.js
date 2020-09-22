@@ -4,7 +4,6 @@ import { FaTrashAlt } from 'react-icons/fa';  // Font Awesome
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'App/errorBoundary';
 import { BackButton } from 'App/admin/helperComponents';
-import { history } from 'App/admin/authentication/history';
 
 export default class ImageEditor extends Component {
 	constructor(props) {
