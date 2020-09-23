@@ -49,6 +49,7 @@ h1 {
   width:100%;
   object-fit:cover;
   object-position:20% 50%;
+  margin-top:0;
 }
 
 .headerText{
@@ -119,19 +120,19 @@ h1 {
 
 .homeObject{
   height:18rem;
-  width:14rem;
-  margin:1rem 2vw;
+  width:17rem;
+  /*margin:1rem 2vw;*/
   padding:1rem;
-  background:#888;
+  background:none;
   display:inline-block;
-  -webkit-box-shadow: 0px 0px 2px 3px rgba(0,0,0,.4);  
+/*  -webkit-box-shadow: 0px 0px 2px 3px rgba(0,0,0,.4);  
   -moz-box-shadow:    0px 0px 2px 3px rgba(0,0,0,.4);  
-  box-shadow:         0px 0px 2px 3px rgba(0,0,0,.4);
+  box-shadow:         0px 0px 2px 3px rgba(0,0,0,.4);*/
   }
 
 .homeObjectImage{
-  height:12rem;
-  width:12rem;
+  height:14rem;
+  width:14rem;
   object-fit: cover;
   object-position: 20% 50%;
 }
@@ -189,10 +190,9 @@ h1 {
   text-align:center;
 }
 
-.pageObject {
+.listPageObject {
   display:inline-block;
-  height:12rem;
-  width:15rem;
+  width:14rem;
   padding:1rem;
   border:none;
   border-radius:3px;
@@ -210,7 +210,7 @@ h1 {
   font-size:1.7em;
 }
 
-.objectImage{
+.listObjectImage{
   cursor:pointer;
   width:80%;
   height:60%;

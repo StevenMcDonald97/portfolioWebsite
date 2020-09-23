@@ -99,7 +99,7 @@ const HomeObject = (props) => {
     return(
         <Link to={`/${props.link}`} className="homeObject">
             <ImageErrorCatch imgClass="homeObjectImage" src={props.image}/>
-            <h3 className="homeObjectLink">{props.link}</h3>
+            <h3 className="smallHeader">{props.link}</h3>
         </Link>
     )
 }

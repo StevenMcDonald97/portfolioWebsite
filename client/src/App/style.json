@@ -1,50 +1,48 @@
 {
   "text": {
     "WebsiteTitle": {
-      "color": "#84fdff",
-      "size": "30"
+      "color": "#ebfffe",
+      "size": "36"
     },
     "PageHeader": {
-      "color": "#383030",
+      "color": "#d1e3db",
       "size": "24"
     },
     "MediumHeader": {
-      "color": "#84d396",
-      "size": "18"
+      "color": "#b8c8bc",
+      "size": "20"
     },
     "SmallHeader": {
-      "color": "#ccc",
+      "color": "#bcc8c1",
       "size": "16"
     },
-    "DescriptionText": {
-      "color": "#9013fe",
-      "size": "12"
+    "BodyText": {
+      "color": "#f7f6fb",
+      "size": "14"
     },
     "NavigationLink": {
-      "color": "#00fff8",
-      "size": "12"
+      "color": "#83fcfc",
+      "size": "18"
     },
     "OtherLink": {
       "color": "#ccc",
-      "size": "12"
+      "size": "11"
     },
     "HoverOnLink": {
       "color": "#acff00",
       "size": "12"
+    },
+    "ObjectText": {
+      "color": "#8a75f7",
+      "size": "13"
     }
   },
-  "navigationStyle": {
-    "orientation": "Horizontal",
-    "visibility": "visible"
-  },
-  "portfolioStyle": {
-    "layout": "grid"
-  },
   "backgroundColor": {
-    "header": "#333",
-    "navigation": "#111",
-    "content": "#555",
-    "portfolio": "#444",
-    "contact": "#555"
+    "title": "#121212",
+    "header": "#3e3e3f",
+    "navigation": "#69686a",
+    "body": "#848484",
+    "emphasis": "#bebdbe",
+    "object": "#555"
   }
 }

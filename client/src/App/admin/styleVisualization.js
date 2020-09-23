@@ -7,41 +7,34 @@ import PropTypes from 'prop-types';
 const StyleVisualization = (props) => {
 
 	const pageStyle = {
- 		width:'94%',
+ 		width:'94vw',
  		height:'100%',
-		margin:'3%',
-		backgroundColor:props.values.contentBackgroundColor,
+		textAlign:'center',
+		margin:'0 auto',
+		background:props.values.bodyBackgroundColor,
 	};
 
 	const headerStyle = {
 		padding:'2vw',
 		margin:0,
 		color: props.values.websiteTitleColor,
-		backgroundColor:props.values.titleBackgroundColor,
+		background:props.values.titleBackgroundColor,
 		fontSize:`${props.values.websiteTitleSize}px`,
 		textAlign:'center'
 	};
 
-	const navBarStyle = props.values.navOrientation === 'Horizontal' ? {
+	const navBarStyle = {
 		display: 'block',
-		backgroundColor: props.values.navBackgroundColor, 
+		background: props.values.navigationBackgroundColor, 
 		width:'100%',
 		height:'100%',
 		marginTop:0
-	} : {
-		display: 'inline-block',
-		backgroundColor: props.values.navBackgroundColor, 
-		width:'15%',
-		height:'100%',
-		marginLeft:0,
-		marginTop:0,
-	};
+	} 
 
 	const subPageStyle = {
 		width:'80%',
 		height:'100%',
-		marginLeft:'5%',
-		marginright:'5%',
+		margin:'0 auto',
 		verticalAlign: 'top',
 		marginTop:0,
 		display: 'inline-block',
@@ -56,7 +49,7 @@ const StyleVisualization = (props) => {
 		textAlign:'center'
 	};
 
-	const navLinkStyle = props.values.navOrientation === 'Horizontal' ? {
+	const navLinkStyle = {
 		display: 'inline-block',
 		paddingLeft:'2vw',
 		paddingRight:'2vw',
@@ -65,42 +58,38 @@ const StyleVisualization = (props) => {
 		textDecoration: 'none',
 		fontSize: `${props.values.navigationLinkSize}px`, 
 		cursor:'pointer'
-	} : {
-		display: 'block',
-		paddingLeft:'2vw',
-		paddingRight:'2vw',
-		marginTop:'4vh',
-		color: props.values.navigationLinkColor,
-		textAlign: 'center',
-		textDecoration: 'none',
-		fontSize: `${props.values.navigationLinkSize}px`, 
-		cursor:'pointer'
-	};
+	} 
  
 	const pageHeaderStyle = {
+		width:'94vw',
+		overflow:"auto",
+		padding:'.5em',
+		marginTop:'0em',
 		color: props.values.pageHeaderColor, 
 		fontSize:`${props.values.pageHeaderSize}px`,
-		margin: '1em',
-		textAlign:'center'
+		textAlign:'center',
+		background: props.values.pageHeaderBackgroundColor, 
 	};
 
 	const mediumHeaderStyle = {
 		color: props.values.mediumHeaderColor, 
 		fontSize:`${props.values.mediumHeaderSize}px`,
 		margin: '.75em',
-		textAlign:'center'
+		textAlign:'center',
+		marginBottom:'1em'
 	};
 
 	const smallHeaderStyle = {
 		color: props.values.smallHeaderColor, 
 		fontSize:`${props.values.smallHeaderSize}px`,
 		margin: '.5em',
-		textAlign:'center'
+		textAlign:'center',
+		marginBottom:'1em'
 	};
 
-	const descriptionStyle = {
-		color: props.values.descriptionTextColor, 
-		fontSize:`${props.values.descriptionTextSize}px`,
+	const bodyStyle = {
+		color: props.values.bodyTextColor, 
+		fontSize:`${props.values.bodyTextSize}px`,
 		margin: '.5em',
 		textAlign:'center'
 	};
@@ -117,31 +106,41 @@ const StyleVisualization = (props) => {
 		listStyleType: 'none',
 		width:'100%',
 		margin: 0,
-		padding:'1vw',				
+		padding:'2vw',				
 		overflow: 'hidden',
 		textAlign:'center',
 		alignItems: 'center',
 		justifyContent: 'center',
+		background: props.values.emphasisBackgroundColor, 
 	}; 
 
-	const imageStyle = props.values.portfolioArrangement === 'Vertical' ?  
-	{
-		display: 'block',
-		marginLeft:'27%',
-		padding:'2vw',
-		width:'50%',
-		height:'30vw',
-	    alignItems: 'center',
-	    justifyContent: 'center',
-		cursor:'pointer'
-	} : {
+	const imageStyle = {
 		display: 'inline-block',
 		paddingLeft:'2vw',
 		paddingRight:'2vw',
 		width:'20vw',
 		height:'15vw',
 		cursor:'pointer'
-	};
+	}
+
+	const objectListStyle = {
+		listStyleType: 'none',
+		width:'100%',
+		margin: 0,
+		padding:'1vw',				
+		overflow: 'hidden',
+		textAlign:'center',
+	}; 
+
+	const objectStyle = {
+		display: 'inline-block',
+		paddingLeft:'2vw',
+		paddingRight:'2vw',
+		width:'25vw',
+		height:'20vw',
+		textAlign:'center',
+		background: props.values.objectBackgroundColor, 
+	}
 
 	const footerStyle = {
 		color: props.values.navLinkColor, 
@@ -158,7 +157,7 @@ const StyleVisualization = (props) => {
 	return(
 			<div className='StyleVisualization'>
 				<h2> Style Visualisation</h2>
-				<div> This is how the styling will look on your website </div>
+				<div> This is how the colors on your website will look (this layout is just an example)</div>
 				<div style={pageStyle}> 
 		 			<h1  style={headerStyle}> Website Title </h1>
 		 			<div>
@@ -169,11 +168,11 @@ const StyleVisualization = (props) => {
 				 				<li style={navLinkStyle}>Example Link</li>
 				 			</ul>
 				 		</div>
+				 		<h2 style={pageHeaderStyle}>Page Header</h2>
 				 		<div style={subPageStyle}>
-				 			<h2 style={pageHeaderStyle}>Page Header</h2>
 				 			<h3 style={mediumHeaderStyle}>Sub Header</h3>
 				 			<h4 style={smallHeaderStyle}>SubSubHeader</h4>
-				 			<p style={descriptionStyle}>Some description text here. Lorem ipsum dolor 
+				 			<p style={bodyStyle}>Some body text here. Lorem ipsum dolor 
 				 				sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
 				 				ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
 				 				exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>

@@ -43,10 +43,6 @@ export default class App extends Component {
     	);
     } else if (this.state.style="dropdown"){
     	
-
-
-
-
     	const createLinks = this.state.pageInfo.map((page) => 
 			<Dropdown.Item as="button" key={page._id}><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></Dropdown.Item>
 	    );

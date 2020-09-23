@@ -102,8 +102,9 @@ const ListObject = (props) => {
     }
 
     return(
-        <div className="pageObject" onClick={clickObject}>
+        <div className="listPageObject" onClick={clickObject}>
             <h4 className="objectTitle">{props.title}</h4>
+            <ImageErrorCatch imgClass="listObjectImage" src={props.image} description={""}/> 
             <h5 className="objectBlurb">{props.blurb}</h5>
         </div>
     )
