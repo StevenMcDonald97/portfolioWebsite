@@ -8,8 +8,8 @@ import {
 import axios from 'axios';
 
 import 'index.css';
-import 'App/CSS/header.css';
-import 'App/CSS/main.css';
+import 'App/CSS/main.scss';
+import 'App/CSS/header.scss';
 import 'App/CSS/portfolio.css';
 import 'App/CSS/footer.css';
 import 'App/CSS/modal.css';
@@ -20,13 +20,13 @@ import 'App/CSS/editing.css';
 import ErrorBoundary from 'App/errorBoundary';
 
 // page types
+import Navigation from 'App/pages/navigation'
 import Portfolio from 'App/pages/portfolio';
 import TextPage from 'App/pages/textPage';
 import ListPage from 'App/pages/listPage';
 import Contact from 'App/pages/contact';
 import HomePage from 'App/pages/homePage';
 import Modal from 'App/pages/modal';
-
 import Login from 'App/admin/login';
 import Register from 'App/admin/register';
 import EditProfile from 'App/admin/editProfile';
@@ -62,7 +62,8 @@ export default class App extends Component {
       pageInfo: [],   
       showContact: false,
       title:"",
-      subTitle:""
+      subTitle:"",
+      navBarType:"top"
     };
     this.setState = this.setState.bind(this);
   }
@@ -109,32 +110,25 @@ export default class App extends Component {
             content={ ContactElement }/>
           <Router>
             <div>
-              <div className='header'>
-                <h1 className='page-title'><Link to ='/' className='pageTitle'>{this.state.title}</Link></h1>
-                <ErrorBoundary>
-                  <div className='navbar'>
-                    <ul className='navbar-links'>
-                      <li className='navbar-link'><Link to={'/'} className='navbar-link'>Home</Link></li>
-                      { createLinks }
-                      <li key='contact' className='navbar-link'><div className='navbar-link' onClick={ this.showContact } >Contact</div></li>
-                    </ul>
-                  </div>
-                </ErrorBoundary >
+              <div className={`header ${this.state.navBarType}`}>
+                <h1 className='pageTitle'><Link to ='/' className='pageLink'>{this.state.title}</Link></h1>
+                <Navigation type={this.state.navBarType} showContact={ this.showContact } />
               </div>
-
-              <Switch>
-                <Route exact path='/login' component={Login} />
-                <Route exact path='/register' component={Register} />
-                <PrivateRoute exact path='/editProfile' component={EditProfile} />
-                <PrivateRoute exact path='/uploadImages' component={UploadImages} />
-                <PrivateRoute exact path='/styleEditor' component={EditStyle} />
-                <PrivateRoute exact path='/userPanel' component={UserPanel} />
-                <PrivateRoute exact path='/addPages' component={AddPages} />
-                <PrivateRoute exact path='/editPages' component={EditPages} />
-                <PrivateRoute exact path='/editImages' component={EditImages} />
-                { createRoutes }
-                <Route path='/' render={() => {return <NewPage title={this.state.title} subTitle={this.state.subTitle}/>}} />
-              </Switch>
+              <div className={`pageContainer ${this.state.navBarType}`}>
+                <Switch>
+                  <Route exact path='/login' component={Login} />
+                  <Route exact path='/register' component={Register} />
+                  <PrivateRoute exact path='/editProfile' component={EditProfile} />
+                  <PrivateRoute exact path='/uploadImages' component={UploadImages} />
+                  <PrivateRoute exact path='/styleEditor' component={EditStyle} />
+                  <PrivateRoute exact path='/userPanel' component={UserPanel} />
+                  <PrivateRoute exact path='/addPages' component={AddPages} />
+                  <PrivateRoute exact path='/editPages' component={EditPages} />
+                  <PrivateRoute exact path='/editImages' component={EditImages} />
+                  { createRoutes }
+                  <Route path='/' render={() => {return <NewPage title={this.state.title} subTitle={this.state.subTitle}/>}} />
+                </Switch>
+            </div>
             </div>
           </Router>
         </div>

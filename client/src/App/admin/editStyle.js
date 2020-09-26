@@ -49,7 +49,7 @@ export default class EditStyle extends Component {
 			navigationBackgroundColor: styleJson.backgroundColor.navigation,
 			bodyBackgroundColor: styleJson.backgroundColor.body,
 			emphasisBackgroundColor: styleJson.backgroundColor.emphasis,
-			objectBackgroungColor: styleJson.backgroundColor.object
+			objectBackgroundColor: styleJson.backgroundColor.object
 		}
 	}
 
@@ -87,7 +87,7 @@ export default class EditStyle extends Component {
 			navigationBackgroundColor: styleJson.backgroundColor.navigation,
 			bodyBackgroundColor: styleJson.backgroundColor.body,
 			emphasisBackgroundColor: styleJson.backgroundColor.emphasis,
-			objectBackgroungColor: styleJson.backgroundColor.object
+			objectBackgroundColor: styleJson.backgroundColor.object
 		})
 	}
 
@@ -142,7 +142,7 @@ export default class EditStyle extends Component {
 			navigation:this.state.navigationBackgroundColor,
 			body:this.state.bodyBackgroundColor,
 			emphasis:this.state.emphasisBackgroundColor,
-			object:this.state.objectBackgroungColor
+			object:this.state.objectBackgroundColor
 
 		}
 		
@@ -218,7 +218,7 @@ export default class EditStyle extends Component {
 			// )
 
 			return(
-				<div className='Editor'>
+				<div className='editor pageEditor'>
 				    <BackButton backPage={this.returnToUserPanel}/>
 					<button type='button' id='customizingStylesButton' onClick={this.switchToCustomizing}> Return to Preset Styles </button>
 					<ErrorBoundary>

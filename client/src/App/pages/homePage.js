@@ -30,7 +30,7 @@ export default class HomePage extends Component {
 
 		if (this.state.type==="slideShow"){
 			return (
-				<div>
+				<div className="page">
 				    <div className="slide-container">
 				    	<Fade duration={4000} prevArrow={prevArrow} nextArrow={nextArrow}>
 					      	{ this.state.images.map((image)=>
@@ -43,7 +43,7 @@ export default class HomePage extends Component {
 						</Fade>
 					</div>
 					<div className="homeText bodyText">
-						<div className="homeBodyText pageHeader">
+						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
 						</div>
 					</div>
@@ -51,7 +51,7 @@ export default class HomePage extends Component {
 			)
 		} else if (this.state.type==="options"){
 			return(
-				<div>
+				<div className="page">
 					<div className="homeObjectContainer">
 						{this.state.images.map((image, index)=>
 							<HomeObject key={image} image={image} link={this.state.imageLinks[index]}/>
@@ -59,7 +59,7 @@ export default class HomePage extends Component {
 
 					</div>
 					<div className="homeText bodyText">
-						<div className="homeBodyText pageHeader">
+						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
 						</div>
 					</div>
@@ -67,12 +67,12 @@ export default class HomePage extends Component {
 			);
 		} else if (this.state.type==="fullScreen"){
 			return(
-				<div>
+				<div className="page">
 					<div>
 						<ImageErrorCatch imgClass="landingImage block fullScreen" src={this.state.images[0]} description={this.props.imgDescription} onClick={()=>{}}/>
 					</div>
 					<div className="homeText bodyText">
-						<div className="homeBodyText pageHeader">
+						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
 						</div>
 					</div>
@@ -80,12 +80,12 @@ export default class HomePage extends Component {
 			);	
 		} else {
 			return(
-				<div>
+				<div className="page">
 					<div>
 						<ImageErrorCatch imgClass={`landingImage block ${this.state.type}`} src={this.state.images[0]} description={this.props.imgDescription} onClick={()=>{}}/>
 					</div>
 					<div className="homeText bodyText">
-						<div className="homeBodyText pageHeader">
+						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
 						</div>
 					</div>

@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import {
   Link,
 } from 'react-router-dom';
-import { slide as Menu } from "react-burger-menu";
-import DropDown from 'react-bootstrap/DropDown';
+import axios from 'axios';
+import {FaAngleDown} from 'react-icons/fa';
+import ErrorBoundary from 'App/errorBoundary';
 
-export default class App extends Component {
+export default class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    	style:"top",
-    	pageInfo:[]
+    	style:this.props.type,
+    	pageInfo:[],
+      dropdownClass:"",
+      menuWrapClass:""
     };
+    this.clickToggleButton=this.clickToggleButton.bind(this);
+    this.clickOutsideMenu=this.clickOutsideMenu.bind(this);
+    this.stopPropogation=this.stopPropogation.bind(this);
   }
 
   componentDidMount() {
@@ -20,168 +26,164 @@ export default class App extends Component {
     });
   }
 
+  clickToggleButton(){
+    console.log("here");
+    if (this.state.dropdownClass==""){
+      this.setState({dropdownClass:"buttonOpen"});
+      this.setState({menuWrapClass:"dropDownMenuShow"});
+    } else {
+      this.setState({dropdownClass:""});
+      this.setState({menuWrapClass:""});
+    }
+  }
+
+  clickOutsideMenu(){
+    this.setState({dropdownClass:""});
+    this.setState({menuWrapClass:""});
+  }
+
+  stopPropogation(e){
+    e.stopPropagation();
+  }
+
   render(){
+    if (this.state.style==="sidebar"){
+      const createSubLink = (childId) => {
+        this.state.pageInfo.forEach((page)=>{
+          if (page._id===childId){
+            return <li ><Link className="dropDownMenuLink" to={`/${page.title.replace(/\s+/g, '')}`}>page.title}</Link></li>
+          }
+        })
+      }
+
+      const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
+          if (page.children){
+             return (
+                <div>
+                  <div className='sideLink'>{page.title} <FaAngleDown /></div>
+                  <ul className="sub-menu">
+                    page.children.map((childId)=>
+                      createSubLink(childId)
+                    )
+                  </ul>
+                </div>
+              )
+          } else if (page.parent){
+              return null;
+          } else {
+            return <Link key={page._id} to={`/${page.title.replace(/\s+/g, '')}`} className='sideLink'>{page.title}</Link>     
+          }
+        }
+      );
+
+      return(
+        <div className="menuSideBar">
+          <div>
+             <Link key='home' to={'/'} className='sideLink'>Home</Link>      
+              { createLinks }
+              <a key='contact' className='sideLink' onClick={ this.props.showContact } >Contact</a>
+          </div>
+        </div>
+      );
 
 
-    if (this.state.style="split"){
-    	return();
-    } else if (this.state.style="sidebarFixed"){
-    	const createLinks = this.state.pageInfo.map((page) => 
-	      <Link key={page._id} to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link>
-	    );
-
-    	return();
-    } else if (this.state.style="sidebarCollapsable"){
+    } else if (this.state.style==="sidebarCollapsable"){
     	const createLinks = this.state.pageInfo.map((page) => 
 	      <Link key={page._id} to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link>
 	    );
     	return(
-			<Menu {...props}>
-			  { createLinks }
-             <div onClick={ this.props.showContact } >Contact</div>
-			</Menu>
+        null
     	);
-    } else if (this.state.style="dropdown"){
-    	
-    	const createLinks = this.state.pageInfo.map((page) => 
-			<Dropdown.Item as="button" key={page._id}><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></Dropdown.Item>
-	    );
+    } else if (this.state.style==="dropdown"){
+
+      const createSubLink = (childId) => {
+        this.state.pageInfo.forEach((page)=>{
+          if (page._id===childId){
+            return <li ><Link className="dropDownMenuLink" to={`/${page.title.replace(/\s+/g, '')}`}>page.title}</Link></li>
+          }
+        })
+      }
+
+      const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
+          if (page.children){
+             return (
+                <li key={page._id} className="menu-item-has-children">
+                  <div className='dropDownMenuLink'>{page.title} <FaAngleDown /></div>
+                  <ul className="sub-menu">
+                    page.children.map((childId)=>
+                      createSubLink(childId)
+                    )
+                  </ul>
+                </li>
+              )
+          } else if (page.parent){
+              return null;
+          } else {
+            return <li key={page._id} ><Link to={`/${page.title.replace(/\s+/g, '')}`} className='dropDownMenuLink'>{page.title}</Link></li>          
+          }
+        }
+      );
 
     	return(
-			<DropdownButton id="dropdown-item-button" title="Dropdown button">
-			</DropdownButton>
-
-
-			<Dropdown>
-			  <Dropdown.Toggle variant="success" id="dropdown-basic">
-			    Dropdown Button
-			  </Dropdown.Toggle>
-
-				<Dropdown.Menu>
-            		{ createLinks }
-					<Dropdown.Item as="button"><div onClick={ this.props.showContact } >Contact</div></Dropdown.Item>
-				</Dropdown.Menu>
-			</Dropdown>
-
-
-
-
+        <div className="custom-dropdown-menu">
+          <span className={`menuToggleButton ${this.state.dropdownClass}`} onClick={this.clickToggleButton}>
+            <div className="menuBar menuBarTop"></div>
+            <div className="menuBar menuBarMiddle"></div>
+            <div className="menuBar menuBarBottom"></div>
+          </span>
+          <div className={`dropDownMenuWrap ${this.state.menuWrapClass}`} onClick={this.clickOutsideMenu}>
+            <div>
+              <ul className="dropDownMenu">
+                <li key='home' ><Link to={'/'} className='dropDownMenuLink'>Home</Link></li>          
+                { createLinks }
+                <li key='contact'><div className='dropDownMenuLink' onClick={ this.props.showContact } >Contact</div></li>
+              </ul>
+            </div>
+          </div>
+        </div>
     	);
     } else {
-    	const createLinks = this.state.pageInfo.map((page) => 
-	      <li key={page._id} className={this.state.className}><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
-	    );
+      const createSubLink = (childId) => {
+        this.state.pageInfo.forEach((page)=>{
+          if (page._id===childId){
+            return <Link className="user-dropwdown-link" to={`/${page.title.replace(/\s+/g, '')}`}>page.title}</Link>
+          }
+        })
+      }
+
+      const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
+          if (page.children){
+             return (<li key={page._id} className='navbar-link dropdown'>
+                  <div className='user-navbar-link dropbtn'>{page.title} <FaAngleDown /></div>
+                  <div className='dropdown-content'>
+                    page.children.map((childId)=>
+                      createSubLink(childId)
+                    )
+                  </div>
+                </li>
+              )
+          } else if (page.parent){
+              return null;
+          } else {
+            return <li key={page._id} className='navbar-link'><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
+          }
+        }
+      );
+
     	return(
-    		<ErrorBoundary>
-              <div className='topNavbar'>
-                <ul className='topNavbarLinks'>
-                  { createLinks }
-                  <li key='contact' className='topNavbarLink'><div onClick={ this.props.showContact } >Contact</div></li>
-                </ul>
-              </div>
-            </ErrorBoundary >
+          <ErrorBoundary>
+            <div className='navbar'>
+              <ul className='navbar-links'>
+                <li className='navbar-link'><Link to={'/'} className='navbar-link'>Home</Link></li>
+                { createLinks }
+                <li key='contact' className='navbar-link'><div className='navbar-link' onClick={ this.props.showContact } >Contact</div></li>
+              </ul>
+            </div>
+          </ErrorBoundary >
         );
     }
   }
 
 
 }
-
-const MenuContainer = styled("div")`
-  display: ${(p) => (p.show ? "flex" : "none")};
-  min-width: 150px;
-  position: absolute;
-  z-index: 1000;
-  flex-direction: column;
-  border: 1px solid #e5e5e5;
-  background-color: white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-`;
-
-
-
-const createLinks = this.state.pageInfo.map((page) => 
-	<button
-        type="button"
-        onClick={onClose}
-        className="text-left hover:bg-brand-100 px-6 py-2"
-      >
-        <Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link>
-    </button>
-);
-
-const Menu = ({ role }) => {
-  const { show, onClose, props } = useDropdownMenu({
-    flip: true,
-    offset: [0, 8],
-  });
-  return (
-    <MenuContainer {...props} role={role} show={show}>
-      <button
-        type="button"
-        onClick={onClose}
-        className="text-left hover:bg-brand-100 px-6 py-2"
-      >
-        Item 1
-      </button>
-      <button
-        type="button"
-        onClick={onClose}
-        className="text-left hover:bg-brand-100 px-6 py-2"
-      >
-        Item 2
-      </button>
-    </MenuContainer>
-  );
-};
-
-const Toggle = ({ id, children }) => {
-  const [props, { show, toggle }] = useDropdownToggle();
-  return (
-    <button
-      type="button"
-      className="btn"
-      id={id}
-      {...props}
-      onClick={toggle}
-    >
-      {children}
-    </button>
-  );
-};
-
-
-const [show, setShow] = useState(false);
-
-const DropdownButton = ({
-  show,
-  onToggle,
-  drop,
-  alignEnd,
-  title,
-  role,
-}) => (
-  <Dropdown
-    show={show}
-    onToggle={onToggle}
-    drop={drop}
-    alignEnd={alignEnd}
-    itemSelector="button:not(:disabled)"
-  >
-    {({ props }) => (
-      <div {...props} className="relative inline-block">
-        <Toggle id="example-toggle">{title}</Toggle>
-        <Menu role={role} />
-      </div>
-    )}
-  </Dropdown>
-);
-
-
-  <DropdownButton
-    show={show}
-    onToggle={(nextShow) => setShow(nextShow)}
-    title={ &#x2261 }
-  />
-
 

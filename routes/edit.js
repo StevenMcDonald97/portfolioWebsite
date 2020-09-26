@@ -18,6 +18,25 @@ EditRouter.route('/edit/pageOrder').post(function(req,res){
 	}
 });
 
+EditRouter.route('/edit/pages').post(function(req,res){
+	// update order
+	for (let i=0; i++; i<req.body.length){
+		Page.findOneAndUpdate({_id: req.body[i]._id}, {$set:{index:i}},function(err, doc){
+		    if(err){
+		        console.log("Something wrong when updating data!");
+		    }
+		});
+	}
+	// update parent/children of pages
+	for (let i=0; i++; i<req.body.length){
+		Page.findOneAndUpdate({_id: req.body[i]._id}, {parent:req.body[i].parentId ,children:req.body[i].childrenId},function(err, doc){
+		    if(err){
+		        console.log("Something wrong when updating data!");
+		    }
+		});
+	}
+});
+
 EditRouter.route('/editImages').post(function(req, res) {
  	req.body.forEach((img)=>{
     	let {oldPortfolio, ...update}=img;

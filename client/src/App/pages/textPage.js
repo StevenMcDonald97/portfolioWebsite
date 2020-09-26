@@ -37,9 +37,9 @@ export default class TextPage extends Component {
             <div className="page">
                 <h2 className="pageHeader"> { this.state.title }</h2>
                 <div className="textPage">
-                    <div className="textPageMainText bodyText"> {this.state.mainText} </div>
+                    <div className="textPageMainText bodyText emphasis"> {this.state.mainText} </div>
                     <ImageErrorCatch imgClass="textPageImage" src={this.state.image} description={"Page Image"} clickImage={()=>{}}/>
-                    <div className="textPageSecondaryText bodyText"> {this.state.secondaryText} </div>
+                    <div className="textPageSecondaryText bodyText emphasis"> {this.state.secondaryText} </div>
                 </div>
             </div>
         );

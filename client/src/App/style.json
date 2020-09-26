@@ -1,27 +1,27 @@
 {
   "text": {
     "WebsiteTitle": {
-      "color": "#ebfffe",
+      "color": "#fffefc",
       "size": "36"
     },
     "PageHeader": {
-      "color": "#d1e3db",
+      "color": "#e3dcd1",
       "size": "24"
     },
     "MediumHeader": {
-      "color": "#b8c8bc",
-      "size": "20"
+      "color": "#c8c3b8",
+      "size": "22"
     },
     "SmallHeader": {
-      "color": "#bcc8c1",
+      "color": "#c8c4bc",
       "size": "16"
     },
     "BodyText": {
-      "color": "#f7f6fb",
+      "color": "#eee5d8",
       "size": "14"
     },
     "NavigationLink": {
-      "color": "#83fcfc",
+      "color": "#efefef",
       "size": "18"
     },
     "OtherLink": {
@@ -39,10 +39,10 @@
   },
   "backgroundColor": {
     "title": "#121212",
-    "header": "#3e3e3f",
-    "navigation": "#69686a",
+    "header": "#505050",
+    "navigation": "#202020",
     "body": "#848484",
     "emphasis": "#bebdbe",
-    "object": "#555"
+    "object": "#e8e8e8"
   }
 }

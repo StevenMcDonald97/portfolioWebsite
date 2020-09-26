@@ -87,7 +87,7 @@ const ListModalContent = (props) =>{
     return(
         <div className="listObjectContainer">
             { props.image ? <ImageErrorCatch imgClass="listModalImage" src={props.image} description={""}/> : "" }
-            <h2 className="mediumHeader">{props.title}</h2>
+            <h2 className="mediumHeader modalText">{props.title}</h2>
             <div className="listModalTextContainer">
                 <p className="bodyText modalText">{props.text}</p>
             </div>
@@ -103,9 +103,9 @@ const ListObject = (props) => {
 
     return(
         <div className="listPageObject" onClick={clickObject}>
-            <h4 className="objectTitle">{props.title}</h4>
-            <ImageErrorCatch imgClass="listObjectImage" src={props.image} description={""}/> 
-            <h5 className="objectBlurb">{props.blurb}</h5>
+            <div className="objectTitle">{props.title}</div>
+            <ImageErrorCatch imgClass="listObjectImage" src={props.img} description={""}/> 
+            <div className="objectBlurb">{props.blurb}</div>
         </div>
     )
 

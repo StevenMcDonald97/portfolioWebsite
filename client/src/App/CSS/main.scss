@@ -1,3 +1,5 @@
+@import './_custom.scss';
+
 * {
   box-sizing: border-box;
 }
@@ -10,8 +12,8 @@ body {
     margin: 0 !important;
     padding: 0 !important;
     width:100% !important;
+    background-color:$bodyBackgroundColor;
     -webkit-text-size-adjust: auto;
-    background-color:#555;
 }
 
 a {
@@ -25,11 +27,27 @@ h1 {
   word-break: break-all;
 }
 
-.pageTitle{
-  font-size:1em;
-  text-decoration:none;
-  color:white;
+.sidebar {
+  margin-left:14rem;
 }
+
+.pageLink{
+  font-size:$titleSize;
+  text-decoration:none;
+  color:$titleColor;
+}
+
+.pageTitle{
+  position:relative;
+  background:$titleBackgroundColor;
+  display:block;
+  text-align:center;
+  height:4.0rem;
+  line-height:4.0rem;
+  margin:0;
+  z-index:50;
+}
+
 
 .landingImage {
 	display:block;
@@ -52,15 +70,14 @@ h1 {
   margin-top:0;
 }
 
-.headerText{
-	text-align:center;
-	font-size:8vh;
-
-}
-
-.smallHeaderText{
-	text-align:center;
-	font-size:6vh;
+.landingImage.fullScreen {
+  position:absolute;
+  height:80vh;
+  width:100%;
+  object-fit:cover;
+  object-position:20% 50%;
+  margin-top:0;
+  z-index:0;
 }
 
 .homeText {
@@ -72,17 +89,72 @@ h1 {
   width:100%;
   padding:2rem;
   margin-top:0;
-  color:white;
-	font-size:3vw;
-  background:#444;
+  color:$pageHeaderColor;
+	font-size:$pageHeadersize;
+  background:$headerBackgroundColor;
 	text-align:center;
 }
 
-.homeBodyText {
-	font-size:5vh;
+.mediumHeader{
+  width:100%;
+  text-align:center;
+  font-size:$mediumHeaderSize;
+  color:$mediumHeaderColor;
+}
+
+.smallHeader{
+  width:100%;
+  text-align:center;
+  font-size:$smallHeaderSize;
+  color:$smallHeaderColor;
+}
+
+.bodyText{
+  color:$bodyTextColor;
+  font-size:$bodyTextSize;
+}
+
+
+.navbar {
+  background-color: $navigationBackgroundColor;
+  /*overflow: hidden;*/
+}
+
+.navbar-links {
+  list-style-type: none;
+  width:100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
   text-align:center;
 
 }
+
+
+.navbar-link {
+  /*float:left;*/
+  display: inline-block;
+  color: $navLinkColor;
+  text-align: center;
+  padding: .4rem .5rem;
+  text-decoration: none !important;
+  font-size: $navLinkSize;
+  cursor:pointer;
+}
+
+/* Change the color of links on hover */
+.navbar-link:hover {
+  color: #ddd;
+}
+
+/* Add an active class to highlight the current page */
+.navbar-link .active {
+  color: blue;
+}
+
+.navbar .icon {
+  display: none;
+} 
 
 .slide-container{
   margin:3rem auto;
@@ -142,13 +214,6 @@ h1 {
   text-decoration: none !important;
 }
 
-
-
-.bodyText{
-  color:white;
-  font-size:1.4rem;
-}
-
 .inline { float:left; }
 .clearBoth { clear:both; }
 
@@ -197,9 +262,8 @@ h1 {
   border:none;
   border-radius:3px;
   text-align:center;
-  background:#eee;
-  color:#222;
   cursor:pointer;
+  background:$objectBackgroundColor;
   margin:2vw;
 /*    -webkit-box-shadow: 0px 0px 2px 3px rgba(0,0,0,.4);  
     -moz-box-shadow:    0px 0px 2px 3px rgba(0,0,0,.4);  
@@ -208,14 +272,23 @@ h1 {
 
 .objectTitle {
   font-size:1.7em;
+  color:$objectTextColor;
+  margin-bottom:1rem
+}
+
+.objectBlurb{
+  color:$objectTextColor;
+  font-size:$objectTextSize;
+  margin-bottom:1rem
 }
 
 .listObjectImage{
   cursor:pointer;
-  width:80%;
-  height:60%;
+  width:10rem;
+  height:8rem;
+  border-radius:3px;
   object-fit:cover;
-
+  margin-bottom:1rem;
 }
 
 .loginPage {
@@ -271,4 +344,9 @@ h1 {
 
 .image-container{
   text-align:center;
+}
+
+.emphasis{
+  padding:1rem 1rem;
+  background:$emphasisBackgroundColor;
 }
