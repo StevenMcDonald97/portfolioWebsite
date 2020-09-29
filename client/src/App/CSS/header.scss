@@ -1,6 +1,50 @@
 /* Drop down menu styling */
 @import './_custom.scss';
 
+
+/* Navbar  */
+
+.navbar {
+  background-color: $navigationBackgroundColor;
+}
+
+.navbar-links {
+  list-style-type: none;
+  width:100%;
+  margin: 0;
+  padding: 0;
+  text-align:center;
+
+}
+
+
+.navbar-link {
+  /*float:left;*/
+  display: inline-block;
+  color: $navLinkColor;
+  text-align: center;
+  padding: .4rem .5rem;
+  text-decoration: none !important;
+  font-size: $navLinkSize;
+  cursor:pointer;
+}
+
+/* Change the color of links on hover */
+.navbar-link:hover {
+  color: #ddd;
+}
+
+/* Add an active class to highlight the current page */
+.navbar-link .active {
+  color: blue;
+}
+
+.navbar .icon {
+  display: none;
+} 
+
+/* Dropdown */
+
 .dropDownMenu{
   list-style:none;
   //margin-right:3em;
@@ -37,6 +81,7 @@
   color: white;
   position: relative;
 }
+
 .sidebar-menu-arrow:hover::after {
   cursor: pointer;
   color: #fff;
@@ -48,8 +93,68 @@
 .dropDownMenuLink{
   color:white;
   letter-spacing: 0.125em;
+  text-align:center;
   text-decoration:none;
   cursor:pointer;
+}
+
+.dropDownMenuLink:hover{
+  color:#ddd
+}
+
+.dropDownMenuLink:hover .dropdown-content{
+  display:block
+}
+
+.dropDownMenuLink .dropdown-content{
+  position:relative;
+  color:white;
+  background: none;
+  width:18rem;
+  margin:0 auto;
+  box-shadow:none;
+}
+
+.dropbtn {
+  cursor: pointer;
+}
+
+.dropdown-link {
+  position:relative;
+  display:inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position:absolute;
+  min-width:160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index:0;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropDownMenuLink .dropdown-content a{
+  color:white;
+  background: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1
+}
+
+.dropDownMenuLink .dropdown-content a:hover{
+  color:#ddd;
+  background: none;
+}
+
+.dropdown-link:hover .dropdown-content {
+  display: block;
 }
 
 /*Hamburger Button*/
@@ -158,6 +263,41 @@
 }
 
 
+.sideDropDown.sideLink:hover .dropdown-content {
+  display: block;
+}
+
+.sideDropDown .dropdown-content {
+  font-size:1.2rem;
+}
+
+.sideDropDown .dropdown-content{
+  position:relative;
+  color:white;
+  background: none;
+  width:18rem;
+  margin:0 auto;
+  box-shadow:none;
+}
+
+.sideDropDown .dropdown-content a{
+  color:$navLinkColor;
+  background: none;
+}
+
+.sideDropDown .dropdown-content a:hover {
+  color:#ddd;
+  background-color: none;
+}
+
+.sideDropDown .dropdown-content a:hover{
+  color:#ddd;
+  background: none;
+}
+
+.sideDropDown:hover .dropdown-content {
+  display: block;
+}
 
 /*@media screen and (max-width: 600px) {
   .navbar a:not(:first-child) {display: none;}

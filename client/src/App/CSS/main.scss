@@ -48,6 +48,19 @@ h1 {
   z-index:50;
 }
 
+.pageTitle.center{
+  text-align:center;
+}
+
+.pageTitle.left{
+  text-align:left;
+  padding-left:3rem
+}
+
+.pageTitle.right{
+  text-align:right;
+  padding-right:3rem
+}
 
 .landingImage {
 	display:block;
@@ -114,48 +127,6 @@ h1 {
   font-size:$bodyTextSize;
 }
 
-
-.navbar {
-  background-color: $navigationBackgroundColor;
-  /*overflow: hidden;*/
-}
-
-.navbar-links {
-  list-style-type: none;
-  width:100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  text-align:center;
-
-}
-
-
-.navbar-link {
-  /*float:left;*/
-  display: inline-block;
-  color: $navLinkColor;
-  text-align: center;
-  padding: .4rem .5rem;
-  text-decoration: none !important;
-  font-size: $navLinkSize;
-  cursor:pointer;
-}
-
-/* Change the color of links on hover */
-.navbar-link:hover {
-  color: #ddd;
-}
-
-/* Add an active class to highlight the current page */
-.navbar-link .active {
-  color: blue;
-}
-
-.navbar .icon {
-  display: none;
-} 
-
 .slide-container{
   margin:3rem auto;
   height:21rem;
@@ -216,37 +187,6 @@ h1 {
 
 .inline { float:left; }
 .clearBoth { clear:both; }
-
-
-.dropbtn {
-  cursor: pointer;
-}
-
-.dropdown {
-  position:relative;
-  display:inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position:absolute;
-  min-width:160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index:0;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
 
 
 /*page styling*/

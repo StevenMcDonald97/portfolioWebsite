@@ -220,7 +220,7 @@ export default class EditStyle extends Component {
 			return(
 				<div className='editor pageEditor'>
 				    <BackButton backPage={this.returnToUserPanel}/>
-					<button type='button' id='customizingStylesButton' onClick={this.switchToCustomizing}> Return to Preset Styles </button>
+					<button type='button' style={{"display":"none"}} id='customizingStylesButton' onClick={this.switchToCustomizing}> Return to Preset Styles </button>
 					<ErrorBoundary>
 
 						<form className='EditorForm'>	 
@@ -264,27 +264,27 @@ export default class EditStyle extends Component {
 								onChange={this.onChange} showSelector={this.showColorSelector} 
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>		
 							<BackgroundStyle id='titleBackgroundColor' name='website title' 
-								color={this.state.objectTextSize} setParentState={this.setState}
+								color={this.state.titleBackgroundColor} setParentState={this.setState}
 								onChange={this.onChange} showSelector={this.showColorSelector} 
 							/>		
 							<BackgroundStyle id='pageHeaderBackgroundColor' name='page header' 
-								color={this.state.objectTextSize} setParentState={this.setState}
+								color={this.state.pageHeaderBackgroundColor} setParentState={this.setState}
 								onChange={this.onChange} showSelector={this.showColorSelector} 
 							/>	
 							<BackgroundStyle id='navigationBackgroundColor' name='navigation' 
-								color={this.state.objectTextSize} setParentState={this.setState}
+								color={this.state.navigationBackgroundColor} setParentState={this.setState}
 								onChange={this.onChange} showSelector={this.showColorSelector} 
 							/>
 							<BackgroundStyle id='bodyBackgroundColor' name='body' 
-								color={this.state.objectTextSize} setParentState={this.setState}
+								color={this.state.bodyBackgroundColor} setParentState={this.setState}
 								onChange={this.onChange} showSelector={this.showColorSelector} 
 							/>	
 							<BackgroundStyle id='emphasisBackgroundColor' name='emphasized area' 
-								color={this.state.objectTextSize} setParentState={this.setState}
+								color={this.state.emphasisBackgroundColor} setParentState={this.setState}
 								onChange={this.onChange} showSelector={this.showColorSelector} 
 							/>	
 							<BackgroundStyle id='objectBackgroundColor' name='page window (such as galleries)' 
-								color={this.state.objectTextSize} setParentState={this.setState}
+								color={this.state.objectBackgroundColor} setParentState={this.setState}
 								onChange={this.onChange} showSelector={this.showColorSelector} 
 							/>								<br/>
 							<button type='submit' value='Save' onClick={this.onSubmit}>Save</button>
@@ -354,7 +354,6 @@ function BackgroundStyle(props){
 	const [selectorVisibility, setSelectorVisibility] = useState(false);
 	const [color, setColor] = useState(props.color);
 	const componentColor =props.id;
-
 	const changeSelectorVisibility = () => {
 		setSelectorVisibility(!selectorVisibility);
 	}

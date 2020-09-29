@@ -50,6 +50,7 @@ export default class ListPage extends Component {
     }
 
     createListObjects = () =>{
+        
         return(
             this.state.listObjectsData.map((object)=>
                 <ListObject key={object._id} img={object.imgName} title={object.title} blurb={object.blurb} text={object.description} changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}/>

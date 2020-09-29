@@ -143,6 +143,7 @@ UploadRouter.route('/uploadTextPage').post(function(req, res) {
     });
   }
   
+  return res.status(200).send("Success uploading page.");
 
 });
 
@@ -160,7 +161,6 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
           res.status(500).send("Error uploading list object.");
         } 
     });
-
   });
 
   // there should only be one of each type of list page (Events, Galleries, or Workshops)
@@ -185,6 +185,7 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
     } else {
         res.status(200).send(`A ${req.body.type} page already exists!`);
     }
+    return res.status(200).send("Success uploading page.");
   })
 
 });
@@ -254,6 +255,7 @@ UploadRouter.route('/uploadPortfolio').post(function(req, res) {
           });
 
         }
+        return res.status(200).send("Success uploading page.");
     });
   }
 

@@ -67,7 +67,33 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		});
     }
 
+	// find and update indices of pages after removing one
+    let index=page.index;
+    Page.find({} , (err, pageObj) => {
+        if(err) console.log(err);
+
+        if (pageObj.index>index){
+		    pageObj.index = pageObj.index-1;
+
+		    pageObj.save(function (err) {
+		        if(err) {
+		            console.error(err);
+		        }
+		    });
+        }
+    })
+
 });
 
+RemoveRouter.route('/removeLinks').post(function(req, res) {
+	if (req.body && req.body.length>0){
+		req.body.forEach((link)=>{
+			query={_id:link};
+			Page.findOneAndRemove(query, function(err,data){
+		    	if(err) console.error(err);
+		    });
+		});
+	}
+});
 
 module.exports = RemoveRouter;

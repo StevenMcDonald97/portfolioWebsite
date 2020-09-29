@@ -77,7 +77,7 @@ class AboutPageTemplate extends Component {
 			imageFile:'',
 			title:'About the Artist',
 			mainText:this.props.mainText,
-			subText:this.props.subText,
+			subText:(this.props.subText ? this.props.subText : ""),
 			createPage:this.props.createPage
 		}
 		this.updateImage=this.updateImage.bind(this);
@@ -208,7 +208,7 @@ class OtherPageTemplate extends Component {
 				<label className='inputLabel' htmlFor='mainText'>Page Description:</label>
 				<textarea className='pageField' name='mainText' 
 					value={this.state.mainText} 
-					onChange={this.handleChange} />
+					onChange={this.handleChange}/>
 			</div>
 			<div className='editSubmitButtons'>
 				<button type='button' className='editSubmitButton' onClick={this.onSubmit}> Create </button>

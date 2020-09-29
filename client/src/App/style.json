@@ -38,11 +38,11 @@
     }
   },
   "backgroundColor": {
-    "title": "#121212",
-    "header": "#505050",
-    "navigation": "#202020",
-    "body": "#848484",
-    "emphasis": "#bebdbe",
+    "title": "#241c26",
+    "header": "#3a353b",
+    "navigation": "#2a242e",
+    "body": "#79767a",
+    "emphasis": "#2c2b2b",
     "object": "#e8e8e8"
   }
 }

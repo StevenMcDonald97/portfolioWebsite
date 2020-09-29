@@ -7,7 +7,8 @@ const PageSchema = new Schema({
 	title: { type: String, unique:true},
 	index : {type:Number},
 	parent: {type:String},
-	children:[{type:String}]
+	children:[{type:String}],
+	visibility:{type:Boolean}
 });
 
 module.exports = mongoose.model('Page', PageSchema);

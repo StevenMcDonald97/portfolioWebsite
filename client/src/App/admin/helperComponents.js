@@ -1,7 +1,8 @@
 import React, { Component, useState } from 'react';
 import {FaArrowLeft} from "react-icons/fa";
 import PropTypes from "prop-types";
-import ImageErrorCatch from "App/pages/ImageErrorCatch"
+import ImageErrorCatch from "App/pages/ImageErrorCatch";
+
 const images = require.context('App/upload', true);
 const defaultImage = images("./defaultImage.png");
 
@@ -19,7 +20,15 @@ BackButton.propTypes = {
 class UploadImage extends Component {
   constructor(props) {
 		super(props);
-    var image = (this.props.currentImage ? images(`./${this.props.currentImage}`) : defaultImage);
+    var image;
+
+    try{
+      image= (this.props.currentImage ? images(`./${this.props.currentImage}`) : defaultImage);
+    } catch (error) {
+      console.log(error);
+      image=defaultImage;
+    }
+
     this.state ={
       selectedFile:null,
       image:image

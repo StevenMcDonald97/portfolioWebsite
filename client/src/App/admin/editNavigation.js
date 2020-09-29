@@ -29,4 +29,27 @@ export default class EditNavigation extends Component {
 		this.setState({[event.target.name]:event.target.value})
 	}
 
+
+	render(){
+		return(
+			<div className="pageEditor">
+			<div className="inputGroup">
+				<label className='inputLabel home' htmlFor='type'>Choose your homepage style:</label>
+				<select name='type' className='homePageSelect' value={this.state.type} onChange={this.handleChange}>
+					<option value='simpleImage'>Simple Image</option>
+					<option value='panoramic'>Panoramic</option>
+					<option value='fullScreen'>Full Screen Image</option>
+					<option value='slideShow'>Slide Show</option>
+					<option value='options'>Options</option>
+				</select>
+			</div>
+
+
+			</div>
+
+
+
+			)
+	}
+
 }

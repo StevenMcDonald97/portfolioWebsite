@@ -63,7 +63,7 @@ export default class AddPages extends Component {
 					backPage={this.returnToPageSelection} 
 					createPage={true}/>);
 			} else {
-				return( <OtherPageTemplate backPage={this.returnToPageSelection}/>);
+				return( <OtherPageTemplate createPage={true} title="" backPage={this.returnToPageSelection}/>);
 			}
 		};
 

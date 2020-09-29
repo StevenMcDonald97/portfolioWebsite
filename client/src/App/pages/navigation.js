@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Link,
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {FaAngleDown} from 'react-icons/fa';
 import ErrorBoundary from 'App/errorBoundary';
@@ -10,13 +8,14 @@ export default class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    	style:this.props.type,
+    	style:this.props.navigationStyle,
     	pageInfo:[],
       dropdownClass:"",
       menuWrapClass:""
     };
     this.clickToggleButton=this.clickToggleButton.bind(this);
     this.clickOutsideMenu=this.clickOutsideMenu.bind(this);
+    this.createSubLinks=this.createSubLinks.bind(this);
     this.stopPropogation=this.stopPropogation.bind(this);
   }
 
@@ -28,7 +27,7 @@ export default class Navigation extends Component {
 
   clickToggleButton(){
     console.log("here");
-    if (this.state.dropdownClass==""){
+    if (this.state.dropdownClass===""){
       this.setState({dropdownClass:"buttonOpen"});
       this.setState({menuWrapClass:"dropDownMenuShow"});
     } else {
@@ -46,26 +45,30 @@ export default class Navigation extends Component {
     e.stopPropagation();
   }
 
+  createSubLinks = (childId) => {
+    for(let i=0; i<this.state.pageInfo.length; i++) {
+      let page=this.state.pageInfo[i];
+      if (page._id===childId){
+        console.log("making a link");
+        return (<Link key={page._id} className="user-dropwdown-link" to={`/${page.title.replace(/\s+/g, '')}`}>{page.title}</Link>);
+      }
+    }
+  }
+
   render(){
     if (this.state.style==="sidebar"){
-      const createSubLink = (childId) => {
-        this.state.pageInfo.forEach((page)=>{
-          if (page._id===childId){
-            return <li ><Link className="dropDownMenuLink" to={`/${page.title.replace(/\s+/g, '')}`}>page.title}</Link></li>
-          }
-        })
-      }
 
       const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
-          if (page.children){
+          if (page.children && page.children.length>0){
              return (
                 <div>
-                  <div className='sideLink'>{page.title} <FaAngleDown /></div>
-                  <ul className="sub-menu">
-                    page.children.map((childId)=>
-                      createSubLink(childId)
-                    )
-                  </ul>
+                  <div className='sideDropDown sideLink dropbtn'>{page.title} <FaAngleDown />
+                    <div className='dropdown-content'>
+                     { page.children.map((childId)=>
+                        this.createSubLinks(childId)
+                      )}
+                    </div>
+                  </div>
                 </div>
               )
           } else if (page.parent){
@@ -81,39 +84,24 @@ export default class Navigation extends Component {
           <div>
              <Link key='home' to={'/'} className='sideLink'>Home</Link>      
               { createLinks }
-              <a key='contact' className='sideLink' onClick={ this.props.showContact } >Contact</a>
+              <div key='contact' className='sideLink' onClick={ this.props.showContact } >Contact</div>
           </div>
         </div>
       );
 
 
-    } else if (this.state.style==="sidebarCollapsable"){
-    	const createLinks = this.state.pageInfo.map((page) => 
-	      <Link key={page._id} to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link>
-	    );
-    	return(
-        null
-    	);
     } else if (this.state.style==="dropdown"){
-
-      const createSubLink = (childId) => {
-        this.state.pageInfo.forEach((page)=>{
-          if (page._id===childId){
-            return <li ><Link className="dropDownMenuLink" to={`/${page.title.replace(/\s+/g, '')}`}>page.title}</Link></li>
-          }
-        })
-      }
-
       const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
-          if (page.children){
+          if (page.children && page.children.length>0){
              return (
                 <li key={page._id} className="menu-item-has-children">
-                  <div className='dropDownMenuLink'>{page.title} <FaAngleDown /></div>
-                  <ul className="sub-menu">
-                    page.children.map((childId)=>
-                      createSubLink(childId)
-                    )
-                  </ul>
+                  <div className='dropDownMenuLink dropbtn'>{page.title} <FaAngleDown />
+                    <div className='dropdown-content'>
+                     { page.children.map((childId)=>
+                        this.createSubLinks(childId)
+                      )}
+                    </div>
+                  </div>                    
                 </li>
               )
           } else if (page.parent){
@@ -143,22 +131,16 @@ export default class Navigation extends Component {
         </div>
     	);
     } else {
-      const createSubLink = (childId) => {
-        this.state.pageInfo.forEach((page)=>{
-          if (page._id===childId){
-            return <Link className="user-dropwdown-link" to={`/${page.title.replace(/\s+/g, '')}`}>page.title}</Link>
-          }
-        })
-      }
 
       const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
-          if (page.children){
-             return (<li key={page._id} className='navbar-link dropdown'>
+
+          if (page.children && page.children.length>0){
+             return (<li key={page._id} className='navbar-link dropdown-link'>
                   <div className='user-navbar-link dropbtn'>{page.title} <FaAngleDown /></div>
                   <div className='dropdown-content'>
-                    page.children.map((childId)=>
-                      createSubLink(childId)
-                    )
+                   { page.children.map((childId)=>
+                      this.createSubLinks(childId)
+                    )}
                   </div>
                 </li>
               )

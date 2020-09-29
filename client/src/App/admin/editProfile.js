@@ -52,6 +52,8 @@ export default class EditProfile extends Component {
                         if (username && email && password && confirm && password === confirm){
                             axios.post('/user/editUser', {name:username, email:email, password:password, oldPassword:oldPassword}, {}).then(res=> { // then print response status
                                 alert(res.statusText);
+                                this.props.history.push('/userPanel');
+
                             }).catch(err => console.log(err)); 
                         } else if (password !== confirm){
                             alert('Passwords must match!')

@@ -353,11 +353,9 @@
   text-decoration: none !important;
   font-size: 17px;
   cursor:pointer;
+  line-height:1.4rem;
 }
 
-.user-navbar-link:hover {
-	color:#444;
-}
 
 /* Change the color of links on hover */
 .user-navbar-link:hover {
@@ -419,4 +417,70 @@
 .colorSelector {
 	padding-left:3rem;
 }
+
+.parentLinkContainer {
+	width:30rem;
+	padding:0 1rem;
+	margin:0 auto;
+	padding-bottom:4rem;
+}
+
+
+.childLinkCheckbox {
+	height:1.4rem;
+}
+
+.childLinkSelection{
+	margin-bottom:1rem;
+}
+
+.linkEditing{
+	width:30rem;
+	margin:0 auto;
+	margin-bottom:2rem;
+}
+
+.linkEditingContainer{
+	list-style-type:none;
+	margin-left:4rem;
+	height:4rem;
+	line-height:100%;
+}
+
+.linkEditingField{
+	display:inline-block;
+	margin-left:1rem;
+	margin-top:0;
+	vertical-align:top;
+}
+
+.linkOrderArrows{
+	cursor:pointer;
+}
+
+.layoutSubmitButton{
+	height:2rem;
+	font-size:1.1rem;
+	margin-right:1vw;
+	padding:0 1.5rem;
+	border:none;
+	display:inline-block;
+	cursor: pointer;
+	border-radius:15px;
+  	-webkit-box-shadow: 0px 0px 3px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  	-moz-box-shadow:    0px 0px 3px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+ 	box-shadow:         0px 0px 3px 2px #ccc;
+}
+
+.layoutSubmitButton:hover{
+	background:#fafafa;
+}
+
+.layoutSubmitButtons{
+	width:20rem;
+	margin:0 auto;
+	padding-bottom:4rem;
+
+}
+
 

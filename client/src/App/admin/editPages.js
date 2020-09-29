@@ -79,20 +79,25 @@ export default class EditPages extends Component {
 
 
 	render() {
-		const PageList = this.state.pages.map((page) =>
-			<div className='pageEditElement' key={page._id}> 
-				<div className='pageEditTitle'>{page.title} </div>
-				<button type='button' name={page._id} className='pageEditorButton' onClick={this.selectPage}>
-					Edit
-				</button>
-				<button type='button' className='tooltip pageEditorButton' onClick={()=>this.removePage(page)}>
-					<FaTrashAlt />
-					<span className='tooltiptext'>
-						Remove this Page
-					</span>
-				</button>
-			</div>
-		);
+		const PageList = this.state.pages.map((page) =>{
+			if (page.type!=="parent"){
+				return (
+					<div className='pageEditElement' key={page._id}> 
+						<div className='pageEditTitle'>{page.title} </div>
+						<button type='button' name={page._id} className='pageEditorButton' onClick={this.selectPage}>
+							Edit
+						</button>
+						<button type='button' className='tooltip pageEditorButton' onClick={()=>this.removePage(page)}>
+							<FaTrashAlt />
+							<span className='tooltiptext'>
+								Remove this Page
+							</span>
+						</button>
+					</div>
+				)
+			} 
+			return null;
+		});
 
 		if (this.state.currentPageStyle==='none'){
 			return(

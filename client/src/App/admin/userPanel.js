@@ -24,20 +24,23 @@ class UserPanel extends Component{
 					<div className='user-navbar'>
 						<ul className='user-navbar-links'>
 							<li key='editInfo' className='user-navbar-link'><Link to="/editProfile" className='user-navbar-link'>My Profile Info</Link></li>
-							<li key='editImages' className='user-navbar-link dropdown'>
+							<li key='editImages' className='user-navbar-link dropdown-link'>
 								<div className='user-navbar-link dropbtn'>Images <FaAngleDown /></div>
 								<div className='dropdown-content'>
 									<Link className="user-dropwdown-link" to='/uploadImages'>Upload Images</Link>
 									<Link className="user-dropwdown-link" to='/editImages'>Edit/Remove Images</Link>
 								</div>
 							</li>
-							<li key='editPages' className='user-navbar-link dropdown'>
+							<li key='editPages' className='user-navbar-link dropdown-link'>
 								<div className='user-navbar-link dropbtn'>Pages <FaAngleDown /></div>
 								<div className='dropdown-content'>
 									<Link className="user-dropwdown-link" to='/addPages'>Create New Page(s)</Link>
 									<Link className="user-dropwdown-link" to='/editPages'>Edit/Remove Pages</Link>
 								</div>
 							</li>
+							<li key='editLayout' className='user-navbar-link'>
+								<Link to='/editLayout' className='user-navbar-link'>Edit Layout Style</Link>
+							</li>							
 							<li key='editStyle' className='user-navbar-link'>
 								<Link to='/styleEditor' className='user-navbar-link'>Edit Style</Link>
 							</li>

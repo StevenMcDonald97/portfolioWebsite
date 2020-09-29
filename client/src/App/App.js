@@ -37,11 +37,13 @@ import UserPanel from 'App/admin/userPanel';
 import EditImages from 'App/admin/editImages';
 import AddPages from 'App/admin/addPages';
 import EditPages from 'App/admin/editPages';
+import EditLayout from 'App/admin/editLayout';
 
 import { history } from 'App/admin/authentication/history'
 import { authenticationService } from 'App/admin/authentication/authenticationService';
 import { PrivateRoute } from 'App/admin/authentication/privateRoute';
 
+const layoutJson = require('App/layout.json');
 
 // import Modal from './components/test-modal';
 // import Portfolio from './components/portfolioPage';
@@ -63,7 +65,7 @@ export default class App extends Component {
       showContact: false,
       title:"",
       subTitle:"",
-      navBarType:"top"
+      navBarType:layoutJson.navigationStyle
     };
     this.setState = this.setState.bind(this);
   }
@@ -110,11 +112,11 @@ export default class App extends Component {
             content={ ContactElement }/>
           <Router>
             <div>
-              <div className={`header ${this.state.navBarType}`}>
-                <h1 className='pageTitle'><Link to ='/' className='pageLink'>{this.state.title}</Link></h1>
-                <Navigation type={this.state.navBarType} showContact={ this.showContact } />
+              <div className={`header ${layoutJson.menuStyle}`}>
+                <h1 className={`pageTitle ${layoutJson.headerAlignment}`}><Link to ='/' className='pageLink'>{this.state.title}</Link></h1>
+                <Navigation navigationStyle={layoutJson.menuStyle} showContact={ this.showContact } />
               </div>
-              <div className={`pageContainer ${this.state.navBarType}`}>
+              <div className={`pageContainer ${layoutJson.menuStyle}`}>
                 <Switch>
                   <Route exact path='/login' component={Login} />
                   <Route exact path='/register' component={Register} />
@@ -125,6 +127,7 @@ export default class App extends Component {
                   <PrivateRoute exact path='/addPages' component={AddPages} />
                   <PrivateRoute exact path='/editPages' component={EditPages} />
                   <PrivateRoute exact path='/editImages' component={EditImages} />
+                  <PrivateRoute exact path='/editLayout' component={EditLayout} />
                   { createRoutes }
                   <Route path='/' render={() => {return <NewPage title={this.state.title} subTitle={this.state.subTitle}/>}} />
                 </Switch>

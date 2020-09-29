@@ -23,7 +23,7 @@ export default class TextPage extends Component {
             mainText:response.data.mainText, 
             secondaryText:response.data.subText, 
             image:response.data.imgName, 
-            }, ()=>console.log(this.state));
+            });
         });
 
     }

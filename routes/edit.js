@@ -7,35 +7,42 @@ const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
 const Page = require("../models/Page");
+const fs = require('fs');
+const layoutFileName = __dirname +'/../client/src/App/layout.json';
+var mongoose = require('mongoose');
 
-EditRouter.route('/edit/pageOrder').post(function(req,res){
-	for (let i=0; i++; i<req.body.length){
-		Page.findOneAndUpdate({_id: req.body[i]._id}, {$set:{index:i}},function(err, doc){
-		    if(err){
-		        console.log("Something wrong when updating data!");
-		    }
-		});
+EditRouter.route('/updateLinks').post(async function(req,res){
+
+    // const LinkData={"headerAlignment":this.state.headerAlignment, "menuStyle":this.state.menuStyle, "portfolioStyle":this.state.portfolioStyle, "pages":this.state.pages};
+    const newLayoutJson = JSON.stringify({headerAlignment:req.body.headerAlignment, menuStyle:req.body.menuStyle, portfolioStyle:req.body.portfolioStyle});
+
+	await fs.writeFile(layoutFileName, newLayoutJson, (err) => {
+	    if (err) console.log(err); 
+	    console.log('Data written to layout file');
+	});
+	
+	for (let i=0; i<req.body.pages.length; i++){
+		if (req.body.pages[i]._id){
+			Page.findOneAndUpdate({_id: req.body.pages[i]._id}, req.body.pages[i], function(err, doc){
+			    if(err){
+			        console.log("Something wrong updating link data!");
+			    }
+			});
+		} else {
+			let pageData = req.body.pages[i];
+			pageData["_id"] = mongoose.Types.ObjectId();
+			let newPage = new Page(pageData);
+
+			newPage.save(function(err) {
+              if (err) {
+                console.error(err);
+                res.status(500).send("Error adding to list of pages.");
+              }
+            });
+		}
 	}
 });
 
-EditRouter.route('/edit/pages').post(function(req,res){
-	// update order
-	for (let i=0; i++; i<req.body.length){
-		Page.findOneAndUpdate({_id: req.body[i]._id}, {$set:{index:i}},function(err, doc){
-		    if(err){
-		        console.log("Something wrong when updating data!");
-		    }
-		});
-	}
-	// update parent/children of pages
-	for (let i=0; i++; i<req.body.length){
-		Page.findOneAndUpdate({_id: req.body[i]._id}, {parent:req.body[i].parentId ,children:req.body[i].childrenId},function(err, doc){
-		    if(err){
-		        console.log("Something wrong when updating data!");
-		    }
-		});
-	}
-});
 
 EditRouter.route('/editImages').post(function(req, res) {
  	req.body.forEach((img)=>{
@@ -99,7 +106,8 @@ EditRouter.route('/editListPage').post(function(req, res) {
 	req.body.objs.forEach((obj) => {
 		var {_id, ...newUpdate}=obj;
 		var objectUpdate={title:newUpdate.title, blurb:newUpdate.blurb, imgName:newUpdate.imgName, description:newUpdate.description, num:newUpdate.num} 
-		var objectQuery = {_id:_id};
+		
+		var objectQuery = _id ? {_id:_id} : {_id:mongoose.Types.ObjectId()};
 
 		ListObject.findOneAndUpdate(objectQuery, objectUpdate, {upsert: true, new: true}, (err, doc)=> {
 		    if (err) {console.log(err); return res.status(500).send({error: err})};

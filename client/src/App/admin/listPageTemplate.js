@@ -88,9 +88,9 @@ export default class ListPageTemplate extends Component {
 		const PageData={"type":this.state.type, "title":this.state.type, "text":"",
 			"objs":listObjects, "deleted":this.state.deleted, "id":this.props.pageId};
 		if (this.state.createPage) { 
-			axios.post('/upload/uploadListPage', PageData).then((response)=>alert(response.data))
+			axios.post('/upload/uploadListPage', PageData).then((response)=>alert(response.data));
 		} else {
-			axios.post('/edit/editListPage', PageData).then((response)=>console.log(response))
+			axios.post('/edit/editListPage', PageData).then((response)=>console.log(response));
 		};
 	}
 
