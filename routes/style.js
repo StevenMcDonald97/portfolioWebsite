@@ -14,6 +14,8 @@ const writeToStyleJson = async function(req, res) {
 		});
 
 		let cssString = `$titleColor: ${ styleObject.text.WebsiteTitle.color };
+		$headerFontFamily: ${ styleObject.text.headerFontFamily };
+		$bodyFontFamily: ${ styleObject.text.bodyFontFamily };
 		$titleSize: ${ styleObject.text.WebsiteTitle.size }px;	
 		$pageHeaderColor: ${ styleObject.text.PageHeader.color };
 		$pageHeadersize: ${ styleObject.text.PageHeader.size }px;

@@ -19,7 +19,7 @@ RemoveRouter.route('/removeImages').post(function(req, res) {
 	            	console.log("Successfully deleted image"));
 
 	            fs.unlink(`./client/src/App/upload/${imgName}`, (error)=>console.error(error));
-	            console.log("unlinking"+imgName);
+	            console.log("unlinking "+imgName);
 	            Portfolio.updateOne( {'title': portfolio}, { $pullAll: {imageFileNames: [ imgName ] } } ).then(()=>
 	            	console.log("Successfully updated portfolio"));
 	        } catch (error) {

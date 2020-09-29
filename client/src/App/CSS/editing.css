@@ -141,9 +141,29 @@
 .editingTitle {
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom:2vw;
-	margin-top:0vw;
+	margin-bottom:1rem;
+	margin-top:1rem;
 	font-size:2rem;
+	text-align:center;
+}
+
+.editingSubTitle {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom:.5rem;
+	margin-top:.5rem;
+	font-size:1.2rem;
+	text-align:center;
+}
+
+.editingSubSubTitle {
+	margin-left: auto;
+	margin-right: auto;
+	width:80%;
+	margin-bottom:.5rem;
+	margin-top:.5rem;
+	font-size:1rem;
+	text-align:center;
 }
 
 .editingFormGroup {
@@ -233,6 +253,13 @@
 	width:26vw;
 }
 
+.submitButtons{
+	width:50%;
+	margin:0 auto;
+	text-align:center;
+	padding:3rem 0;
+}
+
 .portfolioImageChoice {
 	text-align:center;
 	margin-top:2vw;
@@ -244,10 +271,6 @@
 	margin-bottom:2vw;
 }
 
-.editingTitle {
-	text-align:center;
-	margin-top:2vw;
-}
 
 .pageEditTitle {
 	display:inline-block;
@@ -310,8 +333,8 @@
 .trashButton {
 	padding:.3rem;
 	display:inline-block;
-	width:8rem;
-	border-radius:4rem;
+	width:2rem;
+	border-radius:.3rem;
 	cursor:pointer;
 }
 
@@ -483,4 +506,48 @@
 
 }
 
+/* STYLE EDITING */
 
+.styleEditingObject{
+	margin-left:8vw;
+	margin-top:1.5rem;
+	margin-bottom:1.5rem;
+
+}
+
+.styleInputGroup{
+	display:inline;
+	margin-right:2rem;
+}
+
+.styleEditGroup{
+	margin-left:2rem;
+}
+
+.fontSlider {
+	-webkit-appearance: none;  /* Override default CSS styles */
+	appearance: none;
+	width: 15rem; 
+	height: .5rem; 
+	background: #d3d3d3; 
+	border-radius:.5rem;
+	outline: none; 
+}
+
+
+.fontSlider::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: .75rem; 
+  height: .75rem; 
+  background: #333; 
+  cursor: pointer; 
+  border-radius:50%;
+}
+
+.fontSlider::-moz-range-thumb {
+  width: 25px; 
+  height: 25px;
+  background: #4CAF50; 
+  cursor: pointer; 
+}

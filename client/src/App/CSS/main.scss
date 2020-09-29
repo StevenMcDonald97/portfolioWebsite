@@ -33,12 +33,14 @@ h1 {
 
 .pageLink{
   font-size:$titleSize;
+  font-family:$headerFontFamily;
   text-decoration:none;
   color:$titleColor;
 }
 
 .pageTitle{
   position:relative;
+  font-family:$headerFontFamily;
   background:$titleBackgroundColor;
   display:block;
   text-align:center;
@@ -96,12 +98,14 @@ h1 {
 .homeText {
   text-align:center;
   color:white;
+  font-family:$headerFontFamily;
 }
 
 .pageHeader {
   width:100%;
   padding:2rem;
   margin-top:0;
+  font-family:$headerFontFamily;
   color:$pageHeaderColor;
 	font-size:$pageHeadersize;
   background:$headerBackgroundColor;
@@ -111,6 +115,7 @@ h1 {
 .mediumHeader{
   width:100%;
   text-align:center;
+  font-family:$headerFontFamily;
   font-size:$mediumHeaderSize;
   color:$mediumHeaderColor;
 }
@@ -118,12 +123,14 @@ h1 {
 .smallHeader{
   width:100%;
   text-align:center;
+  font-family:$headerFontFamily;
   font-size:$smallHeaderSize;
   color:$smallHeaderColor;
 }
 
 .bodyText{
   color:$bodyTextColor;
+  font-family:$bodyFontFamily;
   font-size:$bodyTextSize;
 }
 
@@ -164,13 +171,9 @@ h1 {
 .homeObject{
   height:18rem;
   width:17rem;
-  /*margin:1rem 2vw;*/
   padding:1rem;
   background:none;
   display:inline-block;
-/*  -webkit-box-shadow: 0px 0px 2px 3px rgba(0,0,0,.4);  
-  -moz-box-shadow:    0px 0px 2px 3px rgba(0,0,0,.4);  
-  box-shadow:         0px 0px 2px 3px rgba(0,0,0,.4);*/
   }
 
 .homeObjectImage{
@@ -205,19 +208,18 @@ h1 {
   cursor:pointer;
   background:$objectBackgroundColor;
   margin:2vw;
-/*    -webkit-box-shadow: 0px 0px 2px 3px rgba(0,0,0,.4);  
-    -moz-box-shadow:    0px 0px 2px 3px rgba(0,0,0,.4);  
-  box-shadow:         0px 0px 2px 3px rgba(0,0,0,.4);*/
 }
 
 .objectTitle {
-  font-size:1.7em;
+  font-family:$headerFontFamily;
+  font-size:$smallHeaderSize;
   color:$objectTextColor;
   margin-bottom:1rem
 }
 
 .objectBlurb{
   color:$objectTextColor;
+  font-family:$bodyFontFamily;
   font-size:$objectTextSize;
   margin-bottom:1rem
 }
@@ -288,5 +290,6 @@ h1 {
 
 .emphasis{
   padding:1rem 1rem;
+  font-family:$bodyFontFamily;
   background:$emphasisBackgroundColor;
 }

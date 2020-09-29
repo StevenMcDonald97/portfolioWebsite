@@ -23,7 +23,7 @@ var upload = multer({
   limits: {
       fieldNameSize: 200, 
       fieldSize: 20000, 
-      fileSize: 150000000
+      fileSize: 4*1024 * 1024
   },
   fileFilter: function(_req, file, cb){
       checkFileType(file, cb);
@@ -35,7 +35,7 @@ var uploadSingleImage = multer({
   limits: {
       fieldNameSize: 200, 
       fieldSize: 20000, 
-      fileSize: 150000000
+      fileSize: 1024 * 1024
   },
   fileFilter: function(_req, file, cb){
       checkFileType(file, cb);
@@ -70,12 +70,24 @@ UploadRouter.route('/uploadSingleImage').post(function(req, res) {
 
 UploadRouter.route('/uploadImages').post(function(req, res) {
     upload(req, res, function (err) {
-       if (err instanceof multer.MulterError) {
-           return res.status(500).json(err)
-       } else if (err) {
-           return res.status(500).json(err)
+       if (err) { //instanceof multer.MulterError
+          console.log(err);
+          res.status(500);
+          if (err.code == 'LIMIT_FILE_SIZE') {
+            err.message = 'File Size is too large. Maximum file size is 2MB';
+            err.success = false;
+            return res.json(err)
+          }
+
+           return res.json(err);
+       } else {
+           res.status(200);
+           res.json({
+               success: true,
+               message: 'Images uploaded successfully!'
+           });
        }
-      return res.status(200).send(req.file)
+
     });
 });
 
@@ -90,13 +102,13 @@ UploadRouter.route('/storeImagesInDB').post(async function(req, res) {
 		    } 
 		});
 
-    var query = {'title': newImg.portfolio};
-    Portfolio.findOneAndUpdate(query, {"$push": {"imageFileNames": newImg.fileName}},{ 'new': true }, (err, info) => {
-          if (err) {
-            console.log(err);
-              return err;
-          } 
-      });
+    Portfolio.findOneAndUpdate({title: newImage.portfolio}, {"$push": {"imageFileNames": newImage.fileName}},{ 'new': true }, (err, info) => {
+      if (err) {
+        console.log(err);
+        return err;
+      } 
+    });
+
   });
   return res.status(200).send("Success uploading image(s).");
 

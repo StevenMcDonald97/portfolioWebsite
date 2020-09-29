@@ -1,5 +1,7 @@
 {
   "text": {
+    "headerFontFamily": "'Roboto', 'Helvetica', sans-serif",
+    "bodyFontFamily": "'Lato', 'Helvetica', sans-serif",
     "WebsiteTitle": {
       "color": "#fffefc",
       "size": "36"
@@ -14,7 +16,7 @@
     },
     "SmallHeader": {
       "color": "#c8c4bc",
-      "size": "16"
+      "size": "20"
     },
     "BodyText": {
       "color": "#eee5d8",
@@ -33,7 +35,7 @@
       "size": "12"
     },
     "ObjectText": {
-      "color": "#8a75f7",
+      "color": "#222222",
       "size": "13"
     }
   },
@@ -43,6 +45,6 @@
     "navigation": "#2a242e",
     "body": "#79767a",
     "emphasis": "#2c2b2b",
-    "object": "#e8e8e8"
+    "object": "#c1c0c0"
   }
 }

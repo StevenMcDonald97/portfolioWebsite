@@ -39,7 +39,7 @@ class UserPanel extends Component{
 								</div>
 							</li>
 							<li key='editLayout' className='user-navbar-link'>
-								<Link to='/editLayout' className='user-navbar-link'>Edit Layout Style</Link>
+								<Link to='/editLayout' className='user-navbar-link'>Edit Layout</Link>
 							</li>							
 							<li key='editStyle' className='user-navbar-link'>
 								<Link to='/styleEditor' className='user-navbar-link'>Edit Style</Link>

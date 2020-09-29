@@ -18,7 +18,6 @@ EditRouter.route('/updateLinks').post(async function(req,res){
 
 	await fs.writeFile(layoutFileName, newLayoutJson, (err) => {
 	    if (err) console.log(err); 
-	    console.log('Data written to layout file');
 	});
 	
 	for (let i=0; i<req.body.pages.length; i++){
@@ -112,7 +111,6 @@ EditRouter.route('/editListPage').post(function(req, res) {
 		ListObject.findOneAndUpdate(objectQuery, objectUpdate, {upsert: true, new: true}, (err, doc)=> {
 		    if (err) {console.log(err); return res.status(500).send({error: err})};
 		    objIds.push(doc._id);
-		    console.log('Succesfully saved list object.');
 		    if (objIds.length===req.body.objs.length){
 		    	const pageUpdate={
 					type: page.type,
@@ -140,7 +138,6 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 		mainImageUrl: page.mainImageUrl,
 		imageFileNames: page.imageFileNames
     }
-    console.log(page.imageFileNames);
 
 	// Portfolio.findOneAndUpdate(query, update,  
 	// 	{new: true }, (response) => console.log(response));
@@ -179,7 +176,6 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 			        }  
 			        if(img && page.title !== img.portfolio){
 			        	let oldPortfolio=img.portfolio;
-			        	console.log(`The Old Portfolio for $[img.filename} is: ${oldPortfolio}`)
 		                Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:name} }, { 'new': true }, (err, info) => {
 		                    if (err) {
 		                        return err;

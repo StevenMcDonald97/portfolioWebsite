@@ -105,9 +105,10 @@ export default class ImageEditor extends Component {
 				            </div>
 				        ))}
 				    </ErrorBoundary>
-			        <button type='button' className='btn' onClick={this.props.backPage}>Cancel</button>
-			        <button type='button' className='btn' onClick={this.onSubmit}>Upload</button>
-
+				    <div className="submitButtons">
+			        	<button type='button' className='layoutSubmitButton' onClick={this.props.backPage}>Cancel</button>
+			        	<button type='button' className='layoutSubmitButton' onClick={this.onSubmit}>Upload</button>
+			        </div>
 			    </div>
 			);
 		} else {

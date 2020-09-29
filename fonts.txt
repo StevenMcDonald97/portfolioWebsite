@@ -1,6 +1,5 @@
 Fonts:
 
-ltc-bodoni-175  x36
 Raleway  x12
 proxima-nova x17
 

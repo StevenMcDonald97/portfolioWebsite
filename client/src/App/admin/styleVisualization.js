@@ -136,11 +136,22 @@ const StyleVisualization = (props) => {
 		display: 'inline-block',
 		paddingLeft:'2vw',
 		paddingRight:'2vw',
-		width:'25vw',
-		height:'20vw',
+		width:'12rem',
+		height:'15rem',
+		margin:"1rem 1rem",
 		textAlign:'center',
 		background: props.values.objectBackgroundColor, 
 	}
+
+	const objectHeaderStyle = {
+		fontSize:`${props.values.smallHeaderSize}px`,
+	}
+
+	const objectTextStyle = {
+		color:`${props.values.objectTextColor}px`,
+		fontSize:`${props.values.objectTextSize}px`,
+	}
+
 
 	const footerStyle = {
 		color: props.values.navLinkColor, 
@@ -156,8 +167,8 @@ const StyleVisualization = (props) => {
 	
 	return(
 			<div className='StyleVisualization'>
-				<h2> Style Visualisation</h2>
-				<div> This is how the colors on your website will look (this layout is just an example)</div>
+				<h3 className="editingTitle"> Style Visualisation</h3>
+				<h4 className="editingSubTitle"> This is how the colors on your website will look (this layout is just an example)</h4>
 				<div style={pageStyle}> 
 		 			<h1  style={headerStyle}> Website Title </h1>
 		 			<div>
@@ -181,6 +192,20 @@ const StyleVisualization = (props) => {
 				 				<img style={imageStyle} src={sampleImg1} alt="an Example by Van Gogh"/>
 				 				<img style={imageStyle} src={sampleImg2} alt="an Example by Van Gogh"/>
 				 				<img style={imageStyle} src={sampleImg3} alt="an Example by Van Gogh"/>
+				 			</div>
+							<div style={objectListStyle}>
+				 				<div style={objectStyle}>
+				 					<h5 style={objectHeaderStyle}> Object 1</h5>
+				 					<p style={objectTextStyle}> This is an event, workshop, gallery etc </p>
+				 				</div>
+				 				<div style={objectStyle}>
+				 					<h5 style={objectHeaderStyle}> Object 2</h5>
+				 					<p style={objectTextStyle}> This is an event, workshop, gallery etc </p>
+				 				</div>
+				 				<div style={objectStyle}>
+				 					<h5 style={objectHeaderStyle}> Object 3</h5>
+				 					<p style={objectTextStyle}> This is an event, workshop, gallery etc </p>
+				 				</div>
 				 			</div>
 				 			<div style={otherLinkStyle}> Example link</div>
 				 		</div>

@@ -50,7 +50,7 @@ export default class Contact extends Component {
       const values = this.state.imageData;
       values.push({
           fileName:fileName,
-          title:'',
+          title:fileName,
           date:'',
           size:'',
           medium:'',
@@ -82,15 +82,15 @@ export default class Contact extends Component {
     axios.post("/upload/uploadImages", data, { 
           // receive two    parameter endpoint url ,form data
     }).then(res => { // then print response status
-        console.log(`Image upload returned: ${res.statusText}`)
+      console.log(`Image upload returned: ${res.statusText}`)
+      axios.post("/upload/storeImagesInDB", images, { 
+            // receive two    parameter endpoint url ,form data
+      }).then(res => { // then print response status
+          console.log(`Storing images in database returned: ${res.statusText}`)
+      }).catch(err => console.log("Storing images in database returned the error: "+err));
 
-    }).catch(err => console.log(err));
+    }).catch(err => console.log("Uploading images returned the error: "+err));
 
-    axios.post("/upload/storeImagesInDB", images, { 
-          // receive two    parameter endpoint url ,form data
-    }).then(res => { // then print response status
-        console.log(`Storing images in database returned: ${res.statusText}`)
-    }).catch(err => console.log(err));
   }
 
   render(){

@@ -8,6 +8,7 @@ import {
 import axios from 'axios';
 
 import 'index.css';
+import 'App/CSS/fonts.css';
 import 'App/CSS/main.scss';
 import 'App/CSS/header.scss';
 import 'App/CSS/portfolio.css';
