@@ -97,7 +97,7 @@ export default class HomePage extends Component {
 
 const HomeObject = (props) => {
     return(
-        <Link to={`/${props.link}`} className="homeObject">
+        <Link to={`/${props.link.replace(/\s+/g, '')}`} className="homeObject">
             <ImageErrorCatch imgClass="homeObjectImage" src={props.image}/>
             <h3 className="smallHeader">{props.link}</h3>
         </Link>

@@ -83,6 +83,7 @@ h1 {
   object-fit:cover;
   object-position:20% 50%;
   margin-top:0;
+  margin-bottom:4rem
 }
 
 .landingImage.fullScreen {
@@ -123,6 +124,7 @@ h1 {
 .smallHeader{
   width:100%;
   text-align:center;
+  text-decoration:none;
   font-family:$headerFontFamily;
   font-size:$smallHeaderSize;
   color:$smallHeaderColor;
@@ -172,9 +174,10 @@ h1 {
   height:18rem;
   width:17rem;
   padding:1rem;
+  text-decoration:none;
   background:none;
   display:inline-block;
-  }
+}
 
 .homeObjectImage{
   height:14rem;
