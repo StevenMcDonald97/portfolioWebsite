@@ -48,7 +48,7 @@ export default class Navigation extends Component {
   createSubLinks = (childId) => {
     for(let i=0; i<this.state.pageInfo.length; i++) {
       let page=this.state.pageInfo[i];
-      if (page._id===childId){
+      if (page._id===childId && page.title){
         console.log("making a link");
         return (<Link key={page._id} className="user-dropwdown-link" to={`/${page.title.replace(/\s+/g, '')}`}>{page.title}</Link>);
       }
@@ -58,7 +58,7 @@ export default class Navigation extends Component {
   render(){
     if (this.state.style==="sidebar"){
 
-      const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
+      const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
           if (page.children && page.children.length>0){
              return (
                 <div>
@@ -73,7 +73,7 @@ export default class Navigation extends Component {
               )
           } else if (page.parent){
               return null;
-          } else {
+          } else if (page.title){
             return <Link key={page._id} to={`/${page.title.replace(/\s+/g, '')}`} className='sideLink'>{page.title}</Link>     
           }
         }
@@ -91,7 +91,7 @@ export default class Navigation extends Component {
 
 
     } else if (this.state.style==="dropdown"){
-      const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
+      const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
           if (page.children && page.children.length>0){
              return (
                 <li key={page._id} className="menu-item-has-children">
@@ -106,7 +106,7 @@ export default class Navigation extends Component {
               )
           } else if (page.parent){
               return null;
-          } else {
+          } else if (page.title){
             return <li key={page._id} ><Link to={`/${page.title.replace(/\s+/g, '')}`} className='dropDownMenuLink'>{page.title}</Link></li>          
           }
         }
@@ -132,8 +132,7 @@ export default class Navigation extends Component {
     	);
     } else {
 
-      const createLinks = this.state.pageInfo.sort((a,b) => a.index - b.index).map((page) => {
-
+      const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
           if (page.children && page.children.length>0){
              return (<li key={page._id} className='navbar-link dropdown-link'>
                   <div className='user-navbar-link dropbtn'>{page.title} <FaAngleDown /></div>
@@ -146,7 +145,7 @@ export default class Navigation extends Component {
               )
           } else if (page.parent){
               return null;
-          } else {
+          } else if (page.title){
             return <li key={page._id} className='navbar-link'><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
           }
         }

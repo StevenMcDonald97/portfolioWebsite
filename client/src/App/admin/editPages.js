@@ -38,7 +38,7 @@ export default class EditPages extends Component {
 	}
 
 	removePage(page){
-		let pageValues =this.state.pages;
+		let pageValues =[].slice.array(this.state.pages);
 
 		for (let i=0; i<pageValues.length; i++){
 			if (pageValues[i]._id===page._id){
@@ -61,8 +61,8 @@ export default class EditPages extends Component {
  		} else {
 			this.setState({currentPageId:event.target.name},
 			()=>{
-				for(let i=0; i< this.state.pages.length; i++){
-					if (this.state.pages[i]._id===this.state.currentPageId) this.setState({currentPageStyle:this.state.pages[i].type});
+				for(let i=0; i< [].slice.array(this.state.pages).length; i++){
+					if ([].slice.array(this.state.pages)[i]._id===this.state.currentPageId) this.setState({currentPageStyle:[].slice.array(this.state.pages[i]).type});
 				}
 			});
 		}
@@ -79,7 +79,7 @@ export default class EditPages extends Component {
 
 
 	render() {
-		const PageList = this.state.pages.map((page) =>{
+		const PageList = [].slice.array(this.state.pages).map((page) =>{
 			if (page.type!=="parent"){
 				return (
 					<div className='pageEditElement' key={page._id}> 

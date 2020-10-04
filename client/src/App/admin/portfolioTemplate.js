@@ -120,8 +120,8 @@ export default class PortfolioTemplate extends Component {
 				</div>
 				<div className="portfolioImageChoice">
 					<h3>Choose images for this Portfolio </h3>
-					{ this.state.allImages.length !== 0 
-						? this.state.allImages.map((image) =>(
+					{ [].slice.array(this.state.allImages).length !== 0 
+						? [].slice.array(this.state.allImages).map((image) =>(
 							<ImageCheckBox 
 								key={image._id}
 								checked={this.state.title===image.portfolio && this.state.title!==""}

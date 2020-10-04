@@ -23,7 +23,7 @@ var upload = multer({
   limits: {
       fieldNameSize: 200, 
       fieldSize: 20000, 
-      fileSize: 4*1024 * 1024
+      fileSize: 5 * 1024 * 1024
   },
   fileFilter: function(_req, file, cb){
       checkFileType(file, cb);
@@ -35,7 +35,7 @@ var uploadSingleImage = multer({
   limits: {
       fieldNameSize: 200, 
       fieldSize: 20000, 
-      fileSize: 1024 * 1024
+      fileSize: 5 * 1024 * 1024
   },
   fileFilter: function(_req, file, cb){
       checkFileType(file, cb);

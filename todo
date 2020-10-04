@@ -1,62 +1,12 @@
 PRIORITY:
 
-Login causing error with "isCorrectPassword" - user object is not a user schema object
-
-let users control order of links
-
-home page style
-	can have carousel of images or static image
-
 delta images and pages- create alert "are you sure? This will remove this image(s) from everywhere on your website" before deleting) 
 	-can select multiple and click "delete selected images"?
-	-on save or cancel redirect to user home panel
-
-edit portfolios:
-	-can either choose existing images or upload new ones
 
 
-Need to be able to edit style
-	-have split screen if wide enough, or button to pop up modal (i.e. if not roughly 2:3 		ratio)  with selection tools and preview
-	-enable editing background colors
-	-edit navigation, portfolio style -
-		nabber can be vertical or horizontal, and collapsible or fixed 
-	-add verification that all data entered is valid on submit
-	-on cancel redirect back to user panel page
-	-let user change Font(s) (main, secondary, and third fonts?)
-	-preset styles:
-		-create ten based off of common themes
-		-create a list in json and json for each variation, create an option or 		each
-		-maybe choose from a carousel of pictures? 
-
-
-use sass with node sass importer to load style variables from JSON
-
-create contact form 
-	-have to update email to load from user settings
-	-nodemailer need to set smtp in route and config files properly
-	-update email routes
-	-test with Mailtrap.io
-	
 have mobile design! update view arrangement if screen size if small enough 
 
-
-error on submit for style form even though it goes through fine
-
-
-get rid of JSON, store everything in database except sample styles!
-
-
-have clean error handling! redirect to home page with message 'something went wrong'?
-
-remove unnecessary packages
-
 back up data incase mongodb loses data
-
-
-DEPLOYMENT:
-
-Need to look into running react / express / mongodb on AWS for easy deployment 
-
 
 FUTURE GOALS:
 

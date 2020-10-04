@@ -89,7 +89,7 @@ export default class Contact extends Component {
           console.log(`Storing images in database returned: ${res.statusText}`)
       }).catch(err => console.log("Storing images in database returned the error: "+err));
 
-    }).catch(err => console.log("Uploading images returned the error: "+err));
+    }).catch(err => {alert("Uploading these images caused a problem. This is likely because your image size is too large. Image max size is 4mb"); console.log("Uploading images returned the error: "+err)});
 
   }
 

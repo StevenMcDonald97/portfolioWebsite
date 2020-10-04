@@ -15,9 +15,11 @@ function login(email, password, redirect) {
     .then(handleResponse)
     .then(response => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(response.token));
-        currentUserSubject.next(response);
-        redirect();
+        if (response.token){
+            localStorage.setItem('currentUser', JSON.stringify(response.token));
+            currentUserSubject.next(response);
+            redirect();     
+        }
         return response;
     }).catch(err => {       
         alert("Login info is incorrect!");

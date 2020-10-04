@@ -95,13 +95,8 @@ export default class App extends Component {
 
   render(){
     // sort pages then render a link in the navbar for each route in the database
-    let pages=this.state.pageInfo;
-    const createLinks = pages.sort((a,b) => a.index - b.index).map((page) => 
-      <li key={page._id} className='navbar-link'><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
-    );
-
-    const createRoutes = this.state.pageInfo.map((page) => (
-      <Route key={page.title} exact path={`/${page.title.replace(/\s+/g, '')}`} render={() => {return <NewPage pageId={`${page._id}`} pageType={page.type}/>}} />
+    const createRoutes = [].slice.call(this.state.pageInfo).map((page) => (
+      page.title ? <Route key={page.title} exact path={`/${page.title.replace(/\s+/g, '')}`} render={() => {return <NewPage pageId={`${page._id}`} pageType={page.type}/>}} /> : null
     ));
   
     const ContactElement = <Contact cancel={ this.showContact }/>;
