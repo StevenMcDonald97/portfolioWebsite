@@ -27,7 +27,7 @@ export default class EditLayout extends Component{
 	// need to load a sorted array of page links
 	componentDidMount(){
 		axios.get('/api/getPageInfo').then((response) => {
-	     let orderedPages=[].slice.array(response.data).sort(function(page1, page2) {
+	     let orderedPages=(response.data).sort(function(page1, page2) {
 			  var key1 = (page1.index),
 			    key2 = (page2.index);
 			  // Compare the 2 dates
@@ -91,11 +91,11 @@ export default class EditLayout extends Component{
 		if (direction==="up" && index>0){
 			newPages[index].index = index-1;
 			newPages[index-1].index = index;
-		} else if (direction==="down" && index<[].slice.array(this.state.pages).length-1){
+		} else if (direction==="down" && index<(this.state.pages).length-1){
 			newPages[index].index = index+1;
 			newPages[index+1].index = index;
 		} 
-		[].slice.array(newPages).sort(function(page1, page2) {
+		(newPages).sort(function(page1, page2) {
 		  var key1 = (page1.index),
 		    key2 = (page2.index);
 		  // Compare the 2 dates
@@ -114,7 +114,7 @@ export default class EditLayout extends Component{
 
     	let children = {};
     	if (this.state.pages){
-	    	[].slice.array(this.state.pages).forEach((page)=>{
+	    	(this.state.pages).forEach((page)=>{
 	    		if (page.parent){
 	    			children[page.parent] ? children[page.parent].push(page._id) : children[page.parent]=[ page._id ]
 	    		}
@@ -129,7 +129,7 @@ export default class EditLayout extends Component{
     }
 
 	render(){
-		const createLinks = [].slice.array(this.state.pages).map((page)=>
+		const createLinks = (this.state.pages).map((page)=>
 			<li key={page.title} className="linkEditingContainer"><LinkEditingObject index={page.index} title={page.title} type={page.type} changeParentState={this.changePageState} changeOrder={this.changeLinkOrder} removeLink={this.removeLink}/></li>
 		);
 
@@ -165,7 +165,7 @@ export default class EditLayout extends Component{
 				</div>
 
 
-				{[].slice.array(this.state.pages).length>0 ? 
+				{(this.state.pages).length>0 ? 
 					<ParentLinkObject pages={this.state.pages} addLink={this.addLink}/> :
 					<span>Loading link adder...</span>
 				}
@@ -257,7 +257,7 @@ class ParentLinkObject extends Component {
 		super(props)
 		this.state ={
 			title:"",
-			checkboxes: [].slice.array(props.pages).reduce(
+			checkboxes: (props.pages).reduce(
 		      (pages, page) => ({
 		        ...pages,
 		        [page._id]: false
@@ -307,7 +307,7 @@ class ParentLinkObject extends Component {
 
 	}
 
-	createCheckboxes = () => [].slice.array(this.props.pages).map(this.createCheckbox);
+	createCheckboxes = () => (this.props.pages).map(this.createCheckbox);
 
 
 	addLink(){

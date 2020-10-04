@@ -31,7 +31,7 @@ const Image = require('./models/image');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('imageUploads', express.static(process.cwd()+'/imageUploads'));
 app.use('/image', imageRoutes);
@@ -54,9 +54,14 @@ mongoose.connect(mongo_uri, { useNewUrlParser: true, useUnifiedTopology: true}, 
   }
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// app.get('/', function (req, res) {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+})
+
 
 /*API end point to return the information for a single page*/
 app.get('/api/getPage', (req,res) => {

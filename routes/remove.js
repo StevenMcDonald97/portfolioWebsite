@@ -3,6 +3,7 @@ const RemoveRouter = express.Router();
 const fs = require("fs");
 const multer = require('multer');
 const Image = require('../models/image');
+const HomePage = require('../models/HomePage');
 const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
@@ -23,10 +24,35 @@ RemoveRouter.route('/removeImages').post(function(req, res) {
 	            Portfolio.updateOne( {'title': portfolio}, { $pullAll: {imageFileNames: [ imgName ] } } ).then(()=>
 	            	console.log("Successfully updated portfolio"));
 	        } catch (error) {
-	            console.log("errror getting results")
+	            console.log("errror removing images")
 	            console.log(error)
 	        } 	
-    	})
+    	});
+    	console.log("here");
+    	HomePage.findOne({}, function(err, result){
+    		console.log("result: "+result);
+    		if (err) return console.error(err);
+    		try {
+    			let images = result.images;
+    			let index = images.indexOf(imgName);
+    			if (index > -1){
+    				result.images.splice(index,1);
+    				result.imageLinks.splice(index,1);
+    			}
+    			console.log("updated result: "+result);
+    			HomePage.findOneAndUpdate({}, result, function(err,data)
+					{
+					    if(!err){
+					        console.log("removed image from home page");
+					    } else {
+					    	console.error(err);
+					    }
+					});
+    		} catch (error) {
+	            console.log("error removing images")
+	            console.log(error)
+    		}
+    	});
 	})
 });
 
