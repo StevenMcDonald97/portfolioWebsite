@@ -8,6 +8,7 @@ const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
 const Page = require("../models/Page");
+require("@babel/polyfill");
 
 RemoveRouter.route('/removeImages').post(function(req, res) {
  	req.body.forEach((imgName)=>{

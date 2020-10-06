@@ -3,6 +3,7 @@
 const express = require('express');
 const ImageRouter = express.Router();
 const Image = require('../models/image');
+require("@babel/polyfill");
 
 ImageRouter.route("/getAll")
 	.get(function(req, res) {

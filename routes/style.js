@@ -4,6 +4,7 @@ const StyleRouter = express.Router();
 const fs = require('fs');
 const fileName = __dirname +'/../client/src/App/style.json';
 const cssFileName = __dirname +'/../client/src/App/css/_custom.scss';
+require("@babel/polyfill");
 
 const writeToStyleJson = async function(req, res) {
 		let styleObject = req.body;

@@ -8,6 +8,7 @@ const Portfolio = require('../models/Portfolio');
 const Page = require("../models/Page")
 const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 const path = require('path');
+require("@babel/polyfill");
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {

@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const creds = require('./emailConfig');
 var password = "monetTurnerSargent"
 var email="myArtistWebsiteMailer@gmail.com"
+require("@babel/polyfill");
 
 var transport = {
     service: 'gmail', 

@@ -10,6 +10,7 @@ const Page = require("../models/Page");
 const fs = require('fs');
 const layoutFileName = __dirname +'/../client/src/App/layout.json';
 var mongoose = require('mongoose');
+require("@babel/polyfill");
 
 EditRouter.route('/updateLinks').post(async function(req,res){
 
