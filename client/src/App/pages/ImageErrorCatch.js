@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-const images = require.context('App/upload', true);
+console.log(process.env.PUBLIC_URL);
+const images = require.context('../../../public/images', true);
 
 export default class ImageErrorCatch extends Component {
   render() {

@@ -31,7 +31,7 @@ const Image = require('./models/image');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/image', imageRoutes);
 app.use('/user', userRoutes);
@@ -43,8 +43,8 @@ app.use('/remove', removeRoutes);
 app.use(errorHandler);
 app.use(cors());
 
-// const mongo_uri = 'mongodb://localhost/react-auth';
-const {  mongo_uri } = require("./config")
+const mongo_uri = 'mongodb://localhost/react-auth';
+// const {  mongo_uri } = require("./config")
 
 
 mongoose.connect(mongo_uri, { useNewUrlParser: true, useUnifiedTopology: true}, function(err) {
@@ -148,6 +148,9 @@ app.get('/api/getPortfolioTitles', (req, res)=>{
   })
 })
 
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+ })
 
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{

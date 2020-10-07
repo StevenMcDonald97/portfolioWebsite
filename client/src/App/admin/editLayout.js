@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton } from 'App/admin/helperComponents';
+import { BackButton } from 'src/App/admin/helperComponents';
 import { FaSortUp, FaSortDown, FaTrashAlt } from "react-icons/fa";  // Font Awesome
-const layoutJson = require('App/layout.json');
+const layoutJson = require('src/App/layout.json');
 
 export default class EditLayout extends Component{
 	constructor(props){

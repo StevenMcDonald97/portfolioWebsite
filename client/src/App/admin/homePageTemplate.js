@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton, ImageCheckBox } from 'App/admin/helperComponents';
+import { BackButton, ImageCheckBox } from 'src/App/admin/helperComponents';
 import PropTypes from 'prop-types';
-import ImageErrorCatch from 'App/pages/ImageErrorCatch';
+import ImageErrorCatch from 'src/App/pages/ImageErrorCatch';
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
 
 export default class HomePageTemplate extends Component{

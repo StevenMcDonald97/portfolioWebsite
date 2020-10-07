@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import axios from 'axios';
-import ImageErrorCatch from 'App/pages/ImageErrorCatch';
+import ImageErrorCatch from 'src/App/pages/ImageErrorCatch';
 
 export default class Portfolio extends Component {
 

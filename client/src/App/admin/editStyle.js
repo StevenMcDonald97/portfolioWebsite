@@ -1,11 +1,11 @@
 import React, { Component, useState } from 'react';
 import { SketchPicker } from 'react-color';
-import StyleVisualization from 'App/admin/styleVisualization';
-import Modal from 'App/pages/modal';
-import ErrorBoundary from 'App/errorBoundary';
-import { BackButton } from 'App/admin/helperComponents';
+import StyleVisualization from 'src/App/admin/styleVisualization';
+import Modal from 'src/App/pages/modal';
+import ErrorBoundary from 'src/App/errorBoundary';
+import { BackButton } from 'src/App/admin/helperComponents';
 import axios from 'axios';
-const styleJson = require('App/style.json');
+const styleJson = require('src/App/style.json');
 // const presetStyle1 = require('App/exampleStyle1.json');
 
 export default class EditStyle extends Component {

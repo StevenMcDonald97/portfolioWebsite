@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {FaAngleDown} from 'react-icons/fa';
-import ErrorBoundary from 'App/errorBoundary';
+import ErrorBoundary from 'src/App/errorBoundary';
 
 export default class Navigation extends Component {
   constructor(props) {

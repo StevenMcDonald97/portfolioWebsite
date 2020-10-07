@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton, } from 'App/admin/helperComponents';
+import { BackButton, } from 'src/App/admin/helperComponents';
 import PropTypes from "prop-types";
 
 export default class EditNavigation extends Component {

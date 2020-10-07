@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {FaAngleDown} from 'react-icons/fa';
-import { authenticationService } from 'App/admin/authentication/authenticationService';
+import { authenticationService } from 'src/App/admin/authentication/authenticationService';
 
 import {
   Link,

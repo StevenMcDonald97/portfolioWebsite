@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ImageErrorCatch from 'App/pages/ImageErrorCatch';
+import ImageErrorCatch from 'src/App/pages/ImageErrorCatch';
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 import { Link } from 'react-router-dom';
@@ -69,7 +69,7 @@ export default class HomePage extends Component {
 			return(
 				<div className="page">
 					<div>
-						<ImageErrorCatch imgClass="landingImage block fullScreen" src={this.state.images[0]} description={this.props.imgDescription} onClick={()=>{}}/>
+						<ImageErrorCatch imgClass="landingImage block fullScreen" src={this.state.images ? this.state.images[0] : null} description={this.props.imgDescription} onClick={()=>{}}/>
 					</div>
 					<div className="homeText bodyText">
 						<div className="homeBodyText mediumHeader">
@@ -82,7 +82,7 @@ export default class HomePage extends Component {
 			return(
 				<div className="page">
 					<div>
-						<ImageErrorCatch imgClass={`landingImage block ${this.state.type}`} src={this.state.images[0]} description={this.props.imgDescription} onClick={()=>{}}/>
+						<ImageErrorCatch imgClass={`landingImage block ${this.state.type}`} src={this.state.images ? this.state.images[0] : null} description={this.props.imgDescription} onClick={()=>{}}/>
 					</div>
 					<div className="homeText bodyText">
 						<div className="homeBodyText mediumHeader">

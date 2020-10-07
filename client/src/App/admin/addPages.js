@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {FaArrowLeft} from 'react-icons/fa';
 // import defaultImage from 'App/admin/exampleImages⁩/defaultImage.png';
-import { AboutPageTemplate, OtherPageTemplate } from 'App/admin/textPageTemplate';
-import ListPageTemplate from 'App/admin/listPageTemplate';
-import PortfolioTemplate from 'App/admin/portfolioTemplate';
+import { AboutPageTemplate, OtherPageTemplate } from 'src/App/admin/textPageTemplate';
+import ListPageTemplate from 'src/App/admin/listPageTemplate';
+import PortfolioTemplate from 'src/App/admin/portfolioTemplate';
 import PropTypes from 'prop-types';
-import ErrorBoundary from 'App/errorBoundary';
+import ErrorBoundary from 'src/App/errorBoundary';
 
 export default class AddPages extends Component {
 	constructor(props){

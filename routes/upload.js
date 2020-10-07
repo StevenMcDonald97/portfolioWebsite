@@ -19,8 +19,17 @@ var storage = multer.diskStorage({
     }
 })
 
+var storage_production = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/public/images')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname )
+    }
+})
+
 var upload = multer({ 
-  storage: storage,
+  storage: storage_production,
   limits: {
       fieldNameSize: 200, 
       fieldSize: 20000, 
@@ -95,15 +104,25 @@ UploadRouter.route('/uploadImages').post(function(req, res) {
 UploadRouter.route('/storeImagesInDB').post(async function(req, res) {
  	await req.body.forEach((img)=>{
     let {oldPortfolio, ...newImg} =img;
- 		const newImage = new Image(newImg);
- 		newImage.save(function(err) {
-		    if (err) {
-		      console.error(err);
-		      return res.status(500).send("Error uploading image(s).");
-		    } 
-		});
+ 		// const newImage = new Image(newImg);
 
-    Portfolio.findOneAndUpdate({title: newImage.portfolio}, {"$push": {"imageFileNames": newImage.fileName}},{ 'new': true }, (err, info) => {
+ 	// 	newImage.save(function(err) {
+		//     if (err) {
+		//       console.error(err);
+		//       return res.status(500).send("Error uploading image(s).");
+		//     } 
+		// });
+
+    Image.findOneAndUpdate({title:img.title}, newImg, { upsert: true, new: true, setDefaultsOnInsert: true }, function(error, result) {
+      if (error) {
+        console.error(err);
+        return res.status(500).send("Error uploading image(s).");
+      }
+
+      // do something with the document
+  });
+
+    Portfolio.findOneAndUpdate({title: newImg.portfolio}, {"$push": {"imageFileNames": newImg.fileName}}, { 'new': true }, (err, info) => {
       if (err) {
         console.log(err);
         return err;

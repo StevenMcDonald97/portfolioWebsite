@@ -1,21 +1,23 @@
 {
   "files": {
     "main.css": "./static/css/main.9c4ce62c.chunk.css",
-    "main.js": "./static/js/main.baf3385e.chunk.js",
-    "main.js.map": "./static/js/main.baf3385e.chunk.js.map",
+    "main.js": "./static/js/main.597d1b26.chunk.js",
+    "main.js.map": "./static/js/main.597d1b26.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.8b0ae790.js",
     "runtime-main.js.map": "./static/js/runtime-main.8b0ae790.js.map",
     "static/css/2.69507427.chunk.css": "./static/css/2.69507427.chunk.css",
-    "static/js/2.b3aca072.chunk.js": "./static/js/2.b3aca072.chunk.js",
-    "static/js/2.b3aca072.chunk.js.map": "./static/js/2.b3aca072.chunk.js.map",
+    "static/js/2.7c6477df.chunk.js": "./static/js/2.7c6477df.chunk.js",
+    "static/js/2.7c6477df.chunk.js.map": "./static/js/2.7c6477df.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.7d68fa61bafeb65727e6b2c4547308ca.js": "./precache-manifest.7d68fa61bafeb65727e6b2c4547308ca.js",
+    "precache-manifest.d19837bded6f83b706856da4c475c133.js": "./precache-manifest.d19837bded6f83b706856da4c475c133.js",
     "service-worker.js": "./service-worker.js",
     "static/css/2.69507427.chunk.css.map": "./static/css/2.69507427.chunk.css.map",
     "static/css/main.9c4ce62c.chunk.css.map": "./static/css/main.9c4ce62c.chunk.css.map",
-    "static/js/2.b3aca072.chunk.js.LICENSE.txt": "./static/js/2.b3aca072.chunk.js.LICENSE.txt",
+    "static/js/2.7c6477df.chunk.js.LICENSE.txt": "./static/js/2.7c6477df.chunk.js.LICENSE.txt",
+    "static/media/Between Voyages.jpg": "./static/media/Between Voyages.efb6b82d.jpg",
     "static/media/California Colors.JPG": "./static/media/California Colors.6e821251.JPG",
     "static/media/IMG_0491.jpg": "./static/media/IMG_0491.45334653.jpg",
+    "static/media/Screen Shot 2020-07-15 at 5.22.43 PM.png": "./static/media/Screen Shot 2020-07-15 at 5.22.43 PM.63590ffa.png",
     "static/media/The Mission Bell Tower.jpg": "./static/media/The Mission Bell Tower.56033943.jpg",
     "static/media/The Old Dairy.png": "./static/media/The Old Dairy.24d3479e.png",
     "static/media/pic1.jpg": "./static/media/pic1.c5e92fd0.jpg",
@@ -25,8 +27,8 @@
   "entrypoints": [
     "static/js/runtime-main.8b0ae790.js",
     "static/css/2.69507427.chunk.css",
-    "static/js/2.b3aca072.chunk.js",
+    "static/js/2.7c6477df.chunk.js",
     "static/css/main.9c4ce62c.chunk.css",
-    "static/js/main.baf3385e.chunk.js"
+    "static/js/main.597d1b26.chunk.js"
   ]
 }

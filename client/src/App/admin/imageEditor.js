@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';  // Font Awesome
 import PropTypes from 'prop-types';
-import ErrorBoundary from 'App/errorBoundary';
-import { BackButton } from 'App/admin/helperComponents';
+import ErrorBoundary from 'src/App/errorBoundary';
+import { BackButton } from 'src/App/admin/helperComponents';
 
 export default class ImageEditor extends Component {
 	constructor(props) {
@@ -112,7 +112,15 @@ export default class ImageEditor extends Component {
 			    </div>
 			);
 		} else {
-			return <h3> No Images to Edit </h3>;
+			return (
+				<div>
+					<h3> No Images to Edit </h3>
+				    <div className="submitButtons">
+			        	<button type='button' className='layoutSubmitButton' onClick={this.props.backPage}>Cancel</button>
+			        	<button type='button' className='layoutSubmitButton' onClick={this.onSubmit}>Upload</button>
+			        </div>
+				</div>
+			);
 		}
     }
 }

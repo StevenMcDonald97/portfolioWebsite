@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-import { authenticationService } from 'App/admin/authentication/authenticationService'
+import { authenticationService } from 'src/App/admin/authentication/authenticationService'
 
 export default class RegistrationPage extends Component {
 	constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton, UploadImage, ImageCheckBox } from 'App/admin/helperComponents';
+import { BackButton, UploadImage, ImageCheckBox } from 'src/App/admin/helperComponents';
 import PropTypes from "prop-types";
 
 export default class PortfolioTemplate extends Component {

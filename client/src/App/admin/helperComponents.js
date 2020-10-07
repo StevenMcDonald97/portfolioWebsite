@@ -1,9 +1,9 @@
 import React, { Component, useState } from 'react';
 import {FaArrowLeft} from "react-icons/fa";
 import PropTypes from "prop-types";
-import ImageErrorCatch from "App/pages/ImageErrorCatch";
+import ImageErrorCatch from "src/App/pages/ImageErrorCatch";
 
-const images = require.context('App/upload', true);
+const images = require.context('../../../public/images', true);
 const defaultImage = images("./defaultImage.png");
 
 const BackButton = (props) => {

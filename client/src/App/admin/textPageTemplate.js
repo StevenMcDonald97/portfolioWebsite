@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton, UploadImage } from 'App/admin/helperComponents';
+import { BackButton, UploadImage } from 'src/App/admin/helperComponents';
 import PropTypes from 'prop-types';
 
 class TextPageTemplate extends Component{

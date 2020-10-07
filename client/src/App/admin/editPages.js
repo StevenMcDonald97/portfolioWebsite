@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';  // Font Awesome
-import defaultImage from 'App/admin/exampleImages/defaultImage.png';
-import HomePageTemplate from 'App/admin/homePageTemplate';
-import {TextPageTemplate } from 'App/admin/textPageTemplate';
-import ListPageTemplate from 'App/admin/listPageTemplate';
-import PortfolioTemplate from 'App/admin/portfolioTemplate';
-import ErrorBoundary from 'App/errorBoundary';
-import { BackButton } from 'App/admin/helperComponents';
+import defaultImage from 'src/App/admin/exampleImages/defaultImage.png';
+import HomePageTemplate from 'src/App/admin/homePageTemplate';
+import {TextPageTemplate } from 'src/App/admin/textPageTemplate';
+import ListPageTemplate from 'src/App/admin/listPageTemplate';
+import PortfolioTemplate from 'src/App/admin/portfolioTemplate';
+import ErrorBoundary from 'src/App/errorBoundary';
+import { BackButton } from 'src/App/admin/helperComponents';
 
 export default class EditPages extends Component {
 	constructor(props){

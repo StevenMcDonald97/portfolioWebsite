@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from "prop-types";
-import ImageErrorCatch from 'App/pages/ImageErrorCatch';
+import ImageErrorCatch from 'src/App/pages/ImageErrorCatch';
 
 export default class TextPage extends Component {
     constructor(props){

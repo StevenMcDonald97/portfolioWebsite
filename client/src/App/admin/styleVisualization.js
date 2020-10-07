@@ -1,7 +1,7 @@
 import React from 'react';
-import sampleImg1 from 'App/admin/exampleImages/pic1.jpg';
-import sampleImg2 from 'App/admin/exampleImages/pic2.jpg';
-import sampleImg3 from 'App/admin/exampleImages/pic3.jpg';
+import sampleImg1 from 'src/App/admin/exampleImages/pic1.jpg';
+import sampleImg2 from 'src/App/admin/exampleImages/pic2.jpg';
+import sampleImg3 from 'src/App/admin/exampleImages/pic3.jpg';
 import PropTypes from 'prop-types';
 
 const StyleVisualization = (props) => {

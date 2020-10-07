@@ -25,5 +25,5 @@ yarn-error.log*
 upload/
 package-lock.json
 
-.env
-.env.production
+.env*
+config.js

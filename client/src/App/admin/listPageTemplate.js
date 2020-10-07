@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton, UploadImage } from 'App/admin/helperComponents';
+import { BackButton, UploadImage } from 'src/App/admin/helperComponents';
 import { FaTrashAlt } from "react-icons/fa";  // Font Awesome
 import PropTypes from "prop-types";
 

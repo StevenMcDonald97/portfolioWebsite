@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { BackButton } from 'App/admin/helperComponents';
+import { BackButton } from 'src/App/admin/helperComponents';
 
 export default class EditProfile extends Component {
 	constructor(props) {

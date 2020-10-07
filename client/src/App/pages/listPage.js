@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import Modal from 'App/pages/modal';
-import ImageErrorCatch from 'App/pages/ImageErrorCatch';
+import Modal from 'src/App/pages/modal';
+import ImageErrorCatch from 'src/App/pages/ImageErrorCatch';
 
 export default class ListPage extends Component {
     constructor(props){

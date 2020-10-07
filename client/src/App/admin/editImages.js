@@ -1,9 +1,9 @@
 import React, { Component} from 'react';
 import axios from 'axios';
-import ImageEditor from "App/admin/imageEditor";
-import ErrorBoundary from 'App/errorBoundary';
-
-const images = require.context('App/upload', true);
+import ImageEditor from "src/App/admin/imageEditor";
+import ErrorBoundary from 'src/App/errorBoundary';
+console.log(process.env.PUBLIC_URL);
+const images = require.context('../../../public/images', true);
 
 export default class Contact extends Component {
 	constructor(props) {
@@ -36,9 +36,10 @@ export default class Contact extends Component {
 		  	response.data.forEach((image, index)=>{
 		  		try{
 		  			values.push(images(`./${image.fileName}`));
-		  		} catch {
+		  		} catch (error) {
 					values.push(images("./defaultImage.png"));
 		  			console.log("Could not load image "+image.fileName)
+		  			console.log("Error: "+error);
 		  		}
 		  	})
 		  	this.setState({imgURLs:values, finishedLoadingImages:true})
@@ -80,11 +81,11 @@ export default class Contact extends Component {
 				    		{...this.props}/>
 				    </div>
 			    </ErrorBoundary>
-				)	
+			)
 		} else {
-			return <h3> No Images to Edit </h3>;
+			return <h3>No Images to Edit</h3>
 		}
-
+	
 	}
  }
 

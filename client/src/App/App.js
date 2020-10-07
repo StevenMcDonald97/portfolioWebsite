@@ -7,44 +7,44 @@ import {
 } from 'react-router-dom';
 import axios from 'axios';
 
-import 'index.css';
-import 'App/CSS/fonts.css';
-import 'App/CSS/main.scss';
-import 'App/CSS/header.scss';
-import 'App/CSS/portfolio.css';
-import 'App/CSS/footer.css';
-import 'App/CSS/modal.css';
-import 'App/CSS/form.css';
-import 'App/CSS/editing.css';
+import 'src/index.css';
+import 'src/App/CSS/fonts.css';
+import 'src/App/CSS/main.scss';
+import 'src/App/CSS/header.scss';
+import 'src/App/CSS/portfolio.css';
+import 'src/App/CSS/footer.css';
+import 'src/App/CSS/modal.css';
+import 'src/App/CSS/form.css';
+import 'src/App/CSS/editing.css';
 
 
-import ErrorBoundary from 'App/errorBoundary';
+import ErrorBoundary from 'src/App/errorBoundary';
 
 // page types
-import Navigation from 'App/pages/navigation'
-import Portfolio from 'App/pages/portfolio';
-import TextPage from 'App/pages/textPage';
-import ListPage from 'App/pages/listPage';
-import Contact from 'App/pages/contact';
-import HomePage from 'App/pages/homePage';
-import Modal from 'App/pages/modal';
-import Login from 'App/admin/login';
-import Register from 'App/admin/register';
-import EditProfile from 'App/admin/editProfile';
+import Navigation from 'src/App/pages/navigation'
+import Portfolio from 'src/App/pages/portfolio';
+import TextPage from 'src/App/pages/textPage';
+import ListPage from 'src/App/pages/listPage';
+import Contact from 'src/App/pages/contact';
+import HomePage from 'src/App/pages/homePage';
+import Modal from 'src/App/pages/modal';
+import Login from 'src/App/admin/login';
+import Register from 'src/App/admin/register';
+import EditProfile from 'src/App/admin/editProfile';
 
-import UploadImages from 'App/admin/uploadImages';
-import EditStyle from 'App/admin/editStyle';
-import UserPanel from 'App/admin/userPanel';
-import EditImages from 'App/admin/editImages';
-import AddPages from 'App/admin/addPages';
-import EditPages from 'App/admin/editPages';
-import EditLayout from 'App/admin/editLayout';
+import UploadImages from 'src/App/admin/uploadImages';
+import EditStyle from 'src/App/admin/editStyle';
+import UserPanel from 'src/App/admin/userPanel';
+import EditImages from 'src/App/admin/editImages';
+import AddPages from 'src/App/admin/addPages';
+import EditPages from 'src/App/admin/editPages';
+import EditLayout from 'src/App/admin/editLayout';
 
-import { history } from 'App/admin/authentication/history'
-import { authenticationService } from 'App/admin/authentication/authenticationService';
-import { PrivateRoute } from 'App/admin/authentication/privateRoute';
+import { history } from 'src/App/admin/authentication/history'
+import { authenticationService } from 'src/App/admin/authentication/authenticationService';
+import { PrivateRoute } from 'src/App/admin/authentication/privateRoute';
 
-const layoutJson = require('App/layout.json');
+const layoutJson = require('src/App/layout.json');
 
 // import Modal from './components/test-modal';
 // import Portfolio from './components/portfolioPage';
