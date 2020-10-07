@@ -3,7 +3,7 @@ import axios from 'axios';
 import ImageEditor from "src/App/admin/imageEditor";
 import ErrorBoundary from 'src/App/errorBoundary';
 console.log(process.env.PUBLIC_URL);
-const images = require.context('../../../public/images', true);
+const images = require.context('../images', true);
 
 export default class Contact extends Component {
 	constructor(props) {

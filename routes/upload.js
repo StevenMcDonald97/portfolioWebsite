@@ -8,20 +8,13 @@ const Portfolio = require('../models/Portfolio');
 const Page = require("../models/Page")
 const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 const path = require('path');
+const childProcess = require('child_process');
+
 require("@babel/polyfill");
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './client/src/App/upload')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname )
-    }
-})
-
-var storage_production = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './client/public/images')
+      cb(null, './client/src/App/images')
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname )
@@ -29,7 +22,7 @@ var storage_production = multer.diskStorage({
 })
 
 var upload = multer({ 
-  storage: storage_production,
+  storage: storage,
   limits: {
       fieldNameSize: 200, 
       fieldSize: 20000, 
@@ -78,6 +71,31 @@ UploadRouter.route('/uploadSingleImage').post(function(req, res) {
     });
 });
 
+
+function runScript(scriptPath, callback) {
+
+    // keep track of whether callback has been invoked to prevent multiple invocations
+    var invoked = false;
+
+    var process = childProcess.fork(scriptPath);
+
+    // listen for errors as they may prevent the exit event from firing
+    process.on('error', function (err) {
+        if (invoked) return;
+        invoked = true;
+        callback(err);
+    });
+
+    // execute the callback once the process has finished running
+    process.on('exit', function (code) {
+        if (invoked) return;
+        invoked = true;
+        var err = code === 0 ? null : new Error('exit code ' + code);
+        callback(err);
+    });
+
+}
+
 UploadRouter.route('/uploadImages').post(function(req, res) {
     upload(req, res, function (err) {
        if (err) { //instanceof multer.MulterError
@@ -96,6 +114,12 @@ UploadRouter.route('/uploadImages').post(function(req, res) {
                success: true,
                message: 'Images uploaded successfully!'
            });
+
+          // runScript('./client/node_modules/react-scripts/scripts/build.js', function (err) {
+          //     if (err) throw err;
+          //     console.log('finished rebuilding react project');
+          // });
+
        }
 
     });
