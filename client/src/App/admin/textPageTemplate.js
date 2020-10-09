@@ -21,11 +21,9 @@ class TextPageTemplate extends Component{
 	}
 
     getPageData = () =>{
-
     	if (this.props.pageId){
 	        axios.get('/api/getPage', { params: {pageId: this.props.pageId, pageType:'text' } })
 	        .then((response) => {
-
 	          this.setState({
 	          	type:response.data.type,
 	            name:response.data.title, 
@@ -42,6 +40,7 @@ class TextPageTemplate extends Component{
 		if (this.state.type==='about'){
 			return(<AboutPageTemplate 
 				image={this.state.mainImage}
+				title={this.state.name}
 				mainText={this.state.description}
 				subText={this.state.secondaryText}
 				createPage={this.props.createPage}
@@ -49,14 +48,14 @@ class TextPageTemplate extends Component{
 				pageId={this.props.pageId}
 				/>)
 		} else {
-			return(<OtherPageTemplate 
+			return(this.state.name ? <OtherPageTemplate 
 				title={this.state.name}
 				image={this.state.mainImage}
 				mainText={this.state.description}
 				createPage={this.props.createPage}
 				backPage={this.props.backPage}
 				pageId={this.props.pageId}
-				/>)
+				/> : <div>No page found</div>)
 		}
 	}
 }
@@ -75,7 +74,7 @@ class AboutPageTemplate extends Component {
 			type:'about',
 			imgName:this.props.image,
 			imageFile:'',
-			title:'About the Artist',
+			title:this.props.title,
 			mainText:this.props.mainText,
 			subText:(this.props.subText ? this.props.subText : ""),
 			createPage:this.props.createPage
@@ -103,10 +102,11 @@ class AboutPageTemplate extends Component {
 	    }).catch(err => console.log(err));
 
 		if (this.state.createPage) { 
-			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
+			axios.post('/upload/uploadTextPage', PageData).then((response)=>alert(response.data));
 		} else {
-			axios.post('/edit/editTextPage', {id:this.props.pageId, ...PageData}).then((response)=>console.log(response))
+			axios.post('/edit/editTextPage', {id:this.props.pageId, ...PageData}).then((response)=>console.log(response.data));
 		};	
+		alert("Updated Page, refresh to see your changes");
 	}
 
 	render(){
@@ -117,6 +117,12 @@ class AboutPageTemplate extends Component {
 					<div className='inputGroup'>
 						<label className='inputLabel'>Profile Picture:</label>
 						<UploadImage changeImage={this.updateImage} />
+					</div>
+					<div className='inputGroup'>
+						<label className='inputLabel' htmlFor='title'>Page Title:</label>
+						<input type='text' className='smallPageField' name='title' 
+							value={this.state.title} 
+							onChange={this.handleChange}/>
 					</div>
 					<div className='inputGroup'>
 						<label className='inputLabel' htmlFor='mainText'>Your Artist Statement:</label>
@@ -160,8 +166,7 @@ class OtherPageTemplate extends Component {
 			imageFile:'',
 			title:this.props.title,
 			mainText:this.props.mainText,
-			createPage:this.props.createPage
-
+			createPage:this.props.createPage,
 		}
 		this.updateImage=this.updateImage.bind(this);
 		this.onSubmit=this.onSubmit.bind(this);
@@ -184,10 +189,11 @@ class OtherPageTemplate extends Component {
 	    }).catch(err => console.log(err));
 
 		if (this.state.createPage) { 
-			axios.post('/upload/uploadTextPage', PageData).then((response)=>console.log(response))
+			axios.post('/upload/uploadTextPage', PageData).then(response=>alert(response));
 		} else {
-			axios.post('/edit/editTextPage', {id:this.props.pageId, ...PageData}).then((response)=>console.log(response))
+			axios.post('/edit/editTextPage', {id:this.props.pageId, ...PageData}).then(response=>alert(response));
 		};	
+		alert("Updated Page, refresh to see your changes");
 	}
 
 	render(){

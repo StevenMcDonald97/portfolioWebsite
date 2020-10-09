@@ -86,10 +86,11 @@ export default class PortfolioTemplate extends Component {
 			"description":this.state.description, "imageFileNames":this.state.imageFileNames,
 			"id":this.props.pageId};
 		if (this.state.createPage) { 
-			axios.post('/upload/uploadPortfolio', PageData).then((response)=>console.log(response))
+			axios.post('/upload/uploadPortfolio', PageData).then((response)=>console.log(response));
 		} else {
-			axios.post('/edit/editPortfolio', PageData).then((response)=>console.log(response))
+			axios.post('/edit/editPortfolio', PageData).then((response)=>alert(response.data));
 		};	
+		alert("Updated Page, refresh to see your changes");
 	}
 
 

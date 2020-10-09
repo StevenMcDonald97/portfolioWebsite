@@ -47,7 +47,7 @@ export default class ListPageTemplate extends Component {
 
 	addPageObject(event){
 	    const values = [...this.state.listObjects];
-		values.push({"title":"", "blurb":"", "imgName":"defaultImage.png", "description":"", 
+		values.push({"title":"", "blurb":"", "imgName":"", "description":"", 
 			keyValue:new Date().getTime(), num:this.state.numObjs});
 		this.setState({listObjects:values}, 
 			()=>this.setState({numObjs:this.state.numObjs+1}));
@@ -90,8 +90,9 @@ export default class ListPageTemplate extends Component {
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadListPage', PageData).then((response)=>alert(response.data));
 		} else {
-			axios.post('/edit/editListPage', PageData).then((response)=>console.log(response));
+			axios.post('/edit/editListPage', PageData).then((response)=>alert(response.data));
 		};
+		alert("Updated Page, refresh to see your changes");
 	}
 
 	render(){

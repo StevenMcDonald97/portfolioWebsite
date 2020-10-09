@@ -13,6 +13,7 @@ export default class HomePageTemplate extends Component{
 			images:[],
 			name:'',
 			subHeader:'',
+			description:'',
 			imageLinks:'',
 			pageInfo:[],
 			allImages:[]
@@ -35,6 +36,7 @@ export default class HomePageTemplate extends Component{
             images:response.data.images, 
             imageLinks:response.data.imageLinks,
             subHeader:response.data.subHeader, 
+            description:response.data.description
             });
         });
 		axios.get('/api/getPageInfo').then((response) => {
@@ -141,9 +143,15 @@ export default class HomePageTemplate extends Component{
 								onChange={this.handleChange}/>
 						</div>
 						<div className='inputGroup'>
-							<label className='inputLabel' htmlFor='subHeader'>Tagline: </label>
+							<label className='inputLabel' htmlFor='subHeader'>Optional Tagline: </label>
 							<textarea className='pageField' name='subHeader' 
 								value={this.state.subHeader} 
+								onChange={this.handleChange} />
+						</div>
+						<div className='inputGroup'>
+							<label className='inputLabel' htmlFor='subHeader'>Optional description: </label>
+							<textarea className='pageField' name='description' 
+								value={this.state.description} 
 								onChange={this.handleChange} />
 						</div>
 						<div className='inputGroup'>
@@ -174,7 +182,7 @@ export default class HomePageTemplate extends Component{
 								onChange={this.handleChange}/>
 						</div>
 						<div className='inputGroup'>
-							<label className='inputLabel' htmlFor='subHeader'>Tagline: </label>
+							<label className='inputLabel' htmlFor='subHeader'>Optional Tagline: </label>
 							<textarea className='pageField' name='subHeader' 
 								value={this.state.subHeader} 
 								onChange={this.handleChange} />
@@ -185,6 +193,11 @@ export default class HomePageTemplate extends Component{
 							)}
 						</div>
 						<div className='inputGroup'>
+							<label className='inputLabel' htmlFor='subHeader'>Optional description: </label>
+							<textarea className='pageField' name='description' 
+								value={this.state.description} 
+								onChange={this.handleChange} />
+						</div>						<div className='inputGroup'>
 							<div className='inputLabel'>Choose Images to Show:</div>
 							{ this.imageSelect(this.addImage, this.removeImage) }
 						</div>		
@@ -212,9 +225,15 @@ export default class HomePageTemplate extends Component{
 								onChange={this.handleChange}/>
 						</div>
 						<div className='inputGroup'>
-							<label className='inputLabel' htmlFor='subHeader'>Tagline: </label>
+							<label className='inputLabel' htmlFor='subHeader'>Optional Tagline: </label>
 							<textarea className='pageField' name='subHeader' 
 								value={this.state.subHeader} 
+								onChange={this.handleChange} />
+						</div>
+						<div className='inputGroup'>
+							<label className='inputLabel' htmlFor='subHeader'>Optional description: </label>
+							<textarea className='pageField' name='description' 
+								value={this.state.description} 
 								onChange={this.handleChange} />
 						</div>
 						<div className='inputGroup'>

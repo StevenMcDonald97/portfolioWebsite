@@ -1,27 +1,30 @@
 {
   "files": {
-    "main.css": "./static/css/main.9c4ce62c.chunk.css",
-    "main.js": "./static/js/main.8a7e331d.chunk.js",
-    "main.js.map": "./static/js/main.8a7e331d.chunk.js.map",
+    "main.css": "./static/css/main.36a56d77.chunk.css",
+    "main.js": "./static/js/main.5b50b5b3.chunk.js",
+    "main.js.map": "./static/js/main.5b50b5b3.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.8b0ae790.js",
     "runtime-main.js.map": "./static/js/runtime-main.8b0ae790.js.map",
     "static/css/2.69507427.chunk.css": "./static/css/2.69507427.chunk.css",
-    "static/js/2.c62e541e.chunk.js": "./static/js/2.c62e541e.chunk.js",
-    "static/js/2.c62e541e.chunk.js.map": "./static/js/2.c62e541e.chunk.js.map",
+    "static/js/2.c5a60335.chunk.js": "./static/js/2.c5a60335.chunk.js",
+    "static/js/2.c5a60335.chunk.js.map": "./static/js/2.c5a60335.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.27af0c68c798542f1a741b05431be3e5.js": "./precache-manifest.27af0c68c798542f1a741b05431be3e5.js",
+    "precache-manifest.723822a078bf7f2392796e4fdee0e032.js": "./precache-manifest.723822a078bf7f2392796e4fdee0e032.js",
     "service-worker.js": "./service-worker.js",
     "static/css/2.69507427.chunk.css.map": "./static/css/2.69507427.chunk.css.map",
-    "static/css/main.9c4ce62c.chunk.css.map": "./static/css/main.9c4ce62c.chunk.css.map",
-    "static/js/2.c62e541e.chunk.js.LICENSE.txt": "./static/js/2.c62e541e.chunk.js.LICENSE.txt",
+    "static/css/main.36a56d77.chunk.css.map": "./static/css/main.36a56d77.chunk.css.map",
+    "static/js/2.c5a60335.chunk.js.LICENSE.txt": "./static/js/2.c5a60335.chunk.js.LICENSE.txt",
     "static/media/56770_3153820w350.jpg": "./static/media/56770_3153820w350.56468491.jpg",
     "static/media/Between Voyages.jpg": "./static/media/Between Voyages.efb6b82d.jpg",
     "static/media/California Colors.JPG": "./static/media/California Colors.6e821251.JPG",
     "static/media/IMG_0200 2.jpg": "./static/media/IMG_0200 2.8de6edce.jpg",
     "static/media/IMG_0491.jpg": "./static/media/IMG_0491.45334653.jpg",
+    "static/media/IMG_9261.JPG": "./static/media/IMG_9261.79cdb9f2.JPG",
     "static/media/Screen Shot 2020-07-15 at 5.22.43 PM.png": "./static/media/Screen Shot 2020-07-15 at 5.22.43 PM.63590ffa.png",
+    "static/media/Screen Shot 2020-07-15 at 5.23.21 PM.png": "./static/media/Screen Shot 2020-07-15 at 5.23.21 PM.41f90964.png",
     "static/media/Setting Out.jpg": "./static/media/Setting Out.3acd2c02.jpg",
     "static/media/The Mission Bell Tower.jpg": "./static/media/The Mission Bell Tower.56033943.jpg",
+    "static/media/The Old Dairy.png": "./static/media/The Old Dairy.24d3479e.png",
     "static/media/pic1.jpg": "./static/media/pic1.c5e92fd0.jpg",
     "static/media/pic2.jpg": "./static/media/pic2.54798a33.jpg",
     "static/media/pic3.jpg": "./static/media/pic3.e1e3abfe.jpg"
@@ -29,8 +32,8 @@
   "entrypoints": [
     "static/js/runtime-main.8b0ae790.js",
     "static/css/2.69507427.chunk.css",
-    "static/js/2.c62e541e.chunk.js",
-    "static/css/main.9c4ce62c.chunk.css",
-    "static/js/main.8a7e331d.chunk.js"
+    "static/js/2.c5a60335.chunk.js",
+    "static/css/main.36a56d77.chunk.css",
+    "static/js/main.5b50b5b3.chunk.js"
   ]
 }

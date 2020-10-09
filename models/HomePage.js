@@ -6,6 +6,7 @@ const HomePageSchema = new Schema({
 	name: { type: String},
 	images: [{type: String}],
 	subHeader: { type: String},
+	description: { type: String},
 	imageLinks:[{type:String}]
 });
 

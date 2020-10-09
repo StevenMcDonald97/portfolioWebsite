@@ -59,6 +59,7 @@ export default class ListPage extends Component {
     }
 
     changeModalStateInfo(image, title, blurb, text) {
+        console.log(image);
         this.setState({
             modalImage: image,
             modalTitle: title,
@@ -105,7 +106,6 @@ const ListObject = (props) => {
     return(
         <div className="listPageObject" onClick={clickObject}>
             <div className="objectTitle">{props.title}</div>
-            <ImageErrorCatch imgClass="listObjectImage" src={props.img} description={""}/> 
             <div className="objectBlurb">{props.blurb}</div>
         </div>
     )

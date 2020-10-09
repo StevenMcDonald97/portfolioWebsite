@@ -20,12 +20,14 @@ const StyleVisualization = (props) => {
 		color: props.values.websiteTitleColor,
 		background:props.values.titleBackgroundColor,
 		fontSize:`${props.values.websiteTitleSize}px`,
+		fontFamily:props.values.headerFont,
 		textAlign:'center'
 	};
 
 	const navBarStyle = {
 		display: 'block',
 		background: props.values.navigationBackgroundColor, 
+		fontFamily:props.values.bodyFont,
 		width:'100%',
 		height:'100%',
 		marginTop:0
@@ -57,6 +59,7 @@ const StyleVisualization = (props) => {
 		textAlign: 'center',
 		textDecoration: 'none',
 		fontSize: `${props.values.navigationLinkSize}px`, 
+		fontFamily:props.values.bodyFont,
 		cursor:'pointer'
 	} 
  
@@ -67,6 +70,7 @@ const StyleVisualization = (props) => {
 		marginTop:'0em',
 		color: props.values.pageHeaderColor, 
 		fontSize:`${props.values.pageHeaderSize}px`,
+		fontFamily:props.values.headerFont,
 		textAlign:'center',
 		background: props.values.pageHeaderBackgroundColor, 
 	};
@@ -74,6 +78,7 @@ const StyleVisualization = (props) => {
 	const mediumHeaderStyle = {
 		color: props.values.mediumHeaderColor, 
 		fontSize:`${props.values.mediumHeaderSize}px`,
+		fontFamily:props.values.headerFont,
 		margin: '.75em',
 		textAlign:'center',
 		marginBottom:'1em'
@@ -82,6 +87,7 @@ const StyleVisualization = (props) => {
 	const smallHeaderStyle = {
 		color: props.values.smallHeaderColor, 
 		fontSize:`${props.values.smallHeaderSize}px`,
+		fontFamily:props.values.headerFont,
 		margin: '.5em',
 		textAlign:'center',
 		marginBottom:'1em'
@@ -90,6 +96,7 @@ const StyleVisualization = (props) => {
 	const bodyStyle = {
 		color: props.values.bodyTextColor, 
 		fontSize:`${props.values.bodyTextSize}px`,
+		fontFamily:props.values.bodyFont,
 		margin: '.5em',
 		textAlign:'center'
 	};
@@ -148,14 +155,15 @@ const StyleVisualization = (props) => {
 	}
 
 	const objectTextStyle = {
-		color:`${props.values.objectTextColor}px`,
+		color:props.values.objectTextColor,
 		fontSize:`${props.values.objectTextSize}px`,
+		fontFamily:props.values.bodyFont,
 	}
 
-
 	const footerStyle = {
-		color: props.values.navLinkColor, 
+		color: props.values.navigationLinkColor, 
 		fontSize:`${props.values.navLinkSize}px`,
+		fontFamily:props.values.bodyFont,
 		backgroundColor: props.values.navBackgroundColor, 
 		width:'100v%',
 		height:'10vh',
@@ -168,7 +176,7 @@ const StyleVisualization = (props) => {
 	return(
 			<div className='StyleVisualization'>
 				<h3 className="editingTitle"> Style Visualisation</h3>
-				<h4 className="editingSubTitle"> This is how the colors on your website will look (this layout is just an example)</h4>
+				<h4 className="editingSubTitle"> This is how the text and colors on your website will look (this layout is just an example)</h4>
 				<div style={pageStyle}> 
 		 			<h1  style={headerStyle}> Website Title </h1>
 		 			<div>

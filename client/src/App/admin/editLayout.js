@@ -13,6 +13,7 @@ export default class EditLayout extends Component{
 			portfolioStyle:layoutJson.portfolioStyle,
 			pages:[],
 			deletedLinks:[],
+			parentLinks:[],
 			numberOfLinks:0
 		}
 		this.handleChange=this.handleChange.bind(this);
@@ -27,7 +28,14 @@ export default class EditLayout extends Component{
 	// need to load a sorted array of page links
 	componentDidMount(){
 		axios.get('/api/getPageInfo').then((response) => {
-	     let orderedPages=(response.data).sort(function(page1, page2) {
+			let parentLinks=[];
+			response.data.forEach((page)=>{
+				if (page.type==="parent"){
+					parentLinks.push(page.title);
+				}
+			});
+
+	    	let orderedPages=(response.data).sort(function(page1, page2) {
 			  var key1 = (page1.index),
 			    key2 = (page2.index);
 			  // Compare the 2 dates
@@ -35,7 +43,7 @@ export default class EditLayout extends Component{
 			  if (key1 > key2) return 1;
 			  return 0;
 			});
-			this.setState({pages:orderedPages, numberOfLinks:orderedPages.length});
+			this.setState({pages:orderedPages, numberOfLinks:orderedPages.length, parentLinks:parentLinks});
 		});
 	}
 
@@ -50,20 +58,34 @@ export default class EditLayout extends Component{
 	}
 
 	addLink(title, children){
-		let values = [...this.state.pages];
-		values.push({title: title, type:"parent", visible:true, children:children, index:this.state.numberOfLinks});
-		children.forEach((childId)=>{
-			for (let i=0; i<values.length; i++){
-				if (values[i]._id===childId){
-					values[i].parent=title;
-				}
+
+		let titleExists=false;
+		this.state.pages.forEach((page)=>{
+			if (page.title===title){
+				let titleExists=true;
+				alert("Must use a new link title")
 			}
-		})
-		this.setState({pages:values, numberOfLinks:this.state.numberOfLinks+1});
+		});
+		if (!titleExists){
+			let values = [...this.state.pages];
+			let newLink={title: title, type:"parent", visibility:true, children:children, index:this.state.numberOfLinks};
+			values.push(newLink);
+			children.forEach((childId)=>{
+				for (let i=0; i<values.length; i++){
+					if (values[i]._id===childId){
+						values[i].parent=title;
+					}
+				}
+			})
+			let parentValues=[...this.state.parentLinks];
+			parentValues.push(newLink.title);
+			this.setState({pages:values, numberOfLinks:this.state.numberOfLinks+1, parentLinks:parentValues});
+		}
 	}
 
 	removeLink(index){
 		let values = [...this.state.pages];
+		let parentValues=[...this.state.parentLinks];
 		let title = values[index].title;
 
 		if(values[index]._id){
@@ -71,12 +93,18 @@ export default class EditLayout extends Component{
 			deleted.push(values[index]._id);
 			this.setState({deletedLinks:deleted});
 		}
+
 		for (let i=0; i<values.length;i++){
-			values[i].index=values[i].index-1;
+			if (i>index){
+				values[i].index=values[i].index-1;
+			}
 			if (values[i].parent===title) values[i].parent=null;
 		}
+
 		values.splice(index, 1);
-		this.setState({pages:values, numberOfLinks:this.state.numberOfLinks-1});
+		let parentIndex=parentValues.indexOf(this.state.pages[index].title)
+		parentValues.splice(parentIndex, 1);
+		this.setState({pages:values, parentLinks:parentValues, numberOfLinks:this.state.numberOfLinks-1});
 	}
 
 	changePageState(index, key, value){
@@ -120,23 +148,20 @@ export default class EditLayout extends Component{
 	    		}
 	    	});
     	}
-
-
-    	const LinkData={"headerAlignment":this.state.headerAlignment, "menuStyle":this.state.menuStyle, "portfolioStyle":this.state.portfolioStyle, "pages":this.state.pages};
-    	
-    	axios.post("/edit/updateLinks", LinkData).then((response)=>alert("Link updating returned:"+response.data))
+    	const LinkData={"headerAlignment":this.state.headerAlignment, "menuStyle":this.state.menuStyle, "portfolioStyle":this.state.portfolioStyle, "pages":this.state.pages, "children":children};
     	axios.post("/remove/removeLinks", this.state.deletedLinks).then((response)=>alert(response.data));
+    	axios.post("/edit/updateLinks", LinkData).then((response)=>alert(response.data))
     }
 
 	render(){
 		const createLinks = (this.state.pages).map((page)=>
-			<li key={page.title} className="linkEditingContainer"><LinkEditingObject index={page.index} title={page.title} type={page.type} changeParentState={this.changePageState} changeOrder={this.changeLinkOrder} removeLink={this.removeLink}/></li>
+			<li key={page.title} className="linkEditingContainer"><LinkEditingObject index={page.index} visibility={page.visibility} title={page.title} type={page.type} parent={page.parent} allParentLinks={this.state.parentLinks} changeParentState={this.changePageState} changeOrder={this.changeLinkOrder} removeLink={this.removeLink}/></li>
 		);
 
 		return(
 			<div className="pageEditor">
 				<BackButton backPage={this.returnToUserPanel}/>
-				<div className="inputGroup">
+				<div className="linkEditing">
 					<label className='inputLabel home' htmlFor='menuStyle'>Choose your navigation style:</label>
 					<select name='menuStyle' className='homePageSelect' value={this.state.menuStyle} onChange={this.handleChange}>
 						<option value='top'>Top Bar</option>
@@ -144,7 +169,7 @@ export default class EditLayout extends Component{
 						<option value='sidebar'>Sidebar Menu</option>
 					</select>
 				</div>
-				<div className="inputGroup">
+				<div className="linkEditing">
 					<label className='inputLabel home' htmlFor='headerAlignment'>Choose your website title orientation:</label>
 					<select name='headerAlignment' className='homePageSelect' value={this.state.headerAlignment} onChange={this.handleChange}>
 						<option value='left'>Left</option>
@@ -152,7 +177,7 @@ export default class EditLayout extends Component{
 						<option value='right'>Right</option>
 					</select>
 				</div>
-				<div className="inputGroup">
+				<div className="linkEditing">
 					<label className='inputLabel home' htmlFor='type'>Choose your portfolio style:</label>
 					<select name='portfolioStyle' className='homePageSelect' value={this.state.portfolioStyle} onChange={this.handleChange}>
 						<option value='grid'>Grid</option>
@@ -195,7 +220,8 @@ class LinkEditingObject extends Component{
 	constructor(props){
 		super(props)
 		this.state ={
-			visibility:"visible"
+			visibility:this.props.visibility,
+			parent:this.props.parent
 		}
 		this.handleChange=this.handleChange.bind(this);
 		this.incrementLinkOrder=this.incrementLinkOrder.bind(this);
@@ -224,10 +250,19 @@ class LinkEditingObject extends Component{
 		return(
 			<div>
 				<div className='linkEditingField'> {this.props.title} </div>
-				<select name='visibility' className='homePageSelect linkEditingField' value={this.state.type} onChange={this.handleChange}>
-					<option value='visible'>Visible</option>
-					<option value='notVisible'>Not Visible</option>
+				<select name='visibility' className='homePageSelect linkEditingField' value={this.state.visibility} onChange={this.handleChange}>
+					<option value={true}>Visible</option>
+					<option value={false}>Not Visible</option>
 				</select>
+				{
+					this.props.allParentLinks ?  
+					<select name='parent' className='homePageSelect linkEditingField' value={this.state.parent ? this.state.parent : "none"} onChange={this.handleChange}>
+						<option value={""}>None</option>
+						{ this.props.allParentLinks.map((link)=>
+							<option key={link} value={link}>{link}</option>
+						) }
+					</select> : null
+				}
 				<div className="linkEditingField linkOrderArrows">
 					<div className="upArrow" name="up" onClick={this.decrementLinkOrder}><FaSortUp/></div>
 					<div className="downArrow" name="down" onClick={this.incrementLinkOrder}><FaSortDown/></div>
@@ -333,7 +368,7 @@ class ParentLinkObject extends Component {
 		return(
 			<div className="parentLinkContainer">
 				<h3> Create a New Parent Link </h3>
-				<h5> (For example if you want several portfolios to dropdown under one link) </h5>
+				<h5> (For example if you want several portfolios to drop down under one link) </h5>
 				<label className='inputLabel' htmlFor="title">Title:</label>
 				<input type='text' className='smallPageField' name="title" value={this.state.title} onChange={this.handleChange}/>
 				<label className='inputLabel' htmlFor="children">Choose children pages:</label>

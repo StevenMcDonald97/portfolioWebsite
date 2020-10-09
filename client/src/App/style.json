@@ -1,13 +1,13 @@
 {
   "text": {
-    "headerFontFamily": "'Oxygen', 'Helvetica', sans-serif",
-    "bodyFontFamily": "'Lato', 'Helvetica', sans-serif",
+    "headerFontFamily": "'Vollkorn','Georgia', serif",
+    "bodyFontFamily": "'Josefin Slab', 'Georgia', serif",
     "WebsiteTitle": {
       "color": "#fffefc",
       "size": "36"
     },
     "PageHeader": {
-      "color": "#e3dcd1",
+      "color": "#e3dfd1",
       "size": "24"
     },
     "MediumHeader": {
@@ -23,7 +23,7 @@
       "size": "14"
     },
     "NavigationLink": {
-      "color": "#efefef",
+      "color": "#e7e0d8",
       "size": "18"
     },
     "OtherLink": {
@@ -40,11 +40,11 @@
     }
   },
   "backgroundColor": {
-    "title": "#241c26",
-    "header": "#3a353b",
-    "navigation": "#2a242e",
+    "title": "#151515",
+    "header": "#434043",
+    "navigation": "#272528",
     "body": "#79767a",
-    "emphasis": "#2c2b2b",
+    "emphasis": "#2b2c2c",
     "object": "#c1c0c0"
   }
 }

@@ -2,7 +2,6 @@ import React, { Component} from 'react';
 import axios from 'axios';
 import ImageEditor from "src/App/admin/imageEditor";
 import ErrorBoundary from 'src/App/errorBoundary';
-console.log(process.env.PUBLIC_URL);
 const images = require.context('../images', true);
 
 export default class Contact extends Component {
@@ -60,7 +59,7 @@ export default class Contact extends Component {
 		axios.post("/edit/editImages", images, { 
 	          // receive two    parameter endpoint url ,form data
 	    }).then(res => { // then print response status
-	        console.log(`Updating images in database returned: ${res.statusText}`)
+	        alert(res.data)
 	    }).catch(err => console.log(err));
 
 	    axios.post("/remove/removeImages", this.state.deletedImages, {}).then(res => { // then print response status

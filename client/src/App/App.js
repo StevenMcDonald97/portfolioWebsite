@@ -153,13 +153,13 @@ const NewPage =(props)=> {
   } else if (props.pageType==='portfolio'){
     return (
       <ErrorBoundary >
-       <Portfolio pageId={props.pageId}/>
+       <Portfolio pageId={props.pageId} portfolioStyle={layoutJson.portfolioStyle}/>
       </ErrorBoundary>
     );
   } else {
     return (
       <ErrorBoundary >
-       <HomePage imgDescription="Home page artwork"></HomePage>;
+       <HomePage imgDescription="Home page artwork"></HomePage>
       </ErrorBoundary>
     );
   }

@@ -63,15 +63,15 @@ export default class Portfolio extends Component {
         return(
             <div className="page">
                 <div className="pageHeader">{this.state.title}</div>
+                <p className="bodyText portfolioDescription">{this.state.description}</p>
                 <div className="row">
-                  {
-                    this.state.images.map(
-                        (image, index) =>   
-                            <Image key={index} imgKey={index} img={image} description="A painting" changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}></Image>
-                    )
-                  }
+                    {
+                        this.state.images.map(
+                            (image, index) =>   
+                                <Image key={index} imgKey={index} img={image} description="A painting" changeModalStateInfo={this.changeModalStateInfo} portfolioStyle={this.props.portfolioStyle} showModal={this.showModal}></Image>
+                        )
+                    }
                     <PortfolioModal visible={this.state.showMod} onClose={this.showModal} images={this.state.images} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
-
                 </div>
             </div>
         )
@@ -90,10 +90,10 @@ class Image extends Component {
 
     render() {
         return (
-            <div className="column">
-                <div className="portfolioImageContainer">
-                    <ImageErrorCatch imgClass="portfolioImage" src={`${this.props.img.fileName}`} description={this.props.description} clickImage={this.clickImage}/>
-                    <div className="portfolioOverlay" onClick={this.clickImage}>
+            <div className={`column ${this.props.portfolioStyle}`}>
+                <div className={`portfolioImageContainer ${this.props.portfolioStyle}`}>
+                    <ImageErrorCatch imgClass={`portfolioImage ${this.props.portfolioStyle}`} src={`${this.props.img.fileName}`} description={this.props.description} clickImage={this.clickImage}/>
+                    <div className={`portfolioOverlay ${this.props.portfolioStyle}`} onClick={this.clickImage}>
                         <div className="portfolioImageText">
                             <strong> {this.props.img.title}</strong> <br/>
                             {this.props.img.medium} <br/>

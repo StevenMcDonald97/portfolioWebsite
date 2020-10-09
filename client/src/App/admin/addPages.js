@@ -43,6 +43,7 @@ export default class AddPages extends Component {
 				return( 
 					<AboutPageTemplate 
 					defaultImage={''} 
+					title="About"
 					backPage={this.returnToPageSelection} 
 					createPage={true}/>);
 			} else if (this.state.pageType==='portfolio'){

@@ -14,19 +14,20 @@ export default class HomePage extends Component {
 			images:['defaultImage.png'],
 			imageLinks:[],
 			subTitle:'',
+			description:'',
 			type:"simple"
 		}	
 	}
 
 	componentDidMount(){
 		axios.get('/api/getHomePage').then((response)=>{
-	      this.setState({type:response.data.type, title:response.data.name, images:response.data.images, imageLinks:response.data.imageLinks, subTitle:response.data.subHeader })
+	      this.setState({type:response.data.type, title:response.data.name, images:response.data.images, imageLinks:response.data.imageLinks, subTitle:response.data.subHeader, description:response.data.description })
 	    });
 	}
 
 	render() {
-		const prevArrow = <div className="homeSlideControl left"><FaAngleLeft /></div>;
-		const nextArrow = <div className="homeSlideControl right"><FaAngleRight /></div>;
+		const prevArrow = <div className="homeSlideControl left"><FaAngleLeft /></div>
+		const nextArrow = <div className="homeSlideControl right"><FaAngleRight /></div>
 
 		if (this.state.type==="slideShow"){
 			return (
@@ -46,6 +47,9 @@ export default class HomePage extends Component {
 						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
 						</div>
+						<div className="homeText">
+							{this.state.description}
+						</div>
 					</div>
 				</div>
 			)
@@ -62,6 +66,9 @@ export default class HomePage extends Component {
 						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
 						</div>
+						<div className="homeText">
+							{this.state.description}
+						</div>
 					</div>
 				</div>
 			);
@@ -75,6 +82,9 @@ export default class HomePage extends Component {
 						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
 						</div>
+						<div className="homeText">
+							{this.state.description}
+						</div>
 					</div>
 				</div>
 			);	
@@ -87,6 +97,9 @@ export default class HomePage extends Component {
 					<div className="homeText bodyText">
 						<div className="homeBodyText mediumHeader">
 							{this.state.subTitle}
+						</div>
+						<div className="homeText">
+							{this.state.description}
 						</div>
 					</div>
 				</div>

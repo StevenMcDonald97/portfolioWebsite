@@ -13,23 +13,29 @@ var mongoose = require('mongoose');
 require("@babel/polyfill");
 
 EditRouter.route('/updateLinks').post(async function(req,res){
-
     // const LinkData={"headerAlignment":this.state.headerAlignment, "menuStyle":this.state.menuStyle, "portfolioStyle":this.state.portfolioStyle, "pages":this.state.pages};
     const newLayoutJson = JSON.stringify({headerAlignment:req.body.headerAlignment, menuStyle:req.body.menuStyle, portfolioStyle:req.body.portfolioStyle});
-
 	await fs.writeFile(layoutFileName, newLayoutJson, (err) => {
 	    if (err) console.log(err); 
 	});
-	
+
 	for (let i=0; i<req.body.pages.length; i++){
-		if (req.body.pages[i]._id){
-			Page.findOneAndUpdate({_id: req.body.pages[i]._id}, req.body.pages[i], function(err, doc){
+
+		let editPage = req.body.pages[i];
+		if (editPage.type==="parent"){
+			editPage.children=req.body.children[editPage.title];
+		}
+
+		if (editPage._id){
+			Page.findOneAndUpdate({_id: editPage._id}, editPage, function(err, doc){
 			    if(err){
+			    	console.log(err);
 			        console.log("Something wrong updating link data!");
+                	res.status(500).send("Error adding to list of pages.");
 			    }
 			});
 		} else {
-			let pageData = req.body.pages[i];
+			let pageData = editPage;
 			pageData["_id"] = mongoose.Types.ObjectId();
 			let newPage = new Page(pageData);
 
@@ -41,6 +47,9 @@ EditRouter.route('/updateLinks').post(async function(req,res){
             });
 		}
 	}
+
+	 res.status(200).send("Success updating layout. Give the server a minute to update then refresh the page");
+
 });
 
 
@@ -52,7 +61,6 @@ EditRouter.route('/editImages').post(function(req, res) {
 	    Image.findOneAndUpdate(query, update, {new: true }, (err, obj) => console.log("editing image: "+obj.title));
 		
 		if (oldPortfolio && oldPortfolio!=update.portfolio){
-			console.log("portfolio for "+img.title+" is changed");
 
 			Portfolio.findOneAndUpdate({title: update.portfolio}, {"$push": {imageFileNames: update.fileName}},{ 'new': true }, (err, info) => {
 				if (err) {
@@ -60,6 +68,7 @@ EditRouter.route('/editImages').post(function(req, res) {
 					return err;
 				} 
 			});
+
             Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:update.fileName} }, { 'new': true }, (err, info) => {
                 if (err) {
                 	console.log(err);
@@ -84,16 +93,29 @@ EditRouter.route('/editHomePage').post(function(req, res) {
 
 EditRouter.route('/editTextPage').post(function(req, res) {
 	const page = req.body;
-    const query = {_id: page.id};
+    const query = {_id: new mongoose.Types.ObjectId(page.id)};
     const update={
 		type: page.type,
 		title: page.title,
-		imgUrl: page.imgUrl,
+		imgName: page.imgName,
 		mainText: page.mainText,
 		subText: page.subText
     }
+
 	TextPage.findOneAndUpdate(query, update,
-		{new: true }, (err, obj) => console.log("editing textPage: "+obj.title));
+		{new: true }, (err, obj) => {
+			if (err) console.log(err); return err;
+			res.status(200).send("Success edited page. Refersh to see change");
+	});
+
+	Page.findOneAndUpdate(query, {title:page.title},
+			{new: true }, (err, obj) => {
+		if (err) console.log(err); return err;
+		console.log(page.title);
+		console.log(obj);
+	});
+
+
 });
 
 EditRouter.route('/editListPage').post(function(req, res) {
@@ -126,6 +148,8 @@ EditRouter.route('/editListPage').post(function(req, res) {
 		});
 
 	});
+	res.status(200).send("Success edited page. Refersh to see change");
+
 // ---------------------------------------------------
 
 });
@@ -193,6 +217,8 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 
 			}
 		});
+		res.status(200).send("Success editing page.");
+
 	})
 });
 
