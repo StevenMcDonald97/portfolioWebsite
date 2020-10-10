@@ -1,7 +1,7 @@
 {
   "text": {
-    "headerFontFamily": "'Vollkorn','Georgia', serif",
-    "bodyFontFamily": "'Josefin Slab', 'Georgia', serif",
+    "headerFontFamily": "'Oxygen', 'Helvetica', sans-serif",
+    "bodyFontFamily": "'Lato', 'Helvetica', sans-serif",
     "WebsiteTitle": {
       "color": "#fffefc",
       "size": "36"

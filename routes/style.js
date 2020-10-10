@@ -3,7 +3,7 @@ const express = require('express');
 const StyleRouter = express.Router();
 const fs = require('fs');
 const fileName = __dirname +'/../client/src/App/style.json';
-const cssFileName = __dirname +'/../client/src/App/css/_custom.scss';
+const cssFileName = __dirname +'/../client/src/App/CSS/_custom.scss';
 require("@babel/polyfill");
 
 const writeToStyleJson = async function(req, res) {
