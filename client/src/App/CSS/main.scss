@@ -91,6 +91,7 @@ h1 {
 .landingImage.fullScreen {
   position:absolute;
   height:80vh;
+  max-height:100%;
   width:100%;
   object-fit:cover;
   object-position:20% 50%;
