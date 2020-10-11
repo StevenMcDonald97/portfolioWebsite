@@ -25,6 +25,7 @@
 /* Create four equal columns that floats next to each other */
 .column {
   display:inline-block;
+  vertical-align:top;
 }
 
 .column.list {
