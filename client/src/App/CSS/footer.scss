@@ -1,0 +1,28 @@
+@import './_custom.scss';
+
+.footer {
+	min-height:5rem;
+	background-color: $navigationBackgroundColor;
+	padding-top:1.5rem;
+}
+
+.footerLink {
+  color: $navLinkColor;
+  font-family:$bodyFontFamily;
+  display: inline-block;
+  text-align: center;
+  padding: .5rem 1rem;
+  font-size: 2rem;
+  text-decoration: none !important;
+  cursor:pointer;
+}
+
+/* Change the color of links on hover */
+.footerLink:hover {
+  color: #ddd;
+}
+
+.footerText {
+  text-align:center;
+  margin-bottom:.5rem;
+}

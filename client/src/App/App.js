@@ -11,8 +11,8 @@ import 'src/index.css';
 import 'src/App/CSS/fonts.css';
 import 'src/App/CSS/main.scss';
 import 'src/App/CSS/header.scss';
+import 'src/App/CSS/footer.scss';
 import 'src/App/CSS/portfolio.css';
-import 'src/App/CSS/footer.css';
 import 'src/App/CSS/modal.css';
 import 'src/App/CSS/form.css';
 import 'src/App/CSS/editing.css';
@@ -21,10 +21,11 @@ import 'src/App/CSS/editing.css';
 import ErrorBoundary from 'src/App/errorBoundary';
 
 // page types
-import Navigation from 'src/App/pages/navigation'
+import Navigation from 'src/App/pages/navigation';
 import Portfolio from 'src/App/pages/portfolio';
 import TextPage from 'src/App/pages/textPage';
 import ListPage from 'src/App/pages/listPage';
+import Footer from 'src/App/pages/footer';
 import Contact from 'src/App/pages/contact';
 import HomePage from 'src/App/pages/homePage';
 import Modal from 'src/App/pages/modal';
@@ -39,6 +40,7 @@ import EditImages from 'src/App/admin/editImages';
 import AddPages from 'src/App/admin/addPages';
 import EditPages from 'src/App/admin/editPages';
 import EditLayout from 'src/App/admin/editLayout';
+import EditFooter from 'src/App/admin/editFooter';
 
 import { history } from 'src/App/admin/authentication/history'
 import { authenticationService } from 'src/App/admin/authentication/authenticationService';
@@ -124,10 +126,12 @@ export default class App extends Component {
                   <PrivateRoute exact path='/editPages' component={EditPages} />
                   <PrivateRoute exact path='/editImages' component={EditImages} />
                   <PrivateRoute exact path='/editLayout' component={EditLayout} />
+                  <PrivateRoute exact path='/editFooter' component={EditFooter} />
                   { createRoutes }
                   <Route path='/' render={() => {return <NewPage title={this.state.title} subTitle={this.state.subTitle}/>}} />
                 </Switch>
-            </div>
+              </div>
+              <Footer />
             </div>
           </Router>
         </div>

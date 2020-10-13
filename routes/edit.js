@@ -7,6 +7,7 @@ const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
 const Page = require("../models/Page");
+const Footer = require("../models/Footer");
 const fs = require('fs');
 const layoutFileName = __dirname +'/../client/src/App/layout.json';
 var mongoose = require('mongoose');
@@ -90,6 +91,15 @@ EditRouter.route('/editHomePage').post(function(req, res) {
 	    return res.send('Succesfully updated your home page.');
 	});
 });
+
+EditRouter.route('/editFooter').post(function(req, res) {
+	Footer.findOneAndUpdate({}, req.body, {upsert: true}, function(err, doc) {
+	    if (err) return res.send(500, {error: err});
+	    return res.send('Succesfully updated your home page.');
+	});
+});
+
+
 
 EditRouter.route('/editTextPage').post(function(req, res) {
 	const page = req.body;

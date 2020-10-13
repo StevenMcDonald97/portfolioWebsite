@@ -27,6 +27,7 @@ const textPage = require('./models/TextPage');
 const  {ListPage, ListObject} = require('./models/ListPage');
 const portfolio = require('./models/Portfolio');
 const Image = require('./models/image');
+const Footer = require("./models/Footer");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -120,6 +121,24 @@ app.get('/api/getHomePage', (req,res) => {
   });
 });
 
+app.get('/api/getFooter', (req,res) => {
+  Footer.findOne({}, function(err, footer) {
+      if (err) return res.send(500, {error: err});
+      if(!footer){
+        footer = new Footer({
+          message:"Thank you for visiting my site!",
+          facebook:"",
+          instagram:"",
+          twitter:"",
+          etsy:"",
+          linkedin:"",
+          other:""
+        });
+        footer.save(function(err){console.log(err)});
+      }
+      return res.send(footer);
+  });
+});
 
 app.get('/api/getPortfolioImages', (req, res)=>{
   let images = [];
