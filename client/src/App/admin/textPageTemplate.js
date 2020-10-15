@@ -27,7 +27,7 @@ class TextPageTemplate extends Component{
 	          this.setState({
 	          	type:response.data.type,
 	            name:response.data.title, 
-	            mainImage:response.data.imgUrl, 
+	            mainImage:response.data.imgName, 
 	            description:response.data.mainText, 
 	            secondaryText:response.data.subText, 
 	            });
@@ -95,20 +95,22 @@ class AboutPageTemplate extends Component {
 
 	onSubmit(){
 		const {createPage, imageFile, ...PageData} = this.state;
-	    const imageData = new FormData();
-	    imageData.append('file', imageFile);
-	    axios.post("/upload/uploadImages", imageData).then(res => { // then print response status
-	        console.log(`Image upload returned: ${res.statusText}`)
-	    }).catch(err => console.log(err));
+		if (imageFile){
+			const imageData = new FormData();
+	    	imageData.append('file', imageFile);
+	    	axios.post("/upload/uploadImages", imageData).then(res => { // then print response status
+	        	console.log(`Image upload returned: ${res.statusText}`)
+	    	}).catch(err => console.log(err));
+		}
 
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then((response)=>alert(response.data));
 		} else {
 			axios.post('/edit/editTextPage', {id:this.props.pageId, ...PageData}).then((response)=>console.log(response.data));
 		};	
-		alert("Updated Page, refresh to see your changes");
+		alert("Updated Page, refresh to see your changes (it may take a minute for the server to refresh)");
 	}
-
+	
 	render(){
 		return(
 			<div className='pageEditor'>

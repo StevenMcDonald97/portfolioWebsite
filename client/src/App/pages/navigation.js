@@ -11,19 +11,30 @@ export default class Navigation extends Component {
     	style:this.props.navigationStyle,
     	pageInfo:[],
       dropdownClass:"",
-      menuWrapClass:""
+      menuWrapClass:"",
+      width:window.innerWidth
     };
     this.clickToggleButton=this.clickToggleButton.bind(this);
     this.clickOutsideMenu=this.clickOutsideMenu.bind(this);
     this.createSubLinks=this.createSubLinks.bind(this);
     this.stopPropogation=this.stopPropogation.bind(this);
+    this.updateDimensions=this.updateDimensions.bind(this);
   }
 
   componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
     axios.get('/api/getPageInfo').then((response) => {
       this.setState({pageInfo:response.data});
     });
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions = () => {
+    this.setState({ width: window.innerWidth });
+  };
 
   clickToggleButton(){
     if (this.state.dropdownClass===""){
@@ -54,7 +65,7 @@ export default class Navigation extends Component {
   }
 
   render(){
-    if (this.state.style==="sidebar"){
+    if (this.state.style==="sidebar" && this.state.width>700){
 
       const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
           if (page.visibility && page.children && page.children.length>0){
@@ -88,7 +99,39 @@ export default class Navigation extends Component {
       );
 
 
-    } else if (this.state.style==="dropdown"){
+    } else if (this.state.style==="top" && this.state.width>600){
+
+      const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
+          if (page.visibility && page.children && page.children.length>0){
+             return (<li key={page._id} className='navbar-link dropdown-link'>
+                  <div className='user-navbar-link dropbtn'>{page.title} <FaAngleDown /></div>
+                  <div className='dropdown-content'>
+                   { page.children.map((childId)=>
+                      this.createSubLinks(childId)
+                    )}
+                  </div>
+                </li>
+              )
+          } else if (page.parent){
+              return null;
+          } else if (page.title && page.visibility){
+            return <li key={page._id} className='navbar-link'><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
+          }
+        }
+      );
+
+      return(
+          <ErrorBoundary>
+            <div className='navbar'>
+              <ul className='navbar-links'>
+                <li className='navbar-link'><Link to={'/'} className='navbar-link'>Home</Link></li>
+                { createLinks }
+                <li key='contact' className='navbar-link'><div className='navbar-link' onClick={ this.props.showContact } >Contact</div></li>
+              </ul>
+            </div>
+          </ErrorBoundary >
+        );
+    } else {
       const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
           if (page.visibility && page.children && page.children.length>0){
              return (
@@ -128,39 +171,7 @@ export default class Navigation extends Component {
           </div>
         </div>
     	);
-    } else {
-
-      const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
-          if (page.visibility && page.children && page.children.length>0){
-             return (<li key={page._id} className='navbar-link dropdown-link'>
-                  <div className='user-navbar-link dropbtn'>{page.title} <FaAngleDown /></div>
-                  <div className='dropdown-content'>
-                   { page.children.map((childId)=>
-                      this.createSubLinks(childId)
-                    )}
-                  </div>
-                </li>
-              )
-          } else if (page.parent){
-              return null;
-          } else if (page.title && page.visibility){
-            return <li key={page._id} className='navbar-link'><Link to={`/${page.title.replace(/\s+/g, '')}`} className='navbar-link'>{page.title}</Link></li>
-          }
-        }
-      );
-
-    	return(
-          <ErrorBoundary>
-            <div className='navbar'>
-              <ul className='navbar-links'>
-                <li className='navbar-link'><Link to={'/'} className='navbar-link'>Home</Link></li>
-                { createLinks }
-                <li key='contact' className='navbar-link'><div className='navbar-link' onClick={ this.props.showContact } >Contact</div></li>
-              </ul>
-            </div>
-          </ErrorBoundary >
-        );
-    }
+    } 
   }
 
 

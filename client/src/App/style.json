@@ -1,29 +1,29 @@
 {
   "text": {
-    "headerFontFamily": "'Oxygen', 'Helvetica', sans-serif",
+    "headerFontFamily": "'Merriweather','Georgia', serif",
     "bodyFontFamily": "'Lato', 'Helvetica', sans-serif",
     "WebsiteTitle": {
-      "color": "#fffefc",
+      "color": "#fbf1dc",
       "size": "36"
     },
     "PageHeader": {
-      "color": "#e3dfd1",
+      "color": "#e3ddc9",
       "size": "24"
     },
     "MediumHeader": {
-      "color": "#c8c3b8",
+      "color": "#e3ddc9",
       "size": "22"
     },
     "SmallHeader": {
-      "color": "#c8c4bc",
+      "color": "#e3ddc9",
       "size": "20"
     },
     "BodyText": {
       "color": "#eee5d8",
-      "size": "14"
+      "size": "16"
     },
     "NavigationLink": {
-      "color": "#e7e0d8",
+      "color": "#fbf1dc",
       "size": "18"
     },
     "OtherLink": {
@@ -31,7 +31,7 @@
       "size": "11"
     },
     "HoverOnLink": {
-      "color": "#acff00",
+      "color": "#f5f2e3",
       "size": "12"
     },
     "ObjectText": {

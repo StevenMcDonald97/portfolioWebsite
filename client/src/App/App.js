@@ -131,7 +131,7 @@ export default class App extends Component {
                   <Route path='/' render={() => {return <NewPage title={this.state.title} subTitle={this.state.subTitle}/>}} />
                 </Switch>
               </div>
-              <Footer />
+              <Footer footerClass={layoutJson.menuStyle}/>
             </div>
           </Router>
         </div>

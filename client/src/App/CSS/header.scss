@@ -32,12 +32,12 @@
 
 /* Change the color of links on hover */
 .navbar-link:hover {
-  color: #ddd;
+  color: $hoverOnLinkColor;
 }
 
 /* Add an active class to highlight the current page */
 .navbar-link .active {
-  color: blue;
+  color: teal;
 }
 
 .navbar .icon {
@@ -161,19 +161,9 @@
 
 /*Hamburger Button*/
 
-.menuToggleButton {
-  position: fixed;
-  color:$titleColor;
-  width: 3vw;
-  height: 2vw;
-  top: 1.5em;
-  right: 5em;
-  padding: .2em;
-  transition: .5s;
-  z-index: 900;
-}
 
 .menuToggleButton:hover {
+  color:$hoverOnLinkColor;
   cursor: pointer;
 
 }
@@ -187,19 +177,19 @@
 }
 
 .menuToggleButton .menuBarTop {
-  border: 3px solid #fff;
+  border: 3px solid $navLinkColor;
   border-bottom: none;
   margin-top: 0;
 }
 
 .menuToggleButton .menuBarMiddle {
   height: 3px;
-  background-color: #fff;
+  background-color: $navLinkColor;
   margin-top: .75vw;
 }
 
 .menuToggleButton .menuBarBottom {
-  border: 3px solid #fff;
+  border: 3px solid $navLinkColor;
   border-top: none;
   margin-top: 1.5vw;
 }
@@ -253,6 +243,7 @@
 }
 
 .menuSideBar .sideLink {
+  width:100%;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-family:$bodyFontFamily;
@@ -263,7 +254,7 @@
 }
 
 .menuSideBar .sideLink:hover {
-  color: #f1f1f1;
+  color: $hoverOnLinkColor;
 }
 
 
@@ -305,38 +296,49 @@
 }
 
 @media screen and (max-width: 700px) {
+  .dropDownMenu{
+    margin-top:200px;
+    padding-inline-start: 0;
+  }
+
+  .custom-dropdown-menu{
+    height:3rem;
+    background:$titleBackgroundColor;
+    text-align:center;
+  }
 
   .menuToggleButton {
+    position:relative;
     display:block;
-    width: 3vw;
-    height: 2vw;
+    width: 1.8rem;
+    height: 1.6rem;
     padding: .2em;
+    transition: .5s;
+    margin:0 auto;
+    z-index: 900;
   }
 
   .menuToggleButton .menuBar {
     position: absolute;
     border-radius: 2px;
-    width: 80%;
+    width: 1.6rem;
     min-width:21px;
     transition: .5s;
   }
 
   .menuToggleButton .menuBarTop {
-    border: 3px solid #fff;
     border-bottom: none;
     margin-top: 0;
   }
 
   .menuToggleButton .menuBarMiddle {
     height: 3px;
-    background-color: #fff;
-    margin-top: .75vw;
+    margin-top: .6rem;
   }
 
   .menuToggleButton .menuBarBottom {
-    border: 3px solid #fff;
     border-top: none;
-    margin-top: 1.5vw;
+    margin-top: 1.2rem;
   }
 
   /*open button*/
@@ -368,5 +370,25 @@
     transition: .5s;
   }
 
+  .sidebar {
+    margin-left:0;
+  }
+
 }
+
+@media screen and (min-width: 700px) {
+  .menuToggleButton {
+    position: fixed;
+    color:$titleColor;
+    width: 3vw;
+    height: 2vw;
+    top: 1.5em;
+    right: 5em;
+    padding: .2em;
+    transition: .5s;
+    z-index: 900;
+  }
+}
+
+
 

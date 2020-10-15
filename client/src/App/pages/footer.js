@@ -37,7 +37,7 @@ export default class Navigation extends Component {
   render(){
   	return(
         <ErrorBoundary>
-          <div className='footer'>
+          <div className={`footer ${this.props.footerClass}`}>
             <div className="footerText"> {this.state.message} </div>
             <ul className='navbar-links'>
               { this.state.facebook ? <li className="footerLink"><a href={this.state.facebook} className="footerLink"><FaFacebook /></a></li>   : null}
