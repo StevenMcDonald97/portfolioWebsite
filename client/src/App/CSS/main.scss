@@ -149,11 +149,12 @@ h1 {
   margin:3rem auto;
   height:21rem;
   width:36rem;
+  max-width:100%;
 }
 
 .homeSlideImage{
-  height:21rem;
-  width:30rem;
+  max-height:21rem;
+  max-width:100%;
   object-fit: cover;
   object-position: 20% 50%;
 }
@@ -301,7 +302,7 @@ h1 {
 }
 
 .emphasis{
-  padding:1rem 1rem;
+  padding:1.5rem 2rem;
   font-family:$bodyFontFamily;
   background:$emphasisBackgroundColor;
 }
