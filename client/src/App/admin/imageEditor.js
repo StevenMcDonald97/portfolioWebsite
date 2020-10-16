@@ -58,6 +58,17 @@ export default class ImageEditor extends Component {
 		this.props.history.push('/userPanel');
 	}
 
+	uploadAndAddMoreImages =() =>{
+		let changedImages = [];
+		for (let i =0; i<this.state.images.length; i++){
+			if (this.state.images[i]['isChanged']){
+				changedImages.push(this.state.images[i]);
+			}
+		};
+		this.props.onSubmit(changedImages, false);
+		this.props.returnToUpload();
+	}
+
 	onSubmit() {
 		let changedImages = [];
 		for (let i =0; i<this.state.images.length; i++){
@@ -66,7 +77,7 @@ export default class ImageEditor extends Component {
 			}
 		};
 		this.props.history.push('/userPanel');
-		this.props.onSubmit(changedImages);
+		this.props.onSubmit(changedImages, true);
 	}
 
     render(){
@@ -106,8 +117,22 @@ export default class ImageEditor extends Component {
 				        ))}
 				    </ErrorBoundary>
 				    <div className="submitButtons">
-			        	<button type='button' className='layoutSubmitButton' onClick={this.props.backPage}>Cancel</button>
-			        	<button type='button' className='layoutSubmitButton' onClick={this.onSubmit}>Upload</button>
+			        	<button type='button' className='btn tooltip layoutSubmitButton' onClick={this.props.backPage}>
+			        		Cancel
+			        		<span className='tooltiptext'> If you clicked 'Upload and Add More Images' you will need to click Upload and Save to finish the changes</span>
+			        	</button>
+			        	{ this.props.returnToUpload ? 
+			        		<div>
+				        		<button type='button' className='layoutSubmitButton' onClick={this.uploadAndAddMoreImages}>
+				        			Upload and Add More Images
+				        		</button> 
+				        		<button type='button' className='layoutSubmitButton' onClick={this.onSubmit}>
+				        			Upload and Save
+				        		</button>
+				        	</div>
+			        		: 
+			        		<button type='button' className='layoutSubmitButton' onClick={this.onSubmit}>Upload</button>
+			        	}
 			        </div>
 			    </div>
 			);

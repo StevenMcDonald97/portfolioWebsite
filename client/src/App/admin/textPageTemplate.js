@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { BackButton, UploadImage } from 'src/App/admin/helperComponents';
 import PropTypes from 'prop-types';
+const fs = require('fs');
 
 class TextPageTemplate extends Component{
 	constructor(props){
@@ -83,7 +84,6 @@ class AboutPageTemplate extends Component {
 		this.onSubmit=this.onSubmit.bind(this);
 	}
 
-
 	handleChange = (event) => {
 		this.setState({[event.target.name]:event.target.value})
 	}
@@ -99,7 +99,8 @@ class AboutPageTemplate extends Component {
 			const imageData = new FormData();
 	    	imageData.append('file', imageFile);
 	    	axios.post("/upload/uploadImages", imageData).then(res => { // then print response status
-	        	console.log(`Image upload returned: ${res.statusText}`)
+	        	console.log(`Image upload returned: ${res.statusText}`);
+	        	axios.post("/upload/rebuild",{},{}); 
 	    	}).catch(err => console.log(err));
 		}
 
@@ -178,17 +179,21 @@ class OtherPageTemplate extends Component {
 		this.setState({[event.target.name]:event.target.value})
 	}
 
+
 	updateImage(file, name){
 		this.setState({imgName:name, imageFile:file})
 	}
 
 	onSubmit(){
 		const {createPage, imageFile, ...PageData} = this.state;
-	    const imageData = new FormData();
-	    imageData.append('file', imageFile);
-	    axios.post("/upload/uploadSingleImage", imageData).then(res => { // then print response status
-	        console.log(`Image upload returned: ${res.statusText}`)
-	    }).catch(err => console.log(err));
+		if (imageFile){
+			const imageData = new FormData();
+	    	imageData.append('file', imageFile);
+	    	axios.post("/upload/uploadImages", imageData).then(res => { // then print response status
+	        	console.log(`Image upload returned: ${res.statusText}`);
+	        	axios.post("/upload/rebuild",{},{}); 
+	    	}).catch(err => console.log(err));
+		}
 
 		if (this.state.createPage) { 
 			axios.post('/upload/uploadTextPage', PageData).then(response=>alert(response));

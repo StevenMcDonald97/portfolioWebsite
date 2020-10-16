@@ -82,7 +82,8 @@ export default class ListPageTemplate extends Component {
 		});
 
 	    axios.post("/upload/uploadImages", imageFiles).then(res => { // then print response status
-	        console.log(`Image upload for page returned: ${res.statusText}`)
+	        console.log(`Image upload for page returned: ${res.statusText}`);
+	        axios.post("/upload/rebuild",{},{}); 
 	    }).catch(err => console.log(err));
 
 		const PageData={"type":this.state.type, "title":this.state.type, "text":"",

@@ -9,6 +9,7 @@ const Page = require("../models/Page")
 const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 const path = require('path');
 const childProcess = require('child_process');
+const fs = require('fs');
 
 require("@babel/polyfill");
 
@@ -26,24 +27,13 @@ var upload = multer({
   limits: {
       fieldNameSize: 200, 
       fieldSize: 20000, 
-      fileSize: 7 * 1024 * 1024
+      fileSize: 5 * 1024 * 1024
   },
   fileFilter: function(_req, file, cb){
       checkFileType(file, cb);
   } 
 }).array('file', 15);
 
-var uploadSingleImage = multer({ 
-  storage: storage,
-  limits: {
-      fieldNameSize: 200, 
-      fieldSize: 20000, 
-      fileSize: 5 * 1024 * 1024
-  },
-  fileFilter: function(_req, file, cb){
-      checkFileType(file, cb);
-  } 
-}).single('file');
 
 const checkFileType = (file, cb)=>{
   // Allowed ext
@@ -60,17 +50,19 @@ const checkFileType = (file, cb)=>{
   }
 }
 
-UploadRouter.route('/uploadSingleImage').post(function(req, res) {
-    uploadSingle(req, res, function (err) {
-       if (err instanceof multer.MulterError) {
-           return res.status(500).json(err)
-       } else if (err) {
-           return res.status(500).json(err)
-       }
-      return res.status(200).send(req.file)
-    });
-});
+UploadRouter.route('/rebuild').post(async function(req, res) {
+  const rebuildFileName = __dirname +'/../client/src/App/rebuild.json';
+  let styleObject = {"rebuild":Date.now()};
+  let styleJson = JSON.stringify(styleObject, null, 2);
+  await fs.writeFile(rebuildFileName, styleJson, (err) => {
+      if (err) console.log(err);
+      console.log('Data written to file');
+  });
 
+
+
+
+});
 
 UploadRouter.route('/uploadImages').post(function(req, res) {
     upload(req, res, function (err) {
@@ -86,7 +78,7 @@ UploadRouter.route('/uploadImages').post(function(req, res) {
            return res.json(err);
        } else {
            res.status(200);
-           res.json({
+           return res.json({
                success: true,
                message: 'Images uploaded successfully!'
            });

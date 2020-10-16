@@ -17,6 +17,7 @@ export default class Contact extends Component {
     };
     this.createImages = this.createImages.bind(this);
     this.removeImage = this.removeImage.bind(this);
+    this.returnToUpload=this.returnToUpload.bind(this);
     this.uploadImages = this.uploadImages.bind(this);
     this.returnToUserPanel=this.returnToUserPanel.bind(this);
   }
@@ -36,6 +37,8 @@ export default class Contact extends Component {
   createImages(e) {
     this.setState({
       selectedFiles: Array.from(e.target.files),
+      imageData:[],
+      imgURLs:[]
     }, ()=> { 
       for (let i =0; i<this.state.selectedFiles.length;i++){
         this.addImage(URL.createObjectURL(this.state.selectedFiles[i]), this.state.selectedFiles[i].name);
@@ -43,28 +46,34 @@ export default class Contact extends Component {
     });
   }
 
+
+  returnToUpload(){
+    this.setState({filesChosen:false}, ()=>this.forceUpdate());
+  }
+
   addImage = (link, fileName) => {
+    console.log("1");
     let urls=this.state.imgURLs;
     urls.push(link);
-    this.setState({imgURLs: urls})
-      const values = this.state.imageData;
-      values.push({
-          fileName:fileName,
-          title:fileName,
-          date:'',
-          size:'',
-          medium:'',
-          availability:'',
-          price:'',
-          portfolio:'',
-          isChanged:true,
-        });
-
-      this.setState({imageData:values}, ()=>{
-        if (this.state.imageData.length===this.state.selectedFiles.length) {
-          this.setState({filesChosen:true});
-        }
+    this.setState({imgURLs: urls});
+    const values = this.state.imageData;
+    values.push({
+        fileName:fileName,
+        title:fileName,
+        date:'',
+        size:'',
+        medium:'',
+        availability:'',
+        price:'',
+        portfolio:'',
+        isChanged:true,
       });
+
+    this.setState({imageData:values}, ()=>{
+      if (this.state.imageData.length===this.state.selectedFiles.length) {
+        this.setState({filesChosen:true});
+      }
+    });
   };
 
   removeImage = (index) => {
@@ -73,7 +82,7 @@ export default class Contact extends Component {
     this.setState({selectedFiles:files});
   };
 
-  uploadImages(images) {
+  uploadImages(images, forceRebuild) {
     const data = new FormData();
     for(var x = 0; x<this.state.selectedFiles.length; x++) {
         data.append('file', this.state.selectedFiles[x])
@@ -83,13 +92,22 @@ export default class Contact extends Component {
           // receive two    parameter endpoint url ,form data
     }).then(res => { // then print response status
       console.log(`Image upload returned: ${res.statusText}`)
-      axios.post("/upload/storeImagesInDB", images, { 
-            // receive two    parameter endpoint url ,form data
-      }).then(res => { // then print response status
-          console.log(`Storing images in database returned: ${res.statusText}`)
-      }).catch(err => console.log("Storing images in database returned the error: "+err));
-
-    }).catch(err => {alert("Uploading these images caused a problem. This is likely because your image size is too large. Image max size is 4mb"); console.log("Uploading images returned the error: "+err)});
+      if (res.status===500){
+        alert("Uploading these images caused a problem. This is likely because your image size is too large. Image max size is 4mb");
+      } else {
+        axios.post("/upload/storeImagesInDB", images, { 
+              // receive two    parameter endpoint url ,form data
+        }).then(res => { // then print response status
+            console.log(`Storing images in database returned: ${res.statusText}`);
+            if (forceRebuild) {
+              axios.post("/upload/rebuild",{},{}); 
+            }
+        }).catch(err => console.log("Storing images in database returned the error: "+err));
+      }
+    }).catch(err => {
+      alert("Uploading these images caused a problem. This is likely because your image size is too large. Image max size is 4mb"); 
+      console.log("Uploading images returned the error: "+err)
+    });
 
   }
 
@@ -101,7 +119,8 @@ export default class Contact extends Component {
           <ImageEditor imageURLs={this.state.imgURLs} 
             images={this.state.imageData} 
             removeImageFromParent={this.removeImage} 
-            backPage={()=>this.props.history.push('/userPanel')}
+            backPage={this.returnToUserPanel}
+            returnToUpload={this.returnToUpload}
             onSubmit={this.uploadImages}
             {...this.props}/>
         </ErrorBoundary>

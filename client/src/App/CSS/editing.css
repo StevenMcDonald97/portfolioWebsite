@@ -484,6 +484,7 @@
 .layoutSubmitButton{
 	height:2rem;
 	font-size:1.1rem;
+	margin:.3rem;
 	margin-right:1vw;
 	padding:0 1.5rem;
 	border:none;

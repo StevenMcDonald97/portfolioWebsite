@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BackButton, UploadImage, ImageCheckBox } from 'src/App/admin/helperComponents';
+import { BackButton, ImageCheckBox } from 'src/App/admin/helperComponents';
 import PropTypes from "prop-types";
 
 export default class PortfolioTemplate extends Component {
@@ -101,10 +101,6 @@ export default class PortfolioTemplate extends Component {
 		<div className="pageEditor">
 			<BackButton backPage={this.props.backPage}/>
 			<form className="pageForm">
-				<div className="inputGroup">
-					<label className="inputLabel">Portfolio Thumbnail:</label>
-					<UploadImage changeImage={this.updateImage} />
-				</div>
 				<div className="inputGroup">
 
 					<label className="inputLabel" htmlFor="name">Portfolio Title:</label>

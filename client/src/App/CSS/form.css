@@ -1,5 +1,6 @@
 .contactForm {
-	width:25rem;
+	width:30rem;
+	max-width:100%;
 	height:30rem;
 	margin:0 auto;
 	padding-top:.5rem;
@@ -22,8 +23,8 @@
 .formGroup{
 	margin-top:1rem;
 	margin-bottom:1rem;
-	margin-left:3rem;
-	width:23rem;
+	margin-left:2rem;
+	width:28rem;
 
 }
 
@@ -34,7 +35,7 @@
 }
 
 .formInput{
-	width:20rem;
+	width:26rem;
 	height:2rem;
 	min-height:1.5em;
 	max-width:80%;

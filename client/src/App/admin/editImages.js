@@ -55,7 +55,7 @@ export default class Contact extends Component {
 		this.setState({images:values});
 	};
 
-	onSubmit(images){
+	onSubmit(images, boolFlag){
 		axios.post("/edit/editImages", images, { 
 	          // receive two    parameter endpoint url ,form data
 	    }).then(res => { // then print response status

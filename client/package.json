@@ -25,7 +25,7 @@
       "patterns": [
         "src"
       ],
-      "extensions": "jpg,jpeg,png,svg,json,scss,js"
+      "extensions": "json,scss,js"
     }
   },
   "scripts": {

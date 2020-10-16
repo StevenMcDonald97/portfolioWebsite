@@ -5,6 +5,7 @@ import ImageErrorCatch from "src/App/pages/ImageErrorCatch";
 
 const images = require.context('../images', true);
 const defaultImage = images("./defaultImage.png");
+const fs = require('fs');
 
 const BackButton = (props) => {
 	// props.clearAllData
@@ -86,4 +87,4 @@ function ImageCheckBox(props) {
       
 }
 
-export { BackButton, UploadImage, ImageCheckBox };
+export { BackButton, UploadImage, ImageCheckBox};
