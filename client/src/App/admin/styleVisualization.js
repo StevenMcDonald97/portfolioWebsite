@@ -88,23 +88,29 @@ const StyleVisualization = (props) => {
 		color: props.values.smallHeaderColor, 
 		fontSize:`${props.values.smallHeaderSize}px`,
 		fontFamily:props.values.headerFont,
-		margin: '.5em',
+		margin: '.5rem',
 		textAlign:'center',
 		marginBottom:'1em'
 	};
 
 	const bodyStyle = {
 		color: props.values.bodyTextColor, 
+		margin: '.5rem',
+		textAlign:'center'
+	};
+
+	const textStyle = {
 		fontSize:`${props.values.bodyTextSize}px`,
 		fontFamily:props.values.bodyFont,
-		margin: '.5em',
-		textAlign:'center'
+		padding: '2rem 2.5rem',
+		textAlign:'center',
+		background: props.values.emphasisBackgroundColor, 
 	};
 
 	const otherLinkStyle = {
 		color: props.values.otherLinkColor, 
 		fontSize:`${props.values.otherLinkSize}px`,
-		margin: '.5em',
+		margin: '.5rem',
 		textAlign:'center'
 	};
 
@@ -118,7 +124,6 @@ const StyleVisualization = (props) => {
 		textAlign:'center',
 		alignItems: 'center',
 		justifyContent: 'center',
-		background: props.values.emphasisBackgroundColor, 
 	}; 
 
 	const imageStyle = {
@@ -152,6 +157,7 @@ const StyleVisualization = (props) => {
 
 	const objectHeaderStyle = {
 		fontSize:`${props.values.smallHeaderSize}px`,
+		color:props.values.objectTextColor,
 	}
 
 	const objectTextStyle = {
@@ -164,7 +170,7 @@ const StyleVisualization = (props) => {
 		color: props.values.navigationLinkColor, 
 		fontSize:`${props.values.navLinkSize}px`,
 		fontFamily:props.values.bodyFont,
-		backgroundColor: props.values.navBackgroundColor, 
+		background: props.values.navigationBackgroundColor, 
 		width:'100v%',
 		height:'10vh',
 		margin: 0,
@@ -191,10 +197,14 @@ const StyleVisualization = (props) => {
 				 		<div style={subPageStyle}>
 				 			<h3 style={mediumHeaderStyle}>Sub Header</h3>
 				 			<h4 style={smallHeaderStyle}>SubSubHeader</h4>
-				 			<p style={bodyStyle}>Some body text here. Lorem ipsum dolor 
-				 				sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-				 				ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-				 				exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				 			<div style={bodyStyle}>
+				 				<p style={textStyle}>
+					 				Some body text here. Lorem ipsum dolor 
+					 				sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+					 				ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+					 				exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+					 			</p>
+					 		</div>
 				 			<h3 style={mediumHeaderStyle}>Images</h3>
 							<div style={imageListStyle}>
 				 				<img style={imageStyle} src={sampleImg1} alt="an Example by Van Gogh"/>

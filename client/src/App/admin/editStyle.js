@@ -5,17 +5,26 @@ import Modal from 'src/App/pages/modal';
 import ErrorBoundary from 'src/App/errorBoundary';
 import { BackButton } from 'src/App/admin/helperComponents';
 import axios from 'axios';
+
 const styleJson = require('src/App/style.json');
+const autumnSnow = require('src/App/admin/presetStyles/autumn-snow.json');
+const grayScaleLight= require('src/App/admin/presetStyles/gray-scale-light.json');
+const altDarkTheme = require('src/App/admin/presetStyles/warm-dark.json');
+const rusticCabin = require('src/App/admin/presetStyles/rustic-cabin.json');
+const grayScaleDark = require('src/App/admin/presetStyles/gray-scale-dark.json');
+const artic = require('src/App/admin/presetStyles/artic.json');
+const sleekDark = require('src/App/admin/presetStyles/sleek-dark.json');
+const sleekLight = require('src/App/admin/presetStyles/sleek-light.json');
+
 // const presetStyle1 = require('App/exampleStyle1.json');
 
 export default class EditStyle extends Component {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-		// this.useNewStyle=this.useNewStyle.bind(this);
+		this.switchStyle=this.switchStyle.bind(this);
 		this.switchToCustomizing = this.switchToCustomizing.bind(this);
 		this.setState = this.setState.bind(this);
-		this.showColorSelector = this.showColorSelector.bind(this);
     	this.returnToUserPanel=this.returnToUserPanel.bind(this);
 		// Note: State variables are listed this way to avoid nesting state
 		// and to allow a visualization of style changes to update for the user
@@ -23,8 +32,8 @@ export default class EditStyle extends Component {
 		this.state = {
 			isCustomizing: false,
 			// styleChoice:'presetStyle1',
-			showSelector: false,
 			selectedColor: '#fff',
+			theme:'none',
 			currentComponent:'',
 			headerFont: styleJson.text.headerFontFamily, 
 			bodyFont: styleJson.text.bodyFontFamily, 
@@ -63,8 +72,8 @@ export default class EditStyle extends Component {
 		this.setState({
 			isCustomizing: false,
 			// styleChoice:'presetStyle1',
-			showSelector: false,
 			selectedColor: '#fff',
+			theme:'none',
 			currentComponent:'',
 			headerFont: styleJson.text.headerFontFamily, 
 			bodyFont: styleJson.text.bodyFontFamily,
@@ -95,31 +104,62 @@ export default class EditStyle extends Component {
 		})
 	}
 
-	showColorSelector = (component) => {
+	changeState = (jsonStyle) => {
 		this.setState({
-			currentComponent: component,
-			selectedColor:this.state[component],
-			showSelector: true
+			websiteTitleColor: jsonStyle.text.WebsiteTitle.color, 
+			websiteTitleSize: jsonStyle.text.WebsiteTitle.size, 
+			pageHeaderColor: jsonStyle.text.PageHeader.color,
+			pageHeaderSize: jsonStyle.text.PageHeader.size,
+			mediumHeaderColor: jsonStyle.text.MediumHeader.color,
+			mediumHeaderSize: jsonStyle.text.MediumHeader.size,
+			smallHeaderColor: jsonStyle.text.SmallHeader.color,
+			smallHeaderSize: jsonStyle.text.SmallHeader.size,
+			bodyTextColor: jsonStyle.text.BodyText.color,
+			bodyTextSize: jsonStyle.text.BodyText.size,
+			navigationLinkColor: jsonStyle.text.NavigationLink.color,
+			navigationLinkSize: jsonStyle.text.NavigationLink.size,
+			otherLinkColor: jsonStyle.text.OtherLink.color,
+			otherLinkSize: jsonStyle.text.OtherLink.size,
+			hoverOnLinkColor: jsonStyle.text.HoverOnLink.color,
+			hoverOnLinkSize: jsonStyle.text.HoverOnLink.size,
+			objectTextColor: jsonStyle.text.ObjectText.color,
+			objectTextSize: jsonStyle.text.ObjectText.size,
+			titleBackgroundColor: jsonStyle.backgroundColor.title,
+			pageHeaderBackgroundColor: jsonStyle.backgroundColor.header,
+			navigationBackgroundColor: jsonStyle.backgroundColor.navigation,
+			bodyBackgroundColor: jsonStyle.backgroundColor.body,
+			emphasisBackgroundColor: jsonStyle.backgroundColor.emphasis,
+			objectBackgroundColor: jsonStyle.backgroundColor.object
 		});
 
-	};
-
-	closeColorSelector = () => {
-		this.setState({
-			showSelector: false
-		});
-	};
+	}
 
 	onChange = (event)  => {
     	this.setState({ [event.target.name]: event.target.value });
 	};
 
-	// useNewStyle(event){
-	// 	if (event.target.value==='presetStyle1'){
-	// 		this.resetState(presetStyle1);
-	// 	}
-	// 	this.onChange(event);
-	// }
+	switchStyle(event){
+		if (event.target.value==='autumnSnow'){
+			this.changeState(autumnSnow);
+		} else if (event.target.value==='grayScaleLight'){
+			this.changeState(grayScaleLight);
+		} else if (event.target.value==='altDarkTheme'){
+			this.changeState(altDarkTheme);
+		} else if (event.target.value==='rusticCabin'){
+			this.changeState(rusticCabin);
+		} else if (event.target.value==='grayScaleDark'){
+			this.changeState(grayScaleDark);
+		} else if (event.target.value==='artic'){
+			this.changeState(artic);
+		} else if (event.target.value==='sleekDark'){
+			this.changeState(sleekDark);
+		} else if (event.target.value==='sleekLight'){
+			this.changeState(sleekLight);
+		} else {
+			this.changeState(styleJson);
+		}
+		this.onChange(event);
+	}
 
 	switchToCustomizing = () => {
 		this.setState({isCustomizing:!this.state.isCustomizing})
@@ -202,28 +242,6 @@ export default class EditStyle extends Component {
 			initColor={this.state.selectedColor} getParentState={(key)=>this.state[key]} 
 			setParentState={this.setState} currentComponent={this.state.currentComponent}/>;
 
-		// present styles:
-			// return(
-			// 	<ErrorBoundary>
-			// 		<div className="pageEditor">
-	  		//         	<BackButton backPage={this.returnToUserPanel}/>
-			// 			<div className='Editor'>
-			// 				<form className='pickSampleStyle'>
-			// 					<label htmlFor='presetStyles'>You may choose a preset style from the examples below:  </label>
-			// 					<select id='presetStyles' name='styleChoice' value={this.state.styleChoice} onChange={this.useNewStyle}>
-			// 						<option value='none'>None</option>
-			// 						<option value='presetStyle1'>Greyscale Sleek</option>
-			// 					</select>
-			// 					<label htmlFor='customStylesButton'>Or you may customize your own style: </label>
-			// 					<button type='button' id='customizingStylesButton' onClick={this.switchToCustomizing}> Customize </button>
-			// 				</form>
-			// 				<br/>
-			// 				<StyleVisualization values={this.state}/>
-			// 			</div>
-			// 		</div>
-			// 	</ErrorBoundary>
-			// )
-
 			return(
 				<div className='editor pageEditor'>
 				    <BackButton backPage={this.returnToUserPanel}/>
@@ -235,15 +253,21 @@ export default class EditStyle extends Component {
 							 <div style={{display:"inline", fontFamily:"'Abril Fatface', cursive"}} > Abril Fatface, </div> 
 							 <div style={{display:"inline", fontFamily:'"Alegreya", serif'}} > Alegreya, </div> 
 							 <div style={{display:"inline", fontFamily:"'Amaranth', sans-serif"}} > Amaranth, </div> 
+							 <div style={{display:"inline", fontFamily:"'Cinzel','Georgia', serif"}} >Cinzel, </div>
 							 <div style={{display:"inline", fontFamily:"'Gravitas One', cursive"}} > Gravitas One, </div> 
 							 <div style={{display:"inline", fontFamily:"'Helvetica', sans-serif"}} > Helvetica, </div> 
 							 <div style={{display:"inline", fontFamily:"'Josefin Slab', serif"}} > Josefin Slab, </div> 
+							 <div style={{display:"inline", fontFamily:"'Kalam', cursive"}} >Kalam, </div>
 							 <div style={{display:"inline", fontFamily:"'Karla', sans-serif"}} > Karla, </div> 
 							 <div style={{display:"inline", fontFamily:"'Lato', sans-serif"}} > Lato, </div> 
+							 <div style={{display:"inline", fontFamily:"'Lemonada', cursive"}} >Lemonada, </div>
+							 <div style={{display:"inline", fontFamily:"'Lobster Two', cursive"}} >Lobster Two, </div>								
 							 <div style={{display:"inline", fontFamily:"'Merriweather', serif"}} > Merriweather, </div> 
 							 <div style={{display:"inline", fontFamily:"'Montserrat', sans-serif"}} > Montserrat, </div> 
 							 <div style={{display:"inline", fontFamily:"'Oxygen', serif"}} > Oxygen, </div> 
 							 <div style={{display:"inline", fontFamily:"'Roboto', sans-serif"}} > Roboto, </div> 
+							 <div style={{display:"inline", fontFamily:"'Source Sans Pro','Helvetica', sans-serif"}} >Source Sans, </div>
+							 <div style={{display:"inline", fontFamily:"'Staatliches', cursive"}} >Staatliches, </div>
 							 <div style={{display:"inline", fontFamily:"'Vollkorn', serif"}} > Volkorn </div> 
 						</h5>
 						
@@ -253,15 +277,22 @@ export default class EditStyle extends Component {
 								<option value="'Abril Fatface', cursive" style={{fontFamily:"'Abril Fatface', cursive"}}>Abril Fatface</option>
 								<option value='"Alegreya", "Georgia", serif'>Alegreya</option>
 								<option value="'Amaranth', 'Helvetica', sans-serif" fontFamily="Amaranth', sans-serif">Amaranth</option>
+								<option value="'Cinzel','Georgia', serif" >Cinzel</option>
 								<option value="'Gravitas One', cursive" >Gravitas</option>
 								<option value="'Helvetica', sans-serif" >Helvetica</option>
 								<option value="'Josefin Slab', 'Georgia', serif" >Josefin Slab</option>
+								<option value="'Kalam', cursive" >Kalam</option>
 								<option value="'Karla', 'Helvetica', sans-serif" >Karla</option>
 								<option value="'Lato', 'Helvetica', sans-serif" >Lato</option>
+								<option value="'Lemonada', cursive" >Lemonada</option>
+								<option value="'Lobster Two', cursive" >Lobster Two</option>								
 								<option value="'Merriweather','Georgia', serif" >Merriweather</option>
 								<option value="'Montserrat', 'Helvetica', sans-serif" >Montserrat</option>
 								<option value="'Oxygen', 'Helvetica', sans-serif" >Oxygen</option>
+								<option value="'Playfair Display','Georgia', serif" >Playfair Display</option>
 								<option value="'Roboto', 'Helvetica', sans-serif" >Roboto</option>
+								<option value="'Source Sans Pro','Helvetica', sans-serif" >Source Sans</option>
+								<option value="'Staatliches', cursive" >Staatliches</option>
 								<option value="'Vollkorn','Georgia', serif" >Volkorn</option>
 							</select>
 						</div>
@@ -269,80 +300,100 @@ export default class EditStyle extends Component {
 							<label className='inputLabel home' htmlFor='headerFont'>Choose your body font:</label>
 							<select name='bodyFont' className='homePageSelect' value={this.state.bodyFont} onChange={this.onChange}>
 								<option value='"Alegreya", "Georgia", serif'>Alegreya</option>
+								<option value="'Cinzel','Georgia', serif" >Cinzel</option>
 								<option value="'Helvetica', sans-serif" fontFamily="'Helvetica', sans-serif">Helvetica</option>
 								<option value="'Josefin Slab', 'Georgia', serif" fontFamily="'Josefin Slab', serif">Josefin Slab</option>
+								<option value="'Kalam', cursive" >Kalam</option>
 								<option value="'Karla', 'Helvetica', sans-serif" fontFamily="'Karla', sans-serif">Karla</option>
 								<option value="'Lato', 'Helvetica', sans-serif" >Lato</option>
 								<option value="'Merriweather', 'Georgia', serif" fontFamily="'Merriweather', serif">Merriweather</option>
 								<option value="'Montserrat', 'Helvetica', sans-serif" fontFamily="'Montserrat', sans-serif">Montserrat</option>
 								<option value="'Oxygen', 'Helvetica', sans-serif" >Oxygen</option>
+								<option value="'Playfair Display','Georgia', serif" >Playfair Display</option>
 								<option value="'Roboto', 'Helvetica', sans-serif" fontFamily="'Roboto', sans-serif">Roboto</option>
+								<option value="'Source Sans Pro','Helvetica', sans-serif" >Source Sans</option>
+								<option value="'Staatliches', cursive" >Staatliches</option>
 								<option value="'Vollkorn', 'Georgia', serif" fontFamily="''Vollkorn', serif">Volkorn</option>
 							</select>
 						</div>
 						<br/>
+						<h4 className="editingSubTitle"> You may use a preset theme</h4>
+						<div className="inputGroup">
+							<label className='inputLabel home' htmlFor='theme'>Theme:</label>
+							<select name='theme' className='homePageSelect' value={this.state.theme} onChange={this.switchStyle}>
+								<option value="none">None</option>
+								<option value="autumnSnow">Autumn Snow</option>
+								<option value="grayScaleLight">Gray Scale (Light)</option>
+								<option value="grayScaleDark">Gray Scale (dark)</option>
+								<option value="altDarkTheme">Evening</option>
+								<option value="rusticCabin">Rustic Cabin</option>
+								<option value="artic">Artic</option>
+								<option value="sleekDark">Sleek Dark</option>
+								<option value="sleekLight">Sleek Light</option>
+							</select>
+						</div>
+						<br/>
+						<h4 className="editingSubTitle"> Or you may customize your own theme</h4>
 						<form className='EditorForm'>	 
-							<Modal onClose={ this.closeColorSelector } show={ this.state.showSelector } 
-								content={ colorSelector }/>
 							<TextStyle id='websiteTitle' name='Website Title' 
 								color={this.state.websiteTitleColor} fontSize={this.state.websiteTitleSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector}
+								onChange={this.onChange} 
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='pageHeader' name='Page Headers' 
 								color={this.state.pageHeaderColor} fontSize={this.state.pageHeaderSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='mediumHeader' name='SubHeaders' 
 								color={this.state.mediumHeaderColor} fontSize={this.state.mediumHeaderSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='smallHeader' name='Sub-SubHeaders' 
 								color={this.state.smallHeaderColor} fontSize={this.state.smallHeaderSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='bodyText' name='Body Text' 
 								color={this.state.bodyTextColor} fontSize={this.state.bodyTextSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='navigationLink' name='Navigation Links' 
 								color={this.state.navigationLinkColor} fontSize={this.state.navigationLinkSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='otherLink' name='Other Links' 
 								color={this.state.otherLinkColor} fontSize={this.state.otherLinkSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='hoverOnLink' name='Hover Links' 
 								color={this.state.hoverOnLinkColor} fontSize={this.state.hoverOnLinkSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>
 							<TextStyle id='objectText' name='Text in page objects' 
 								color={this.state.objectTextColor} fontSize={this.state.objectTextSize} 
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 								getParentState={(key)=>this.state[key]} setParentState={this.setState}/>		
 							<BackgroundStyle id='titleBackgroundColor' name='website title' 
 								color={this.state.titleBackgroundColor} setParentState={this.setState}
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 							/>		
-							<BackgroundStyle id='pageHeaderBackgroundColor' name='page header' 
-								color={this.state.pageHeaderBackgroundColor} setParentState={this.setState}
-								onChange={this.onChange} showSelector={this.showColorSelector} 
-							/>	
 							<BackgroundStyle id='navigationBackgroundColor' name='navigation' 
 								color={this.state.navigationBackgroundColor} setParentState={this.setState}
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 							/>
+							<BackgroundStyle id='pageHeaderBackgroundColor' name='page header' 
+								color={this.state.pageHeaderBackgroundColor} setParentState={this.setState}
+								onChange={this.onChange}  
+							/>	
 							<BackgroundStyle id='bodyBackgroundColor' name='body' 
 								color={this.state.bodyBackgroundColor} setParentState={this.setState}
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 							/>	
 							<BackgroundStyle id='emphasisBackgroundColor' name='emphasized area' 
 								color={this.state.emphasisBackgroundColor} setParentState={this.setState}
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 							/>	
-							<BackgroundStyle id='objectBackgroundColor' name='page window (such as galleries)' 
+							<BackgroundStyle id='objectBackgroundColor' name='Page Objects (such as a galleries page)' 
 								color={this.state.objectBackgroundColor} setParentState={this.setState}
-								onChange={this.onChange} showSelector={this.showColorSelector} 
+								onChange={this.onChange}  
 							/>
 							<br/>
 							<div className="layoutSubmitButtons">

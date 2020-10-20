@@ -38,8 +38,12 @@ export default class TextPage extends Component {
                 <h2 className="pageHeader"> { this.state.title }</h2>
                 <div className="textPage">
                     {this.state.image ? <ImageErrorCatch imgClass="textPageImage" src={this.state.image} description={"Page Image"} clickImage={()=>{}}/> : null}
-                    <p style={{whiteSpace: 'pre-wrap'}} className="textPageMainText bodyText emphasis"> {this.state.mainText} </p>
-                    {this.state.secondaryText ? <p style={{whiteSpace: 'pre-wrap'}} className="textPageSecondaryText bodyText emphasis" > {this.state.secondaryText} </p> : null }
+                    <div className="innerTextPage emphasis">
+                        <p style={{whiteSpace: 'pre-wrap'}} className="textPageMainText bodyText"> {this.state.mainText} </p>
+                    </div>
+                    <div className="innerTextPage emphasis">
+                        {this.state.secondaryText ? <p style={{whiteSpace: 'pre-wrap'}} className="textPageSecondaryText bodyText" > {this.state.secondaryText} </p> : null }
+                    </div>
                 </div>
             </div>
         );

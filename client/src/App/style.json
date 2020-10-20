@@ -42,7 +42,7 @@
   "backgroundColor": {
     "title": "#151515",
     "header": "#434043",
-    "navigation": "#272528",
+    "navigation": "#151515",
     "body": "#79767a",
     "emphasis": "#2b2c2c",
     "object": "#c1c0c0"

@@ -146,6 +146,10 @@ class PortfolioModal extends Component {
             newKey = this.props.modalKey+1;
             newImage = this.props.images[newKey];
             this.props.changeModalStateInfo(newImage, newKey);
+        } else {
+            newKey = 0;
+            newImage = this.props.images[newKey];
+            this.props.changeModalStateInfo(newImage, newKey);
         }
     }
 
@@ -154,6 +158,10 @@ class PortfolioModal extends Component {
         var newImage;
         if ((this.props.modalKey>0)){
             newKey = this.props.modalKey-1;
+            newImage = this.props.images[newKey];
+            this.props.changeModalStateInfo(newImage, newKey);
+        } else {
+            newKey = this.props.images.length-1;
             newImage = this.props.images[newKey];
             this.props.changeModalStateInfo(newImage, newKey);
         }

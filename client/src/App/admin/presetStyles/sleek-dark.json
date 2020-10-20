@@ -1,0 +1,50 @@
+{
+  "text": {
+    "headerFontFamily": "'Merriweather','Georgia', serif",
+    "bodyFontFamily": "'Lato', 'Helvetica', sans-serif",
+    "WebsiteTitle": {
+      "color": "#ddd7c6",
+      "size": "38"
+    },
+    "PageHeader": {
+      "color": "#cfc9b9",
+      "size": "24"
+    },
+    "MediumHeader": {
+      "color": "#cfc9b9",
+      "size": "22"
+    },
+    "SmallHeader": {
+      "color": "#cfc9b9",
+      "size": "20"
+    },
+    "BodyText": {
+      "color": "#cfc9b9",
+      "size": "16"
+    },
+    "NavigationLink": {
+      "color": "#ddd7c6",
+      "size": "18"
+    },
+    "OtherLink": {
+      "color": "#e6dfd6",
+      "size": "11"
+    },
+    "HoverOnLink": {
+      "color": "#b5b5b1",
+      "size": "12"
+    },
+    "ObjectText": {
+      "color": "#cfc9b9",
+      "size": "13"
+    }
+  },
+  "backgroundColor": {
+    "title": "#222222",
+    "header": "#222222",
+    "navigation": "#222222",
+    "body": "#222222",
+    "emphasis": "#222222",
+    "object": "#2f2e2d"
+  }
+}
