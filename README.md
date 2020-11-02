@@ -1,4 +1,7 @@
 # portfolioWebsite
+
+Example website: www.stevencmdonaldart.com
+
 A tool for easily building and editing a portfolio website using React, for the help of professional and amateur artists, graphic designers, or other producers  
   
 This app is designed for artists to easily develop and deploy professional portfolio sites. The public side of the app shows the users portfolio site. Users can register their admin account by going to {site-host-name}/register (which will redirect if an account has already been created). They can then access the admin side by logging in in at {site-host-name}/login, where they have options for customizing the content, color scheme, fonts, and layout of the website. The user can also create and edit images, portfolios, an about page, gallery pages, workshop pages, and event pages.
