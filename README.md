@@ -1,6 +1,6 @@
 # portfolioWebsite
 
-Example website: www.stevencmdonaldart.com
+Example website: www.stevenmcdonaldart.com
 
 A tool for easily building and editing a portfolio website using React, for the help of professional and amateur artists, graphic designers, or other producers  
   
