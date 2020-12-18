@@ -6,6 +6,7 @@ import {
   Link,
 } from 'react-router-dom';
 import axios from 'axios';
+import { Helmet } from "react-helmet";
 
 import 'src/index.css';
 import 'src/App/CSS/fonts.css';
@@ -68,6 +69,7 @@ export default class App extends Component {
       showContact: false,
       title:"",
       subTitle:"",
+      description:"",
       navBarType:layoutJson.navigationStyle
     };
     this.setState = this.setState.bind(this);
@@ -84,7 +86,7 @@ export default class App extends Component {
       this.setState({pageInfo:response.data});
     });
     axios.get('/api/getHomePage').then((response)=>{
-      this.setState({title:response.data.name})
+      this.setState({title:response.data.name, subTitle:response.data.subHeader, description:response.data.description})
     })
   }
 
@@ -106,6 +108,10 @@ export default class App extends Component {
     return (
       <React.StrictMode>
         <div>
+	        <Helmet>
+				<title>{ this.state.title }</title>
+				<meta name="description" content={this.state.title+" website: "+this.state.subHeader+this.state.description} />
+			</Helmet>
           <Modal onClose={ this.showContact } show={ this.state.showContact} 
             content={ ContactElement }/>
           <Router>

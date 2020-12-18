@@ -131,8 +131,18 @@ EditRouter.route('/editTextPage').post(function(req, res) {
 EditRouter.route('/editListPage').post(function(req, res) {
 	const page = req.body;
     const pageQuery = {_id: page.id};
-	// delete objects which were removed
-    if (req.body.deleted.length>0) ListObject.deleteMany({ _id: {$in: req.body.deleted}}, function(err){console.log(err)});
+	// delete objects which were removed and unlink associated images
+    if (req.body.deleted.length>0){
+    	req.body.deleted.forEach(objectId=>{
+    		ListObject.findById(objectId, function (err, object) {
+    			if (object.imgName) {
+					fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+    			}
+    		});
+    	});
+    	ListObject.deleteMany({ _id: {$in: req.body.deleted}}, function(err){console.log(err)});
+    } 
+
 // ------------ upsert new objects----------
 	var objIds = [];
 	req.body.objs.forEach((obj) => {

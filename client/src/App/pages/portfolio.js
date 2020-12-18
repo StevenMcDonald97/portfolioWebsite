@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import axios from 'axios';
 import ImageErrorCatch from 'src/App/pages/ImageErrorCatch';
+import {FaChevronRight} from 'react-icons/fa';
+import {FaChevronLeft} from 'react-icons/fa';
 
 export default class Portfolio extends Component {
 
@@ -176,7 +178,7 @@ class PortfolioModal extends Component {
                 </div>
                 <div className="inner-portfolio-modal">
                     <div className="arrow-container inline">
-                        <div className="arrow" onClick={()=>this.decrementImage()}>&larr;</div>
+                        <div className="arrow" onClick={()=>this.decrementImage()}><FaChevronLeft></div>
                     </div>
                     <div className="modal-content inline">
                         <div className="inline">
@@ -191,7 +193,7 @@ class PortfolioModal extends Component {
                         </div>
                     </div>
                     <div className="arrow-container inline">
-                        <div className="inline arrow" onClick={()=>this.incrementImage()}>&rarr;</div>
+                        <div className="inline arrow" onClick={()=>this.incrementImage()}><FaChevronRight/></div>
                     </div>
                 </div>
             </div>
