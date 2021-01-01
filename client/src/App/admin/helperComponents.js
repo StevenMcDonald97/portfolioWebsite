@@ -25,6 +25,7 @@ class UploadImage extends Component {
 
     try{
       image= (this.props.currentImage ? images(`./${this.props.currentImage}`) : defaultImage);
+      console.log(this.props.currentImage);
     } catch (error) {
       console.log(error);
       image=defaultImage;

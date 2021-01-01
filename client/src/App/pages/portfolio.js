@@ -178,7 +178,7 @@ class PortfolioModal extends Component {
                 </div>
                 <div className="inner-portfolio-modal">
                     <div className="arrow-container inline">
-                        <div className="arrow" onClick={()=>this.decrementImage()}><FaChevronLeft></div>
+                        <div className="arrow" onClick={()=>this.decrementImage()}><FaChevronLeft/></div>
                     </div>
                     <div className="modal-content inline">
                         <div className="inline">

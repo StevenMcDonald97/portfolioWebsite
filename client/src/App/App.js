@@ -25,6 +25,7 @@ import ErrorBoundary from 'src/App/errorBoundary';
 import Navigation from 'src/App/pages/navigation';
 import Portfolio from 'src/App/pages/portfolio';
 import TextPage from 'src/App/pages/textPage';
+import Blog from 'src/App/pages/blog';
 import ListPage from 'src/App/pages/listPage';
 import Footer from 'src/App/pages/footer';
 import Contact from 'src/App/pages/contact';
@@ -164,6 +165,12 @@ const NewPage =(props)=> {
     return (
       <ErrorBoundary >
        <Portfolio pageId={props.pageId} portfolioStyle={layoutJson.portfolioStyle}/>
+      </ErrorBoundary>
+    );
+  } else if (props.pageType==='blog'){
+    return (
+      <ErrorBoundary >
+       <Blog pageId={props.pageId}/>
       </ErrorBoundary>
     );
   } else {

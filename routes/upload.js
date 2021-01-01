@@ -5,6 +5,7 @@ const Image = require('../models/image');
 const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
+const { Blog, BlogPost } = require('../models/Blog');
 const Page = require("../models/Page")
 const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 const path = require('path');
@@ -274,9 +275,77 @@ UploadRouter.route('/uploadPortfolio').post(function(req, res) {
           });
 
         }
-      return res.status(200).send("Success uploading page. Refresh page to see changes");
+      return res.status(200).send("Success uploading page. Refresh the page to see changes");
     });
   }
+
+});
+
+UploadRouter.route('/uploadBlog').post(function(req, res) {
+  // there should only be one blog
+  Blog.findOne({}, function(err, page){
+    if (!page) {
+      let blogData = {
+        "title":"blog",
+        "text":req.body.text
+      };
+
+      let newBlog = new Blog(blogData);
+      let pageLoaded = storePageInfo(newBlog, "blog", res);
+      blogData.title = req.body.title;
+      newBlog = new Blog(blogData);
+
+      if (pageLoaded) {newBlog.save(function(err) {
+            if (err) {
+              console.error(err);
+              return res.status(500).send("Error uploading page.");
+            } 
+        });
+      }
+    } else {
+        return res.status(200).send(`You can only make one blog page! If you need to add a post, select your blog on edit pages`);
+    }
+    return res.status(200).send("Success creating the blog. Refresh the page to see changes");
+  })
+
+});
+
+UploadRouter.route('/uploadBlogPost').post(function(req, res) {
+  let postData = {
+    "title":req.body.title,
+    "blurb":req.body.blurb,
+    "imgName":req.body.imgName,
+    "paragraphs":req.body.paragraphs,
+    "date":req.body.date,
+    "num":req.body.num
+
+  }
+
+  const newBlogPost = new BlogPost(postData);
+
+  newBlogPost.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log("A problem occurred updating the blog");
+    }
+  });
+
+  // there should only be one blog
+  Blog.findOne({}, function(err, page){
+    if (!page) {
+      return res.status(200).send("Remember to also click upload on your add-Blog page");
+    } else {
+        if (page.postIds){
+          page.postIds.push(newBlogPost._id);
+        } else {
+          page.postIds = newBlogPost._id;
+        }
+        page.save(function (err) {
+          if (err) console.log("A problem occurred updating the blog");
+        });
+    }
+    return res.status(200).send("Success uploading post. Refresh the page to see changes");
+  });
 
 });
 

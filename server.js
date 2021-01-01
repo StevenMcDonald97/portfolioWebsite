@@ -28,6 +28,7 @@ const  {ListPage, ListObject} = require('./models/ListPage');
 const portfolio = require('./models/Portfolio');
 const Image = require('./models/image');
 const Footer = require("./models/Footer");
+const {Blog, BlogPost} = require('./models/Blog');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -98,6 +99,23 @@ app.get('/api/getPage', (req,res) => {
     function (err, portfolioPage) {         
         res.send(portfolioPage);
     }); 
+  } else if (pageType==="blog"){
+    Blog.findOne({}).lean().exec(
+      function (err, blog) {  
+        BlogPost.find({}, function (err, blogPosts) {
+          if (err) {
+            console.log(err);
+            throw(err);
+          } else {
+            let pageData ={
+              title:blog.title,
+              text:blog.text,
+              posts:blogPosts
+            }
+            res.send(pageData);
+          }
+        });
+      }); 
   }
     
 });
@@ -166,6 +184,7 @@ app.get('/api/getPortfolioTitles', (req, res)=>{
     res.send(portfolioTitles);
   })
 })
+
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));

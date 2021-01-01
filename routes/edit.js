@@ -6,6 +6,7 @@ const HomePage = require('../models/HomePage');
 const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
+const { Blog, BlogPost } = require('../models/Blog');
 const Page = require("../models/Page");
 const Footer = require("../models/Footer");
 const fs = require('fs');
@@ -175,21 +176,32 @@ EditRouter.route('/editListPage').post(function(req, res) {
 });
 
 EditRouter.route('/editPortfolio').post(function(req, res) {
-	const page = req.body;
-    const query = {title: page.oldTitle};
-    const update={
-    	title: page.title,
-		description: page.description,
-		mainImageUrl: page.mainImageUrl,
-		imageFileNames: page.imageFileNames
-    }
 
+	const portfolioPage = req.body;
+    const query = {title: portfolioPage.oldTitle};
+    const update={
+    	title: portfolioPage.title,
+		description: portfolioPage.description,
+		mainImageUrl: portfolioPage.mainImageUrl,
+		imageFileNames: portfolioPage.imageFileNames
+    }
 	// Portfolio.findOneAndUpdate(query, update,  
 	// 	{new: true }, (response) => console.log(response));
 
 	// find the portfolio
 	// add or remove images from its image list and change their portfolio
 	// if an image is in another portfolio, remove it from that portfolio's list
+
+	Page.findOne(query,function(err, page){
+		if (!page) {
+		  return res.status(200).send(`A problem occurred finding that portfolio`);
+		} else {
+			page.title= req.body.title;
+			page.save(function (err) {
+		      if (err) return res.status(200).send(`A problem occurred updating that portfolio`);
+		    });
+		}
+	});
 
 	Portfolio.findOne(query, function(err, portfolio){
 
@@ -219,7 +231,7 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 						console.log(`Error updating image ${name}`);
 			            return done(err);
 			        }  
-			        if(img && page.title !== img.portfolio){
+			        if(img && portfolioPage.title !== img.portfolio){
 			        	let oldPortfolio=img.portfolio;
 		                Portfolio.findOneAndUpdate( {title: oldPortfolio}, { "$pull": {imageFileNames:name} }, { 'new': true }, (err, info) => {
 		                    if (err) {
@@ -233,13 +245,73 @@ EditRouter.route('/editPortfolio').post(function(req, res) {
 		            }
 				})
 
-				Image.updateOne({fileName:name}, {portfolio:page.title}).exec();
+			} 
 
-			}
+			Image.updateOne({fileName:name}, {portfolio:portfolioPage.title}).exec();
+
 		});
 		res.status(200).send("Success editing page.");
 
 	})
+});
+
+EditRouter.route('/editBlog').post(function(req, res) {
+    if (req.body.deleted.length>0){
+    	req.body.deleted.forEach(objectId=>{
+    		BlogPost.findById(objectId, function (err, object) {
+    			if (object.imgName) {
+					fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+    			}
+    		});
+    	});
+    	BlogPost.deleteMany({ _id: {$in: req.body.deleted}}, function(err){console.log(err)});
+    } 
+
+  Page.findOne({"type":"blog"},function(err, page){
+    if (!page) {
+      res.status(200).send(`A problem occurred finding that blog post`);
+    } else {
+		page.title=req.body.title;
+		page.save(function (err) {
+          if (err) console.log("A problem occurred updating your blog");
+        });
+    }
+  });
+
+  // there should only be one blog
+  Blog.findOne({}, function(err, blog){
+    if (!blog) {
+      res.status(200).send(`A problem occurred finding that blog post`);
+    } else {
+		blog.title=req.body.title;
+		blog.text=req.body.text;
+		blog.save(function (err) {
+          if (err) console.log("A problem occurred updating your blog");
+        });
+    }
+    return res.status(200).send("Success uploading post. Refresh the page to see changes");
+  });
+
+});
+
+EditRouter.route('/editBlogPost').post(function(req, res) {
+	console.log(req.body._id);
+  // there should only be one blog
+  BlogPost.findOne({_id:req.body._id}, function(err, post){
+    if (!post) {
+      res.status(200).send(`A problem occurred finding that blog post`);
+    } else {
+		post.title=req.body.title;
+		post.blurb=req.body.blurb;
+		post.imgName=req.body.imgName;
+		post.paragraphs=req.body.paragraphs;
+		post.save(function (err) {
+          if (err) return console.log("A problem occurred updating the blogpost");
+        });
+    }
+    return res.status(200).send("Success uploading post. Refresh the page to see changes");
+  });
+
 });
 
 module.exports = EditRouter;

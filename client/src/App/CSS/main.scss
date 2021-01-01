@@ -334,3 +334,93 @@ h1 {
   font-family:$bodyFontFamily;
   background:$emphasisBackgroundColor;
 }
+
+.blog{
+  width:70%;
+  margin: 0 15%;
+}
+
+.blogTitle{
+  margin-top:45px;
+  margin-bottom:15px;
+  padding:0;
+}
+
+.blogDescription{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.blogPagePost{
+  cursor:pointer;
+}
+
+.blogPageImage{
+  max-width:200px;
+  max-height:200px;
+  display:inline-block;
+  margin-left:0;
+  margin-right:30px;
+
+}
+
+.blogPageText{
+    display:inline-block;
+    vertical-align:top;
+}
+
+.blogPagePost:hover{
+  opacity:.6;
+}
+
+.blogPageTitle{
+  text-align:left;
+}
+
+.blogPageBlurb{
+    margin-left:30px;
+    line-height:1.2;
+}
+
+.blogPageDate{
+  margin-left:30px;
+  font-style:italic;
+  line-height:2;
+}
+
+.blogPost{
+  width:90vw;
+  margin: 0 5vw;
+}
+
+.blogPostTitle{
+  width:100%;
+  text-align:center;
+}
+
+.blogDate{
+  font-style: italic;
+  font-size:$bodyTextSize;
+  width:100%;
+  text-align: center;
+  color:$mediumHeaderColor;
+}
+
+.blogPostImage{
+  max-width:22rem;
+  max-height:12rem;
+  width: auto;
+  height: auto;
+  margin:30px auto;
+  display: block;
+}
+
+.blogParagraph{
+  margin:3% 15%;
+  line-height:1.2;
+}
+
+
+
+
+

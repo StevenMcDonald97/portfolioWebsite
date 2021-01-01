@@ -217,13 +217,13 @@
 	margin-top:2vw;
 	margin-bottom:1vw;
 	display:inline-block;
-	vertical-align:top;
+	vertical-align:bottom;
 
 }
 
 .smallPageField{
-	clear:inline;
-	display:block;
+	/*clear:inline;*/
+	display:inline-block;
 	margin-left:2vw;
 	height:2rem;
 	width:15rem;
@@ -551,4 +551,32 @@
   height: 25px;
   background: #4CAF50; 
   cursor: pointer; 
+}
+
+.blogParagraphEditing{
+    list-style-type: none;
+    width:100%;
+    text-align:center;
+    margin:15px 0;
+}
+
+.paragraphInput{
+
+	margin:0 auto;
+	display:inline-block;
+	vertical-align:top;
+}
+
+.editingInput{
+	width:500px;
+	height:100px;
+	max-width:95%;
+}
+
+.editingPostsList{
+	margin:30px 0;
+}
+
+.editBlogPostField{
+	margin-bottom:30px;
 }

@@ -7,6 +7,7 @@ import {TextPageTemplate } from 'src/App/admin/textPageTemplate';
 import ListPageTemplate from 'src/App/admin/listPageTemplate';
 import PortfolioTemplate from 'src/App/admin/portfolioTemplate';
 import ErrorBoundary from 'src/App/errorBoundary';
+import BlogTemplate from 'src/App/admin/blogTemplate';
 import { BackButton } from 'src/App/admin/helperComponents';
 
 export default class EditPages extends Component {
@@ -127,29 +128,45 @@ export default class EditPages extends Component {
 		} else if (this.state.currentPageStyle==='text'){
 			return( 
 				<ErrorBoundary>
-
 					<TextPageTemplate
-					defaultImage={defaultImage} backPage={this.returnToPageSelection} 
-					pageId={this.state.currentPageId}
-					createPage={false}/>
+						defaultImage={defaultImage} 
+						backPage={this.returnToPageSelection} 
+						pageId={this.state.currentPageId}
+						createPage={false}
+					/>
 				</ErrorBoundary>
 			);
 		} else if (this.state.currentPageStyle==='portfolio'){
 			return( 
 				<ErrorBoundary>
 					<PortfolioTemplate 
-					defaultImage={defaultImage} backPage={this.returnToPageSelection} 
-					imageNames={[]}
-					pageId={this.state.currentPageId}
-					createPage={false}/>
+						defaultImage={defaultImage} 
+						backPage={this.returnToPageSelection} 
+						imageNames={[]}
+						pageId={this.state.currentPageId}
+						createPage={false}
+					/>
 				</ErrorBoundary>
 					);
 		} else if (this.state.currentPageStyle==='list'){
 			return( 
 				<ErrorBoundary>
-					<ListPageTemplate pageType={this.state.pageData.type} backPage={this.returnToPageSelection} 
-					pageId={this.state.currentPageId}
-					createPage={false}/>
+					<ListPageTemplate 
+						pageType={this.state.pageData.type} 
+						backPage={this.returnToPageSelection} 
+						pageId={this.state.currentPageId}
+						createPage={false}
+					/>
+				</ErrorBoundary>
+				);
+		} else if (this.state.currentPageStyle==='blog'){
+			return( 
+				<ErrorBoundary>
+					<BlogTemplate 
+						backPage={this.returnToPageSelection} 
+						pageId={this.state.currentPageId}
+						createPage={false}
+					/>
 				</ErrorBoundary>
 				);
 		} else { 

@@ -129,7 +129,7 @@ export default class ListPageTemplate extends Component {
 
 ListPageTemplate.propTypes = {
 	pageId:PropTypes.string,
-	cratePage:PropTypes.string,
+	createPage:PropTypes.bool,
 	pageType:PropTypes.string,
 	backPage:PropTypes.func.isRequired
 }

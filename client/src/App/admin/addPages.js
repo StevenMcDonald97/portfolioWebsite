@@ -4,6 +4,7 @@ import {FaArrowLeft} from 'react-icons/fa';
 import { AboutPageTemplate, OtherPageTemplate } from 'src/App/admin/textPageTemplate';
 import ListPageTemplate from 'src/App/admin/listPageTemplate';
 import PortfolioTemplate from 'src/App/admin/portfolioTemplate';
+import BlogTemplate from 'src/App/admin/blogTemplate';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'src/App/errorBoundary';
 
@@ -63,6 +64,10 @@ export default class AddPages extends Component {
 				return( <ListPageTemplate pageType='Workshops'
 					backPage={this.returnToPageSelection} 
 					createPage={true}/>);
+			} else if (this.state.pageType==='blog'){
+				return( <BlogTemplate
+					backPage={this.returnToPageSelection} 
+					createPage={true}/>);
 			} else {
 				return( <OtherPageTemplate createPage={true} title="" backPage={this.returnToPageSelection}/>);
 			}
@@ -88,6 +93,8 @@ const ChoosePage = (props) => {
 					onClick={props.changePageType}>About Page</button>
 				<button type='button' className='pageEditButton' name='portfolio' 
 					onClick={props.changePageType}>Portfolio Page</button>
+				<button type='button' className='pageEditButton' name='blog' 
+					onClick={props.changePageType}>Blog</button>
 				<button type='button' className='pageEditButton' name='gallery' 
 					onClick={props.changePageType}>Gallery Page</button>
 				<button type='button' className='pageEditButton' name='event' 

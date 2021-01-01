@@ -7,6 +7,7 @@ const HomePage = require('../models/HomePage');
 const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
+const {Blog, BlogPost} = require('../models/Blog');
 const Page = require("../models/Page");
 require("@babel/polyfill");
 
@@ -30,7 +31,6 @@ RemoveRouter.route('/removeImages').post(function(req, res) {
 	            console.log(error)
 	        } 	
     	});
-    	console.log("here");
     	HomePage.findOne({}, function(err, result){
     		console.log("result: "+result);
     		if (err) return console.error(err);
@@ -60,14 +60,13 @@ RemoveRouter.route('/removeImages').post(function(req, res) {
 
 RemoveRouter.route('/removePage').post(function(req, res) {
 	const page = req.body;
-	console.log(req.body);
     const query = {_id: page._id};
-    Page.findOneAndRemove(query, function(err,data){
+    Page.deleteOne(query, function(err,data){
     	if(err) console.error(err);
     });
 
     if (page.type==="text"){
-		TextPage.findOneAndRemove(query,function(err,data)
+		TextPage.deleteOne(query,function(err,data)
 			{
 			    if(!err){
 			        console.log("Deleted page");
@@ -76,16 +75,24 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 			    }
 			});
     } else if (page.type==="list"){
-		ListPage.findOneAndRemove(query,function(err,data)
+    	ListPage.findOneAndDelete(query,function(err,page)
 		{
 		    if(!err){
-		        console.log("Deleted page");
+		        if (page.objectIds){
+		        	page.objectIds.forEach(objectId=>{
+		        		ListObject.findOneAndDelete({_id:objectId}, function(err, object){
+		        			fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+		        		});
+		        	})
+		        }
+		        console.error("Success deleting page");
 		    } else {
 		    	console.error(err);
 		    }
 		});
+
     } else if (page.type==="portfolio"){
-		Portfolio.findOneAndRemove(query,function(err,data)
+		Portfolio.deleteOne(query,function(err,data)
 		{
 		    if(!err){
 		        console.log("Deleted page");
@@ -93,6 +100,32 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		    	console.error(err);
 		    }
 		});
+    } else if (page.type==="blog"){
+		Blog.findOneAndDelete(query,function(err,data)
+		{
+		    if(!err){
+		        console.log("Deleted page");
+		    } else {
+		    	console.error(err);
+		    }
+		});
+		BlogPost.find({},function(err,posts)
+		{
+		    posts.forEach(post=>{
+		    	if (post.imgName != null){
+		    		fs.unlink(`./client/src/App/images/${post.imgName}`, (error)=>console.error(error));
+		    	}
+		    })
+		});
+		BlogPost.deleteMany({},function(err,data)
+		{
+		    if(!err){
+		        console.log("Deleted blog posts");
+		    } else {
+		    	console.error(err);
+		    }
+		});
+
     }
 
 	// find and update indices of pages after removing one
@@ -117,11 +150,37 @@ RemoveRouter.route('/removeLinks').post(function(req, res) {
 	if (req.body && req.body.length>0){
 		req.body.forEach((link)=>{
 			query={_id:link};
-			Page.findOneAndRemove(query, function(err,data){
+			Page.deleteOne(query, function(err,data){
 		    	if(err) console.error(err);
 		    });
 		});
 	}
 });
+
+RemoveRouter.route('/removeBlogPost').post(function(req, res) {
+	BlogPost.findOne({_id:req.body._id}, function (err, post) {
+		if(err) {
+			console.log(err);
+		} else {
+			fs.unlink(`./client/src/App/images/${post.imgName}`, (error)=>console.error(error));
+			console.log("Successful deletion");
+		}
+	});
+
+  // there should only be one blog
+	BlogPost.deleteOne({_id:req.body._id}, function (err) {
+		if(err) console.log(err);
+		console.log("Successful deletion");
+	});
+
+	Blog.findOneAndUpdate({}, { $pull: { "postIds": { _id: req.body._id } } }, { safe: true, upsert: true },
+	    function(err) {
+		    if(err) console.error(err);
+    });
+
+
+
+});
+
 
 module.exports = RemoveRouter;
