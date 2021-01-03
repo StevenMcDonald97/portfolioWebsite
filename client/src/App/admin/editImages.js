@@ -57,14 +57,17 @@ export default class Contact extends Component {
 
 	onSubmit(images, boolFlag){
 		axios.post("/edit/editImages", images, { 
-	          // receive two    parameter endpoint url ,form data
-	    }).then(res => { // then print response status
+
+	    }).then(res => { 
 	        alert(res.data)
 	    }).catch(err => console.log(err));
-
-	    axios.post("/remove/removeImages", this.state.deletedImages, {}).then(res => { // then print response status
-	        console.log(`Deleteing images from database returned: ${res.statusText}`)
-	    }).catch(err => console.log(err));
+	    
+	    if (this.state.deletedImages){
+			axios.post("/remove/removeImages", this.state.deletedImages, {}).then(res => { // then print response status
+	        	console.log(`Deleteing images from database returned: ${res.statusText}`)
+	    	}).catch(err => console.log(err));
+	    }
+	    
 	}
 
 	render(){

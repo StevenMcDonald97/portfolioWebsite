@@ -81,6 +81,13 @@ EditRouter.route('/editImages').post(function(req, res) {
                     }
                 }
             });
+   		} else {
+   			Portfolio.findOneAndUpdate({title: update.portfolio}, {"$push": {imageFileNames: update.fileName}},{ 'new': true }, (err, info) => {
+				if (err) {
+					console.log(err);
+					return err;
+				} 
+			});
    		}
 
 	});
