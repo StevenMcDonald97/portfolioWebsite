@@ -139,7 +139,6 @@ export default class EditLayout extends Component{
     }
 
     onSubmit(){
-
     	let children = {};
     	if (this.state.pages){
 	    	(this.state.pages).forEach((page)=>{
@@ -182,6 +181,7 @@ export default class EditLayout extends Component{
 					<select name='portfolioStyle' className='homePageSelect' value={this.state.portfolioStyle} onChange={this.handleChange}>
 						<option value='grid'>Grid</option>
 						<option value='list'>List</option>
+						<option value='slideShow'>Slide Show</option>
 					</select>
 				</div>				
 				<div className="linkEditing">

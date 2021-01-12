@@ -45,7 +45,16 @@
 	max-width:20rem;
 	max-height:20rem;
 	margin:0 auto;
-	display:inline-block;
+	display:block;
+	min-width:200px;
+	min-height:150px;
+}
+
+.pageImage{
+	max-width:20rem;
+	max-height:20rem;
+	margin:0 auto;
+	display:block;
 	min-width:200px;
 	min-height:150px;
 }
@@ -143,7 +152,8 @@
 	margin-right: auto;
 	margin-bottom:1rem;
 	margin-top:1rem;
-	font-size:2rem;
+	margin-bottom:1rem;
+	font-size:1.5rem;
 	text-align:center;
 }
 
@@ -567,11 +577,15 @@
 	vertical-align:top;
 }
 
-.editingInput{
+.genericPageInput{
+	display:block;
+}
+
+/*.editingInput{
 	width:500px;
 	height:100px;
 	max-width:95%;
-}
+}*/
 
 .editingPostsList{
 	margin:30px 0;

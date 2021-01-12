@@ -62,7 +62,7 @@ function authenticate(req, res, next) {
         user.comparePassword(req.body.password, function(err, isMatch){
             if (err) throw err;
             if (isMatch && user.email===req.body.email){
-                const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);
+                const token = jwt.sign({ sub: user.id, role: user.role }, config.secret, { expiresIn:'1h'});
                 const { password, ...userWithoutPassword } = user;
                 res.json({
                     ...userWithoutPassword,

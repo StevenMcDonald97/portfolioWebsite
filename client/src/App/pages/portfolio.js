@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import axios from 'axios';
 import ImageErrorCatch from 'src/App/pages/ImageErrorCatch';
-import {FaChevronRight} from 'react-icons/fa';
-import {FaChevronLeft} from 'react-icons/fa';
+import {FaChevronRight, FaChevronLeft, FaAngleLeft, FaAngleRight} from 'react-icons/fa';
+import { Fade } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 export default class Portfolio extends Component {
 
@@ -62,21 +63,51 @@ export default class Portfolio extends Component {
     };
     
     render(){
-        return(
-            <div className="page">
-                <div className="pageHeader">{this.state.title}</div>
-                <p className="bodyText portfolioDescription">{this.state.description}</p>
-                <div className="row">
-                    {
-                        this.state.images.map(
-                            (image, index) =>   
-                                <Image key={index} imgKey={index} img={image} description="A painting" changeModalStateInfo={this.changeModalStateInfo} portfolioStyle={this.props.portfolioStyle} showModal={this.showModal}></Image>
-                        )
-                    }
-                    <PortfolioModal visible={this.state.showMod} onClose={this.showModal} images={this.state.images} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
+        console.log(this.props);
+        if (this.props.portfolioStyle==="slideShow"){
+            const prevArrow = <div className="homeSlideControl left"><FaAngleLeft /></div>;
+            const nextArrow = <div className="homeSlideControl right"><FaAngleRight /></div>;
+            return (
+                <div className="page">
+                    <div className="pageHeader">{this.state.title}</div>
+                    <p className="bodyText portfolioDescription">{this.state.description}</p>
+                    <div className="slide-container">
+                        <Fade duration={5000} prevArrow={prevArrow} nextArrow={nextArrow}>
+                            { 
+                                this.state.images.map((image)=>
+                                    <div key={image} className="each-fade">
+                                      <div className="image-container">
+                                        <ImageErrorCatch imgClass="portfolioSlideImage" src={image.fileName} />
+                                        </div>
+                                        <br/>
+                                        <div>  
+                                            <h3 className="smallHeader">{image.title}</h3>
+                                            <div className="bodyText">{ (image.size) ? image.size : "" }  { (image.medium) ? image.medium : ""}  {  (image.price) ? ("$"+image.price) : "" }  <i>{  (image.date) ? image.date : "" }</i></div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </Fade>
+                    </div>
                 </div>
-            </div>
-        )
+            );
+        } else {
+            return(
+                <div className="page">
+                    <div className="pageHeader">{this.state.title}</div>
+                    <p className="bodyText portfolioDescription">{this.state.description}</p>
+                    <div className="row">
+                        {
+                            this.state.images.map(
+                                (image, index) =>   
+                                    <Image key={index} imgKey={index} img={image} description="A painting" changeModalStateInfo={this.changeModalStateInfo} portfolioStyle={this.props.portfolioStyle} showModal={this.showModal}></Image>
+                            )
+                        }
+                        <PortfolioModal visible={this.state.showMod} onClose={this.showModal} images={this.state.images} show={this.state.showMod} img={this.state.modalImage} modalKey={this.state.imageKey} changeModalStateInfo={this.changeModalStateInfo}/>
+                    </div>
+                </div>
+            );
+        } 
     }
 }
 

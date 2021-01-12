@@ -26,6 +26,7 @@ const HomePage = require('./models/HomePage');
 const textPage = require('./models/TextPage');
 const  {ListPage, ListObject} = require('./models/ListPage');
 const portfolio = require('./models/Portfolio');
+const genericPage = require('./models/GenericPage');
 const Image = require('./models/image');
 const Footer = require("./models/Footer");
 const {Blog, BlogPost} = require('./models/Blog');
@@ -116,6 +117,13 @@ app.get('/api/getPage', (req,res) => {
           }
         });
       }); 
+  } else if (pageType==="genericPage"){
+    genericPage.findById(pageId).lean().exec(
+    function (err, genPage) {         
+        res.send(genPage);
+    }); 
+  } else {
+    res.send("Page type not recognized");
   }
     
 });

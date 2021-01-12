@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import {FaArrowLeft} from "react-icons/fa";
 import PropTypes from "prop-types";
 import ImageErrorCatch from "src/App/pages/ImageErrorCatch";
+import Modal from "src/App/pages/modal"
 
 const images = require.context('../images', true);
 const defaultImage = images("./defaultImage.png");
@@ -27,7 +28,7 @@ class UploadImage extends Component {
       image= (this.props.currentImage ? images(`./${this.props.currentImage}`) : defaultImage);
       console.log(this.props.currentImage);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       image=defaultImage;
     }
 
@@ -88,4 +89,21 @@ function ImageCheckBox(props) {
       
 }
 
-export { BackButton, UploadImage, ImageCheckBox};
+class DeletePopUp extends Component {
+
+  render(){
+    const content = 
+      (<div className="deleteBox">
+        <h3> Are you sure you want to delete this { this.props.type } ?</h3>
+        <button type="button" onClick={this.props.delete} className="modalButton">Delete</button>
+        <button type="button" onClick={this.props.cancel} className="modalButton">Cancel</button>
+      </div>);
+
+      return(
+        { this.props.content }
+      )
+  }
+}
+
+
+export { BackButton, UploadImage, ImageCheckBox, DeletePopUp};

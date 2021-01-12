@@ -27,6 +27,7 @@ import Portfolio from 'src/App/pages/portfolio';
 import TextPage from 'src/App/pages/textPage';
 import Blog from 'src/App/pages/blog';
 import ListPage from 'src/App/pages/listPage';
+import GenericPage from 'src/App/pages/genericPage';
 import Footer from 'src/App/pages/footer';
 import Contact from 'src/App/pages/contact';
 import HomePage from 'src/App/pages/homePage';
@@ -171,6 +172,12 @@ const NewPage =(props)=> {
     return (
       <ErrorBoundary >
        <Blog pageId={props.pageId}/>
+      </ErrorBoundary>
+    );
+  } else if (props.pageType==='genericPage'){
+    return (
+      <ErrorBoundary >
+       <GenericPage pageId={props.pageId}/>
       </ErrorBoundary>
     );
   } else {

@@ -6,6 +6,7 @@ const HomePage = require('../models/HomePage');
 const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
+const GenericPage = require("../models/GenericPage")
 const { Blog, BlogPost } = require('../models/Blog');
 const Page = require("../models/Page");
 const Footer = require("../models/Footer");
@@ -302,7 +303,6 @@ EditRouter.route('/editBlog').post(function(req, res) {
 });
 
 EditRouter.route('/editBlogPost').post(function(req, res) {
-	console.log(req.body._id);
   // there should only be one blog
   BlogPost.findOne({_id:req.body._id}, function(err, post){
     if (!post) {
@@ -318,6 +318,67 @@ EditRouter.route('/editBlogPost').post(function(req, res) {
     }
     return res.status(200).send("Success uploading post. Refresh the page to see changes");
   });
+
+});
+
+EditRouter.route('/editGenericPage').post(function(req, res) {
+	let query = {_id:new mongoose.Types.ObjectId(req.body._id)};
+
+	Page.findOne(query,function(err, page){
+		if (!page) {
+		  return res.status(200).send(`A problem occurred updating that page`);
+		} else {
+			page.title= req.body.title;
+			page.save(function (err) {
+		      if (err) {
+		      	return res.status(200).send(`A problem occurred updating that page`);
+		      }
+		    });
+		}
+	});
+
+	var resultHandler = function(err) { 
+	    if(err) {
+	       console.log("unlink failed", err);
+	    } else {
+	       console.log("file deleted");
+	    }
+	}
+
+	if (req.body.deletedImages){
+	    req.body.deletedImages.forEach(image=>
+			fs.unlink(`./client/src/App/images/${image}`, resultHandler)
+		);
+	}
+
+	if (req.body.deletedAudio){
+	    req.body.deletedAudio.forEach((audio)=>
+			{
+				console.log(audio);
+				fs.unlink(`./client/src/App/audio/${audio}`, resultHandler)
+			} 
+		);
+	}
+
+	GenericPage.findOne(query, function(err, page){
+	    if (!page) {
+	      return res.status(200).send(`A problem occurred locating and updating that page`);
+	    } else {
+			page.title=req.body.title;
+			page.paragraphs=req.body.paragraphs;
+			page.imageNames=req.body.images;
+			page.imageText=req.body.imageText;
+			page.audioNames=req.body.audioNames;
+			page.audioText=req.body.audioText;
+			page.videoLinks=req.body.videoLinks;
+			page.videoText=req.body.videoText;		
+
+			page.save(function (err) {
+	          if (err) return res.status(200).send("A problem occurred updating that page");
+	        });
+	    }
+	    res.status(200).send("Success uploading post. Refresh the page to see changes");
+	});
 
 });
 

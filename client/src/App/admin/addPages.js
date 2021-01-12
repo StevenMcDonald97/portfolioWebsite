@@ -5,6 +5,7 @@ import { AboutPageTemplate, OtherPageTemplate } from 'src/App/admin/textPageTemp
 import ListPageTemplate from 'src/App/admin/listPageTemplate';
 import PortfolioTemplate from 'src/App/admin/portfolioTemplate';
 import BlogTemplate from 'src/App/admin/blogTemplate';
+import GenericPageTemplate from 'src/App/admin/genericPageTemplate';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'src/App/errorBoundary';
 
@@ -69,7 +70,7 @@ export default class AddPages extends Component {
 					backPage={this.returnToPageSelection} 
 					createPage={true}/>);
 			} else {
-				return( <OtherPageTemplate createPage={true} title="" backPage={this.returnToPageSelection}/>);
+				return( <GenericPageTemplate createPage={ true } title="" backPage={this.returnToPageSelection}/>);
 			}
 		};
 
@@ -101,7 +102,7 @@ const ChoosePage = (props) => {
 					onClick={props.changePageType}>Events Page</button>
 				<button type='button' className='pageEditButton' name='workshop' 
 					onClick={props.changePageType}>Workshop Page</button>
-				<button type='button'  className='pageEditButton' name='other' 
+				<button type='button'  className='pageEditButton' name='generic' 
 					onClick={props.changePageType}>Other Page</button>
 			</div>
 		</div>

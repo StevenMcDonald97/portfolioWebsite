@@ -6,6 +6,7 @@ const TextPage = require('../models/TextPage');
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
 const { Blog, BlogPost } = require('../models/Blog');
+const GenericPage = require("../models/GenericPage")
 const Page = require("../models/Page")
 const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 const path = require('path');
@@ -17,6 +18,15 @@ require("@babel/polyfill");
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './client/src/App/images')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname )
+    }
+})
+
+var audioStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/src/App/audio')
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname )
@@ -35,6 +45,15 @@ var upload = multer({
   } 
 }).array('file', 15);
 
+var uploadAudio = multer({ 
+  storage: audioStorage,
+  limits: {
+      fileSize: 4 * 1024 * 1024
+  },
+  fileFilter: function(_req, file, cb){
+      checkAudioFileType(file, cb);
+  } 
+}).array('file',15);
 
 const checkFileType = (file, cb)=>{
   // Allowed ext
@@ -51,6 +70,18 @@ const checkFileType = (file, cb)=>{
   }
 }
 
+const checkAudioFileType = (file, cb)=>{
+  const filetypes = /mp3|mp4|ogg/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+  if(extname){
+    return cb(null,true);
+  } else {
+
+    cb('Error: MP3, MP4, and OGG Only!');
+  }
+}
+
 UploadRouter.route('/rebuild').post(async function(req, res) {
   const rebuildFileName = __dirname +'/../client/src/App/rebuild.json';
   let styleObject = {"rebuild":Date.now()};
@@ -60,9 +91,6 @@ UploadRouter.route('/rebuild').post(async function(req, res) {
       console.log('Data written to file');
   });
 
-
-
-
 });
 
 UploadRouter.route('/uploadImages').post(function(req, res) {
@@ -71,17 +99,42 @@ UploadRouter.route('/uploadImages').post(function(req, res) {
           console.log(err);
           res.status(500);
           if (err.code == 'LIMIT_FILE_SIZE') {
-            err.message = 'File Size is too large. Maximum file size is 2MB';
+            err.message = 'File Size is too large. Maximum file size is 5MB';
             err.success = false;
             return res.json(err)
           }
 
-           return res.json(err);
+           // return res.json(err);
+           return res.status(500).send("Error uploading image(s).");
        } else {
            res.status(200);
            return res.json({
                success: true,
                message: 'Images uploaded successfully!'
+           });
+       }
+
+    });
+});
+
+UploadRouter.route('/uploadAudio').post(function(req, res) {
+    uploadAudio(req, res, function (err) {
+       if (err) { //instanceof multer.MulterError
+          console.log(err);
+          res.status(500);
+          if (err.code == 'LIMIT_FILE_SIZE') {
+            err.message = 'File Size is too large. Maximum file size is 4MB';
+            err.success = false;
+            return res.json(err)
+          }
+
+           // return res.json(err);
+           return res.status(500).send("Problem uploading audio file(s). Please check your file type");
+       } else {
+           res.status(200);
+           return res.json({
+               success: true,
+               message: 'Audio uploaded successfully!'
            });
        }
 
@@ -346,6 +399,38 @@ UploadRouter.route('/uploadBlogPost').post(function(req, res) {
     }
     return res.status(200).send("Success uploading post. Refresh the page to see changes");
   });
+
+});
+
+UploadRouter.route('/uploadGenericPage').post(function(req, res) {
+
+  let pageData={
+    "title":req.body.title, 
+    "paragraphs":req.body.paragraphs, 
+    "imageNames":req.body.images,
+    "imageText":req.body.imageText,
+    "audioNames":req.body.audioNames,
+    "audioText":req.body.audioText,
+    "videoLinks":req.body.videoLinks,
+    "videoText":req.body.videoText
+  };
+    
+  const newPage=new GenericPage(req.body);
+  newPage.imageNames = req.body.images;
+  newPage.audioNames = req.body.audioNames;
+  newPage.videoLinks = req.body.videoLinks;
+
+  const pageLoaded=storePageInfo(newPage, "genericPage", res);
+
+  if (pageLoaded) {newPage.save(function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error uploading page.");
+        } 
+    });
+  }
+  
+  return res.status(200).send("Success uploading page. Refresh to see change");
 
 });
 

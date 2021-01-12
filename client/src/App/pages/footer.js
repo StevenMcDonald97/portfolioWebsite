@@ -20,7 +20,6 @@ export default class Navigation extends Component {
 
   componentDidMount() {
     axios.get('/api/getFooter').then((response) => {
-      console.log(response);
       this.setState({
         message:response.data.message,
         facebook:response.data.facebook,

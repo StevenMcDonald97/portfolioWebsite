@@ -5,6 +5,7 @@ const multer = require('multer');
 const Image = require('../models/image');
 const HomePage = require('../models/HomePage');
 const TextPage = require('../models/TextPage');
+const GenericPage = require("../models/GenericPage")
 const  {ListPage, ListObject} = require('../models/ListPage');
 const Portfolio = require('../models/Portfolio');
 const {Blog, BlogPost} = require('../models/Blog');
@@ -69,7 +70,7 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		TextPage.deleteOne(query,function(err,data)
 			{
 			    if(!err){
-			        console.log("Deleted page");
+		        	console.log("Deleted page: "+page._id);
 			    } else {
 			    	console.error(err);
 			    }
@@ -81,7 +82,7 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		        if (page.objectIds){
 		        	page.objectIds.forEach(objectId=>{
 		        		ListObject.findOneAndDelete({_id:objectId}, function(err, object){
-		        			fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+		        			if (object) fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
 		        		});
 		        	})
 		        }
@@ -95,7 +96,7 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		Portfolio.deleteOne(query,function(err,data)
 		{
 		    if(!err){
-		        console.log("Deleted page");
+		        console.log("Deleted page: "+page._id);
 		    } else {
 		    	console.error(err);
 		    }
@@ -104,7 +105,7 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		Blog.findOneAndDelete(query,function(err,data)
 		{
 		    if(!err){
-		        console.log("Deleted page");
+		        console.log("Deleted page: "+page._id);
 		    } else {
 		    	console.error(err);
 		    }
@@ -126,6 +127,26 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		    }
 		});
 
+    } else if (page.type==="genericPage"){
+
+		GenericPage.findOneAndDelete(query,function(err,page)
+		{
+		    if(!err){
+		    	if (req.body.images){
+		    		req.body.images.forEach(image=>
+		    			fs.unlink(`./client/src/App/images/${image}`)
+		    		);
+		    	}
+		    	if (req.body.audio){
+		    		req.body.audio.forEach(audio=>
+		    			fs.unlink(`./client/src/App/audio/${audio}`)
+		    		);
+		    	}
+		        console.log("Deleted page: "+page._id);
+		    } else {
+		    	console.error(err);
+		    }
+		});
     }
 
 	// find and update indices of pages after removing one

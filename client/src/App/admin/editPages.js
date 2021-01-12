@@ -8,6 +8,8 @@ import ListPageTemplate from 'src/App/admin/listPageTemplate';
 import PortfolioTemplate from 'src/App/admin/portfolioTemplate';
 import ErrorBoundary from 'src/App/errorBoundary';
 import BlogTemplate from 'src/App/admin/blogTemplate';
+import GenericPageTemplate from 'src/App/admin/genericPageTemplate';
+
 import { BackButton } from 'src/App/admin/helperComponents';
 
 export default class EditPages extends Component {
@@ -136,6 +138,16 @@ export default class EditPages extends Component {
 					/>
 				</ErrorBoundary>
 			);
+		} else if (this.state.currentPageStyle==='generic'){
+			return( 
+				<ErrorBoundary>
+					<GenericPageTemplate
+						pageId={this.state.currentPageId}
+						backPage={this.returnToPageSelection} 
+						createPage={false}
+					/>
+				</ErrorBoundary>
+			);
 		} else if (this.state.currentPageStyle==='portfolio'){
 			return( 
 				<ErrorBoundary>
@@ -169,11 +181,28 @@ export default class EditPages extends Component {
 					/>
 				</ErrorBoundary>
 				);
+		} else if (this.state.currentPageStyle==='genericPage'){
+			return( 
+				<ErrorBoundary>
+					<GenericPageTemplate 
+						backPage={this.returnToPageSelection} 
+						pageId={this.state.currentPageId}
+						createPage={false}
+					/>
+				</ErrorBoundary>
+				);
 		} else { 
 			return(
-				<div>
+				<div className="pageEditor">
+          			<BackButton backPage={this.returnToUserPanel}/>
 					<h3 className='editingTitle'>Select a Page to Edit</h3>
 					<ErrorBoundary>
+						<div className='pageEditElement'> 
+							<div className='pageEditTitle'>Home Page</div>
+							<button type='button' name='home' className='pageEditorButton' onClick={this.selectPage}>
+								Edit
+							</button>
+						</div>
 						{ PageList }
 					</ErrorBoundary>
 				</div>

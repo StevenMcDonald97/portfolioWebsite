@@ -73,6 +73,17 @@
   overflow:auto;
 }
 
+.portfolioSlideImage{
+  max-height:25rem;
+  max-width:100%;
+  object-fit: cover;
+  object-position: 20% 50%;
+  -webkit-box-shadow:0 0 15px 1px rgba(0,0,0,.55);
+  -moz-box-shadow:0 0 15px 1px rgba(0,0,0,.55);
+  /* box-shadow:0 0 15px 1px rgba(0,0,0,.55); */
+  -webkit-filter:grayscale(0);filter:grayscale(0);
+}
+
 
 .portfolioOverlay {
   position: absolute;

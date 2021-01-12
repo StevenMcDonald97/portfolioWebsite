@@ -161,6 +161,7 @@ h1 {
   color:$bodyTextColor;
   font-family:$bodyFontFamily;
   font-size:$bodyTextSize;
+  line-height:1.4;
 }
 
 .slide-container{
@@ -187,6 +188,7 @@ h1 {
   cursor:pointer;
   padding:.8rem .3rem;
   font-size:2rem;
+  margin:.75rem;
 }
 
 
@@ -309,7 +311,6 @@ h1 {
   margin:0 auto;
   vertical-align:top;
   width:45rem;
-  margin-bottom:.5rem;
 }
 
 .textPageMainText {
@@ -416,9 +417,30 @@ h1 {
 }
 
 .blogParagraph{
-  margin:3% 15%;
   line-height:1.2;
 }
+
+
+.genericPageImage{
+    max-width:90vw;
+    max-height:60vw;
+    width: 400px;
+    height: auto;
+    margin:30px auto;
+    display: block;
+}
+
+.genericPageVideo{
+    max-width:90vw;
+    max-height:60vw;
+    width: 500px;
+    height: 300px;
+    margin:30px auto;
+    display: block;
+}
+
+
+
 
 
 

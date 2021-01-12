@@ -104,7 +104,7 @@ export default class Navigation extends Component {
       const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
           if (page.visibility && page.children && page.children.length>0){
              return (<li key={page._id} className='navbar-link dropdown-link'>
-                  <div className='user-navbar-link dropbtn'>{page.title} <FaAngleDown /></div>
+                  <div className='navbar-link dropbtn'>{page.title} <FaAngleDown /></div>
                   <div className='dropdown-content'>
                    { page.children.map((childId)=>
                       this.createSubLinks(childId)
