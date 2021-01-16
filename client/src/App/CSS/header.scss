@@ -65,7 +65,7 @@
   text-align:center;
   margin-top: -120vh;
   font-family:$bodyFontFamily;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: 700;
   overflow: auto;
   transition: .5s;
@@ -95,13 +95,12 @@
 .dropDownMenuLink{
   color:white;
   letter-spacing: 0.125em;
-  text-align:center;
   text-decoration:none;
   cursor:pointer;
 }
 
 .dropDownMenuLink:hover{
-  color:#ddd
+  color:#bbb;
 }
 
 .dropDownMenuLink:hover .dropdown-content{
@@ -125,6 +124,12 @@
   position:relative;
   display:inline-block;
 }
+
+.small-dropdown-link {
+  background:white;
+  font-size:1.2rem;
+}
+
 
 .dropdown-content {
   display: none;
@@ -151,7 +156,7 @@
 }
 
 .dropDownMenuLink .dropdown-content a:hover{
-  color:#ddd;
+  color:#999;
   background: none;
 }
 
@@ -159,69 +164,36 @@
   display: block;
 }
 
-/*Hamburger Button*/
+/*Menu Button*/
+
+.menuToggleButton {
+  position: absolute;
+  width:21%;
+  text-align:center;
+  font-size: 1.2rem;
+  font-family:$bodyFontFamily;
+  margin-left:-10%;
+  padding: .2em;
+  transition: .5s;
+  z-index: 900;
+  cursor:pointer;
+  overflow:auto;
+}
+
 
 
 .menuToggleButton:hover {
-  color:$hoverOnLinkColor;
-  cursor: pointer;
-
+  opacity:.6;
 }
 
-.menuToggleButton .menuBar {
-  position: absolute;
-  border-radius: 2px;
-  width: 80%;
-  min-width:21px;
-  transition: .5s;
-}
-
-.menuToggleButton .menuBarTop {
-  border: 3px solid $navLinkColor;
-  border-bottom: none;
-  margin-top: 0;
-}
-
-.menuToggleButton .menuBarMiddle {
-  height: 3px;
-  background-color: $navLinkColor;
-  margin-top: .75vw;
-}
-
-.menuToggleButton .menuBarBottom {
-  border: 3px solid $navLinkColor;
-  border-top: none;
-  margin-top: 1.5vw;
-}
 
 /*open button*/
 
 .buttonOpen {
-  height:24px;
-  width:24px;
-  transform: translate(0, 2em);
-  transition: .5s;
+  color:white;
 }
 
-.buttonOpen .menuBarTop {
-  border-color: #fff;
-  transform: rotate(-45deg);
-  transition: .5s;
-}
 
-.buttonOpen .menuBarMiddle {
-  background-color: #fff;
-  transform: translate(0px, 250px);
-  transition: .1s ease-in;
-  opacity: 0;
-}
-
-.buttonOpen .menuBarBottom {
-  margin-top: 0;
-  background-color: #fff;
-  transform: rotate(45deg) ;
-  transition: .5s;
-}
 
 .sub-menu{
   display:none;
@@ -232,11 +204,12 @@
 
 .menuSideBar {
   height: 100%;
-  width: 12rem;
+  width: 210px;
   position: fixed;
   z-index: 100;
-  top: 0;
-  left: 0;
+  top: 30px;
+  left: 30px;
+  line-height:1.4;
   background-color: $navigationBackgroundColor;
   overflow-x: hidden;
   padding-top: 4rem;
@@ -297,7 +270,7 @@
 
 @media screen and (max-width: 700px) {
   .dropDownMenu{
-    margin-top:200px;
+    margin-top:160px;
     padding-inline-start: 0;
   }
 
@@ -308,66 +281,10 @@
   }
 
   .menuToggleButton {
-    position:relative;
-    display:block;
-    width: 1.8rem;
-    height: 1.6rem;
+    text-align:center;
     padding: .2em;
     transition: .5s;
-    margin:0 auto;
     z-index: 900;
-  }
-
-  .menuToggleButton .menuBar {
-    position: absolute;
-    border-radius: 2px;
-    width: 1.6rem;
-    min-width:21px;
-    transition: .5s;
-  }
-
-  .menuToggleButton .menuBarTop {
-    border-bottom: none;
-    margin-top: 0;
-  }
-
-  .menuToggleButton .menuBarMiddle {
-    height: 3px;
-    margin-top: .6rem;
-  }
-
-  .menuToggleButton .menuBarBottom {
-    border-top: none;
-    margin-top: 1.2rem;
-  }
-
-  /*open button*/
-
-  .buttonOpen {
-    height:24px;
-    width:24px;
-    transform: translate(0, 2rem);
-    transition: .5s;
-  }
-
-  .buttonOpen .menuBarTop {
-    border-color: #fff;
-    transform: rotate(-45deg);
-    transition: .5s;
-  }
-
-  .buttonOpen .menuBarMiddle {
-    background-color: #fff;
-    transform: translate(0px, 250px);
-    transition: .1s ease-in;
-    opacity: 0;
-  }
-
-  .buttonOpen .menuBarBottom {
-    margin-top: 0;
-    background-color: #fff;
-    transform: rotate(45deg) ;
-    transition: .5s;
   }
 
   .sidebar {
@@ -377,16 +294,53 @@
 }
 
 @media screen and (min-width: 700px) {
+  .dropDownMenu{
+    margin-top:160px;
+    padding-inline-start: 0;
+  }
+
+  .dropDownMenuWrap.left{
+    text-align:left;
+    padding-left:3rem;
+  }
+
+  .dropDownMenuWrap.right{
+    text-align:right;
+    padding-right:6%;
+  }
+
+  .custom-dropdown-menu.center{
+    height:3rem;
+    background:$titleBackgroundColor;
+    text-align:center;
+  }
+
+  .custom-dropdown-menu.left{
+    height:3rem;
+    background:$titleBackgroundColor;
+    text-align:left;
+  }
+
+  .custom-dropdown-menu.right{
+    height:3rem;
+    background:$titleBackgroundColor;
+    text-align:right;
+    margin-right:30px;
+  }
+
   .menuToggleButton {
-    position: fixed;
-    color:$titleColor;
-    width: 3vw;
-    height: 2vw;
-    top: 1.5em;
-    right: 5em;
+    text-align:center;
     padding: .2em;
     transition: .5s;
     z-index: 900;
+  }
+
+  .menuToggleButton.left{
+    left:5rem;
+  }
+
+  .menuToggleButton.right{
+    right:-2%;
   }
 }
 

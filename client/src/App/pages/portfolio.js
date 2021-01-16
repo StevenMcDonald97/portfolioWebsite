@@ -81,8 +81,8 @@ export default class Portfolio extends Component {
                                         </div>
                                         <br/>
                                         <div>  
-                                            <h3 className="smallHeader">{image.title}</h3>
-                                            <div className="bodyText">{ (image.size) ? image.size : "" }  { (image.medium) ? image.medium : ""}  {  (image.price) ? ("$"+image.price) : "" }  <i>{  (image.date) ? image.date : "" }</i></div>
+                                            <h3 className="portfolioSlideTitle">{image.title}</h3>
+                                            <div className="portfolioSlideText">{ (image.size) ? image.size : "" }  { (image.medium) ? image.medium : ""} <i>{  (image.date) ? image.date : "" }</i> {  (image.price) ? ("- $"+image.price) : "" }</div>
                                         </div>
                                     </div>
                                 )

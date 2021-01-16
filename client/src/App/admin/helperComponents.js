@@ -100,7 +100,7 @@ class DeletePopUp extends Component {
       </div>);
 
       return(
-        { this.props.content }
+        <div> No Content Yet </div>
       )
   }
 }

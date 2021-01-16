@@ -82,7 +82,13 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		        if (page.objectIds){
 		        	page.objectIds.forEach(objectId=>{
 		        		ListObject.findOneAndDelete({_id:objectId}, function(err, object){
-		        			if (object) fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+		        			if (object && object.imgName){
+								Image.count({fileName: object.imgName}, function (err, count){ 
+								    if(count<1){
+										fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+									}
+								}); 
+		        			} 
 		        		});
 		        	})
 		        }
@@ -114,8 +120,12 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		{
 		    posts.forEach(post=>{
 		    	if (post.imgName != null){
-		    		fs.unlink(`./client/src/App/images/${post.imgName}`, (error)=>console.error(error));
-		    	}
+					Image.count({fileName: post.imgName}, function (err, count){ 
+					    if(count<1){
+		    				fs.unlink(`./client/src/App/images/${post.imgName}`, (error)=>console.error(error));
+						}
+					}); 
+    			} 
 		    })
 		});
 		BlogPost.deleteMany({},function(err,data)
@@ -133,9 +143,13 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		{
 		    if(!err){
 		    	if (req.body.images){
-		    		req.body.images.forEach(image=>
-		    			fs.unlink(`./client/src/App/images/${image}`)
-		    		);
+		    		req.body.images.forEach(image=>{
+						Image.count({fileName:image}, function (err, count){ 
+						    if(count<1){
+	    						fs.unlink(`./client/src/App/images/${image}`)
+							}
+						}); 
+		    		});
 		    	}
 		    	if (req.body.audio){
 		    		req.body.audio.forEach(audio=>
@@ -183,7 +197,11 @@ RemoveRouter.route('/removeBlogPost').post(function(req, res) {
 		if(err) {
 			console.log(err);
 		} else {
-			fs.unlink(`./client/src/App/images/${post.imgName}`, (error)=>console.error(error));
+			Image.count({fileName:post.imgName}, function (err, count){ 
+			    if(count<1){
+					fs.unlink(`./client/src/App/images/${post.imgName}`, (error)=>console.error(error));
+				}
+			}); 
 			console.log("Successful deletion");
 		}
 	});

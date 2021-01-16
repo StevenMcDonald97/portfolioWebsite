@@ -145,7 +145,11 @@ EditRouter.route('/editListPage').post(function(req, res) {
     	req.body.deleted.forEach(objectId=>{
     		ListObject.findById(objectId, function (err, object) {
     			if (object.imgName) {
-					fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+					Image.count({fileName: object.imgName}, function (err, count){ 
+					    if(count<1){
+							fs.unlink(`./client/src/App/images/${object.imgName}`, (error)=>console.error(error));
+						}
+					}); 
     			}
     		});
     	});
@@ -346,9 +350,14 @@ EditRouter.route('/editGenericPage').post(function(req, res) {
 	}
 
 	if (req.body.deletedImages){
-	    req.body.deletedImages.forEach(image=>
-			fs.unlink(`./client/src/App/images/${image}`, resultHandler)
-		);
+	    req.body.deletedImages.forEach(image=>{
+
+			Image.count({fileName:image}, function (err, count){ 
+			    if(count<1){
+					fs.unlink(`./client/src/App/images/${image}`, resultHandler)
+				}
+			}); 			
+		});
 	}
 
 	if (req.body.deletedAudio){

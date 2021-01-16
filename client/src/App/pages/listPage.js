@@ -50,10 +50,9 @@ export default class ListPage extends Component {
     }
 
     createListObjects = () =>{
-        
         return(
             this.state.listObjectsData.map((object)=>
-                <ListObject key={object._id} img={object.imgName} title={object.title} blurb={object.blurb} text={object.description} changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}/>
+                <ListObject key={object._id} image={object.imgName} title={object.title} blurb={object.blurb} text={object.description} changeModalStateInfo={this.changeModalStateInfo} showModal={this.showModal}/>
             )
         )
     }
@@ -99,12 +98,13 @@ const ListModalContent = (props) =>{
 
 const ListObject = (props) => {
     const clickObject = () => {
-        props.changeModalStateInfo(props.img, props.title, props.blurb, props.text);
+        props.changeModalStateInfo(props.image, props.title, props.blurb, props.text);
         props.showModal(); 
     }
 
     return(
         <div className="listPageObject" onClick={clickObject}>
+            { props.image ? <ImageErrorCatch imgClass="listObjectImage" src={props.image} description={""}/> : "" }
             <div className="objectTitle">{props.title}</div>
             <div className="objectBlurb">{props.blurb}</div>
         </div>

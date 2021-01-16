@@ -364,6 +364,11 @@
   /*overflow: hidden;*/
 }
 
+.user-navbar.sidebar{
+  margin-top:60px;
+  /*overflow: hidden;*/
+}
+
 .user-navbar-links {
   list-style-type: none;
   width:100%;
@@ -471,6 +476,7 @@
 	max-width:80vw;
 	margin:0 auto;
 	margin-bottom:2rem;
+	text-align:center;
 }
 
 .linkEditingContainer{

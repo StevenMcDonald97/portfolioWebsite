@@ -9,6 +9,7 @@ import PortfolioTemplate from 'src/App/admin/portfolioTemplate';
 import ErrorBoundary from 'src/App/errorBoundary';
 import BlogTemplate from 'src/App/admin/blogTemplate';
 import GenericPageTemplate from 'src/App/admin/genericPageTemplate';
+import Modal from 'src/App/pages/modal';
 
 import { BackButton } from 'src/App/admin/helperComponents';
 
@@ -19,9 +20,12 @@ export default class EditPages extends Component {
 			pageData:{},
 			pages:[],
 			currentPageId:'',
-			currentPageStyle:'none'
-
+			currentPageStyle:'none',
+			showModal:false,
+			deletedPage:{}
 		};
+        this.showModal=this.showModal.bind(this);
+        this.setDeletedPage=this.setDeletedPage.bind(this);
 		this.removePage=this.removePage.bind(this);
 		this.getPageList=this.getPageList.bind(this);
 		this.selectPage=this.selectPage.bind(this);
@@ -33,6 +37,17 @@ export default class EditPages extends Component {
 		this.getPageList();
 	}
 
+    showModal = () => {
+        this.setState({
+            showModal: !this.state.showModal
+        });
+    };
+
+    setDeletedPage(page) {
+        this.setState({
+            deletedPage:page
+        }, () => this.showModal());
+    }
 
 	getPageList = () =>{
 		axios.get('/api/getPageInfo').then((response) => {
@@ -40,22 +55,28 @@ export default class EditPages extends Component {
 		});
 	}
 
-	removePage(page){
-		let pageValues =(this.state.pages);
+	removePage(){
 
-		for (let i=0; i<pageValues.length; i++){
-			if (pageValues[i]._id===page._id){
-				pageValues.splice(i, 1);
+		if (this.state.deletedPage){
+
+			let pageValues =(this.state.pages);
+
+			for (let i=0; i<pageValues.length; i++){
+				if (pageValues[i]._id===this.state.deletedPage._id){
+					pageValues.splice(i, 1);
+				}
 			}
+			this.setState({pages:pageValues});
+			
+			axios.post('/remove/removePage', this.state.deletedPage, { 
+			// receive two    parameter endpoint url ,form data
+			}).then(res => { // then print response status
+				console.log(`Removing page returned: ${res.statusText}`);
+			}).catch(err => console.log(err));
+			this.showModal();
+		} else {
+			alert("There was a problem removing the page");
 		}
-		this.setState({pages:pageValues});
-		
-		axios.post('/remove/removePage', page, { 
-		// receive two    parameter endpoint url ,form data
-		}).then(res => { // then print response status
-			console.log(`Removing page returned: ${res.statusText}`);
-		}).catch(err => console.log(err));
-
 	}
 
 	selectPage(event){
@@ -82,6 +103,8 @@ export default class EditPages extends Component {
 
 
 	render() {
+
+
 		const PageList = this.state.pages.map((page) =>{
 			if (page.type!=="parent"){
 				return (
@@ -90,7 +113,7 @@ export default class EditPages extends Component {
 						<button type='button' name={page._id} className='pageEditorButton' onClick={this.selectPage}>
 							Edit
 						</button>
-						<button type='button' className='tooltip pageEditorButton' onClick={()=>this.removePage(page)}>
+						<button type='button' className='tooltip pageEditorButton' onClick={()=>this.setDeletedPage(page)}>
 							<FaTrashAlt />
 							<span className='tooltiptext'>
 								Remove this Page
@@ -103,6 +126,15 @@ export default class EditPages extends Component {
 		});
 
 		if (this.state.currentPageStyle==='none'){
+			var modalBody = 
+				<div className="deleteModal"> 
+					<div className="modalText"> Are you sure you want to delete the page {this.state.deletedPage.title}? This action cannot be undone</div>
+					<div className="deleteModalButtons">
+						<button type='reset' className="layoutSubmitButton" value='Cancel' onClick={this.showModal}>Cancel</button>
+						<button type='button' className="layoutSubmitButton" value='Continue' onClick={this.removePage}>Delete</button>
+					</div>
+				</div>;
+
 			return(
 				<div className="pageEditor">
           			<BackButton backPage={this.returnToUserPanel}/>
@@ -115,6 +147,7 @@ export default class EditPages extends Component {
 							</button>
 						</div>
 						{ PageList }
+						<Modal onClose={ this.showModal } show={ this.state.showModal} content={ modalBody }/>
 					</ErrorBoundary>
 				</div>
 			);

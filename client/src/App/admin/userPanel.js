@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {FaAngleDown} from 'react-icons/fa';
 import { authenticationService } from 'src/App/admin/authentication/authenticationService';
-
 import {
   Link,
 } from 'react-router-dom';
+
+const layoutJson = require('src/App/layout.json');
 
 class UserPanel extends Component{
     constructor(props) {
@@ -21,7 +22,7 @@ class UserPanel extends Component{
 	render(){
 		return(
 			<div className='userpanel pageEditor'>
-					<div className='user-navbar'>
+					<div className={`user-navbar ${layoutJson.menuStyle}`}>
 						<ul className='user-navbar-links'>
 							<li key='editInfo' className='user-navbar-link'><Link to="/editProfile" className='user-navbar-link'>My Profile Info</Link></li>
 							<li key='editImages' className='user-navbar-link dropdown-link'>

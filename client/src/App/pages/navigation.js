@@ -59,7 +59,7 @@ export default class Navigation extends Component {
     for(let i=0; i<this.state.pageInfo.length; i++) {
       let page=this.state.pageInfo[i];
       if (page._id===childId && page.title){
-        return (<Link key={page._id} className="user-dropwdown-link" to={`/${page.title.replace(/\s+/g, '')}`}>{page.title}</Link>);
+        return (<Link key={page._id} className="small-dropdown-link" to={`/${page.title.replace(/\s+/g, '')}`}>{page.title}</Link>);
       }
     }
   }
@@ -70,7 +70,7 @@ export default class Navigation extends Component {
       const createLinks = [].slice.call(this.state.pageInfo).sort((a,b) => a.index - b.index).map((page) => {
           if (page.visibility && page.children && page.children.length>0){
              return (
-                <div>
+                <div key={page.title}>
                   <div className='sideDropDown sideLink dropbtn'>{page.title} <FaAngleDown />
                     <div className='dropdown-content'>
                      { page.children.map((childId)=>
@@ -154,13 +154,11 @@ export default class Navigation extends Component {
       );
 
     	return(
-        <div className="custom-dropdown-menu">
-          <span className={`menuToggleButton ${this.state.dropdownClass}`} onClick={this.clickToggleButton}>
-            <div className="menuBar menuBarTop"></div>
-            <div className="menuBar menuBarMiddle"></div>
-            <div className="menuBar menuBarBottom"></div>
+        <div className={`custom-dropdown-menu ${this.props.menuAlignment}`}>
+          <span className={`menuToggleButton ${this.state.dropdownClass} ${this.props.menuAlignment}`} onClick={this.clickToggleButton}>
+            <div className="menuBar">Menu<FaAngleDown /></div>
           </span>
-          <div className={`dropDownMenuWrap ${this.state.menuWrapClass}`} onClick={this.clickOutsideMenu}>
+          <div className={`dropDownMenuWrap ${this.state.menuWrapClass} ${this.props.menuAlignment}`} onClick={this.clickOutsideMenu}>
             <div>
               <ul className="dropDownMenu">
                 <li key='home' ><Link to={'/'} className='dropDownMenuLink'>Home</Link></li>          

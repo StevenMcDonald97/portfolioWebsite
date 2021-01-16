@@ -231,7 +231,7 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
     newListObject.save(function(err) {
         if (err) {
           console.error(err);
-          res.status(500).send("Error uploading list object.");
+          return res.status(500).send("Error uploading list object.");
         } 
     });
   });
@@ -251,12 +251,12 @@ UploadRouter.route('/uploadListPage').post(function(req, res) {
       if (pageLoaded) {newPage.save(function(err) {
             if (err) {
               console.error(err);
-              res.status(500).send("Error uploading page.");
+              return res.status(500).send("Error uploading page.");
             } 
         });
       }
     } else {
-        res.status(200).send(`A ${req.body.type} page already exists!`);
+        return res.status(200).send(`A ${req.body.type} page already exists!`);
     }
     return res.status(200).send("Success uploading page. Refresh page to see changes");
   })

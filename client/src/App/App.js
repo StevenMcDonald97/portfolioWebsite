@@ -72,7 +72,7 @@ export default class App extends Component {
       title:"",
       subTitle:"",
       description:"",
-      navBarType:layoutJson.navigationStyle
+      navBarType:layoutJson.menuStyle
     };
     this.setState = this.setState.bind(this);
   }
@@ -120,7 +120,7 @@ export default class App extends Component {
             <div>
               <div className={`header ${layoutJson.menuStyle}`}>
                 <h1 className={`pageTitle ${layoutJson.headerAlignment}`}><Link to ='/' className='pageLink'>{this.state.title}</Link></h1>
-                <Navigation navigationStyle={layoutJson.menuStyle} showContact={ this.showContact } />
+                <Navigation navigationStyle={layoutJson.menuStyle} menuAlignment={layoutJson.headerAlignment} showContact={ this.showContact } />
               </div>
               <div className={`pageContainer ${layoutJson.menuStyle}`}>
                 <Switch>

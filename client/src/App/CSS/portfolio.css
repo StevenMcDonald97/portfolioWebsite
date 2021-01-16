@@ -60,21 +60,22 @@
 }
 
 .portfolioImage.list{
-  max-width:50vw;
-  max-height:40rem; 
+  max-width:500px;
+  max-height:500px;
   margin:0 auto;
 }
 
 .portfolioImageContainer.list {
   position: relative;
-  max-width:50vw;
-  max-height:40rem;
+  max-width:500px;
+  max-height:500px;
   margin: 0 auto;
   overflow:auto;
 }
 
+
 .portfolioSlideImage{
-  max-height:25rem;
+  max-height:20rem;
   max-width:100%;
   object-fit: cover;
   object-position: 20% 50%;
@@ -87,6 +88,7 @@
 
 .portfolioOverlay {
   position: absolute;
+  text-align:center;
   top: 0;
   bottom: 0;
   left: 0;
@@ -102,26 +104,12 @@
 }
 
 .portfolioOverlay.list {
-  max-width:50vw;
+  max-width:500px;
   max-height:none;
 }
 
 .portfolioImageContainer:hover .portfolioOverlay {
   opacity: 1;
-}
-
-.portfolioImageText {
-  color: #fbf1ec;
-  font-size: 1.2rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  line-height:1.6;
-  vertical-align:top;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  text-align: center;
 }
 
 

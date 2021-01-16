@@ -6,7 +6,7 @@
 	padding-top:1rem;
 	border-radius:7px;
 	background-color:#FFFDFB;
-
+	text-align:0;
 }
 
 .formBody {
@@ -81,5 +81,20 @@
 	color:#DC143C;
 }
 
+@media screen and (max-width: 700px) {
+	.contactForm {
+		width:90vw;
+		height:90%;
+		padding-top:30px;
+	}
+	.formBody {
+		width:100%;
+	}
 
+	.formGroup{
+		margin:15px auto;
+		width:90%;
+	}
+
+}
 
