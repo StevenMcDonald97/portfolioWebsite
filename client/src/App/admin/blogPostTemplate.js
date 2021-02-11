@@ -97,6 +97,12 @@ export default class BlogPostTemplate extends Component {
 							value={this.state.blurb} 
 							onChange={this.onChange}/>
 					</div>
+					<div className='inputGroup'>
+						<label className='inputLabel' htmlFor='blurb'>Date:</label>
+						<input type='text' className='smallPageField' name='date' 
+							value={this.state.date} 
+							onChange={this.onChange}/>
+					</div>
 					<div className="inputGroup">
 						<UploadImage currentImage={this.state.imgName} changeImage={this.updateImage} />
 					</div>
@@ -121,13 +127,20 @@ class Paragraph extends Component {
 		super(props);
 		this.state = {
 			text:this.props.text,
+			checked:false
 		}
 		this.onChange=this.onChange.bind(this);
+		this.clickCheck=this.clickCheck.bind(this);
 	}
 
 	onChange(event){
 		this.setState({[event.target.name]:event.target.value});
 	}
+
+	clickCheck(){
+		this.setState({checked:!this.state.checked});
+	}
+
 
 	updateParagraph = (event) => {
 		if(event){
@@ -145,7 +158,6 @@ class Paragraph extends Component {
 					<textarea name="text" className="editingInput" value={this.state.text} placeholder="A new paragraph..." 
 						onChange={this.updateParagraph}/>
 				</div>
-				
 				<button type="button" name={this.props.num} className="tooltip trashButton" 
 					onClick={index=>this.props.removeParagraph(this.props.num)}>
 			    	<FaTrashAlt />

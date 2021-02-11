@@ -108,7 +108,7 @@ RemoveRouter.route('/removePage').post(function(req, res) {
 		    }
 		});
     } else if (page.type==="blog"){
-		Blog.findOneAndDelete(query,function(err,data)
+		Blog.findOneAndDelete({},function(err,data)
 		{
 		    if(!err){
 		        console.log("Deleted page: "+page._id);

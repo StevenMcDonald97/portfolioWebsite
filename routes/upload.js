@@ -339,7 +339,7 @@ UploadRouter.route('/uploadBlog').post(function(req, res) {
   Blog.findOne({}, function(err, page){
     if (!page) {
       let blogData = {
-        "title":"blog",
+        "title":req.body.title,
         "text":req.body.text
       };
 

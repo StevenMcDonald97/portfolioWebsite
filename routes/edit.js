@@ -316,6 +316,8 @@ EditRouter.route('/editBlogPost').post(function(req, res) {
 		post.blurb=req.body.blurb;
 		post.imgName=req.body.imgName;
 		post.paragraphs=req.body.paragraphs;
+		post.date=req.body.date;
+		post.num=req.body.num;
 		post.save(function (err) {
           if (err) return console.log("A problem occurred updating the blogpost");
         });
